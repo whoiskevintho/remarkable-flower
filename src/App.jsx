@@ -3,7 +3,7 @@ import { GlobalCanvas, SmoothScrollbar } from '@14islands/r3f-scroll-rig'
 
 import Logo from './Logo'
 import Header from './components/Header'
-import TouchDeviceWarning from './components/TouchDeviceWarning'
+import IntroSection from './components/IntroSection'
 import StickySection from './components/StickySection'
 import './index.css'
 
@@ -20,19 +20,7 @@ export default function App() {
         {(bind) => (
           <article {...bind}>
             <Header />
-            <section>
-              <h1>A "sticky" ScrollScene</h1>
-            </section>
-            {isTouch && <TouchDeviceWarning />}
-            <section>
-              <p>StickyScrollScene is built on top of the scroll-rig and not part of core.</p>
-              <p>
-                The <code>powerups</code> package contains some example components that can be used for quick prototyping.
-              </p>
-            </section>
-            <section>
-              <p>Some extra space before the action starts...</p>
-            </section>
+            <IntroSection isTouch={isTouch} />
             <StickySection />
             <Logo />
             <Logo />
