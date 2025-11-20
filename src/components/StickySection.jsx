@@ -1,30 +1,41 @@
-import React, { useRef } from 'react'
+import React, { useRef, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
-import { RoundedBox } from '@react-three/drei'
+import { useGLTF, Environment } from '@react-three/drei'
 import { a, config, useSpring } from '@react-spring/three'
 import { UseCanvas } from '@14islands/r3f-scroll-rig'
 import { StickyScrollScene } from '@14islands/r3f-scroll-rig/powerups'
 
-const AnimatedRoundedBox = a(RoundedBox)
+// Preload the model
+useGLTF.preload('/amaryllis_freeze.glb')
 
-function SpinningBox({ scale, scrollState, inViewport }) {
-  const box = useRef()
+function SpinningModel({ scale, scrollState, inViewport }) {
+  const modelRef = useRef()
+  const { scene } = useGLTF('/amaryllis_freeze.glb')
+  const clonedScene = useMemo(() => {
+    if (!scene) return null
+    return scene.clone()
+  }, [scene])
   const size = scale.xy.min() * 0.5
 
   useFrame(() => {
-    box.current.rotation.y = scrollState.progress * Math.PI * 2
+    if (modelRef.current) {
+      modelRef.current.rotation.y = scrollState.progress * Math.PI * 2
+    }
   })
 
   const spring = useSpring({
     scale: inViewport ? size : size * 0.0,
-    config: inViewport ? config.wobbly : config.stiff,
-    delay: inViewport ? 100 : 0
+    config: inViewport ? config.wobbly : config.stiff
   })
 
+  if (!clonedScene) return null
+
   return (
-    <AnimatedRoundedBox ref={box} {...spring}>
-      <meshNormalMaterial />
-    </AnimatedRoundedBox>
+    <a.primitive 
+      ref={modelRef} 
+      object={clonedScene} 
+      scale={spring.scale}
+    />
   )
 }
 
@@ -41,7 +52,8 @@ export default function StickySection() {
         <StickyScrollScene track={el}>
           {(props) => (
             <>
-              <SpinningBox {...props} />
+              <Environment preset="apartment" />
+              <SpinningModel {...props} />
             </>
           )}
         </StickyScrollScene>
