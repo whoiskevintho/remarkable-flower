@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { GlobalCanvas, SmoothScrollbar } from '@14islands/r3f-scroll-rig'
 
 import Logo from './Logo'
-import Header from './components/Header'
+import HeroSection from './components/HeroSection'
 import IntroSection from './components/IntroSection'
 import StickySection from './components/StickySection'
 import './index.css'
@@ -19,7 +19,7 @@ export default function App() {
       <SmoothScrollbar>
         {(bind) => (
           <article {...bind}>
-            <Header />
+            <HeroSection />
             <IntroSection isTouch={isTouch} />
             <StickySection />
             <Logo />
