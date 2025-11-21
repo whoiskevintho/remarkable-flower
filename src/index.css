@@ -113,7 +113,7 @@ section.intro-text p {
 }
 
 .StickyContainer {
-  height: 500vh;
+  height: 1000vh;
   position: relative; /* IMPORTANT! */
 }
 .SomeStickyContent {
