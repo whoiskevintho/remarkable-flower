@@ -6,20 +6,56 @@ import { UseCanvas } from '@14islands/r3f-scroll-rig'
 import { StickyScrollScene } from '@14islands/r3f-scroll-rig/powerups'
 
 // Preload the model
-useGLTF.preload('/amaryllis_freeze.glb')
+useGLTF.preload('/flower_v001.glb')
 
 function SpinningModel({ scale, scrollState, inViewport }) {
   const modelRef = useRef()
-  const { scene } = useGLTF('/amaryllis_freeze.glb')
+  const { scene } = useGLTF('/flower_v001.glb')
   const clonedScene = useMemo(() => {
     if (!scene) return null
     return scene.clone()
   }, [scene])
   const size = scale.xy.min() * 0.5
 
+  // Find mesh and morph target index once
+  const { mesh, morphIndex } = useMemo(() => {
+    if (!clonedScene) return { mesh: null, morphIndex: null }
+    
+    const foundMesh = clonedScene.getObjectByName('top_petal')
+    if (!foundMesh || !foundMesh.morphTargetDictionary) {
+      return { mesh: null, morphIndex: null }
+    }
+    
+    const index = foundMesh.morphTargetDictionary['blend_001']
+    return { 
+      mesh: foundMesh, 
+      morphIndex: index !== undefined ? index : null 
+    }
+  }, [clonedScene])
+
   useFrame(() => {
     if (modelRef.current) {
       modelRef.current.rotation.y = scrollState.progress * Math.PI * 2
+    }
+    
+    // Update morph target based on scroll progress
+    if (mesh && morphIndex !== null) {
+      // Map scroll progress (0-1) to morph influence (0-1)
+      // Adjust these values to control when morph starts/ends
+      const morphStart = 0.75  // Start morphing at 30% scroll
+      const morphEnd = 0.8     // Complete morph at 70% scroll
+      
+      let morphInfluence = 0
+      if (scrollState.progress >= morphStart) {
+        if (scrollState.progress >= morphEnd) {
+          morphInfluence = 1
+        } else {
+          // Linear interpolation between start and end
+          morphInfluence = (scrollState.progress - morphStart) / (morphEnd - morphStart)
+        }
+      }
+      
+      mesh.morphTargetInfluences[morphIndex] = morphInfluence
     }
   })
 
