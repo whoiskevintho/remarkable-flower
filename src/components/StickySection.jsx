@@ -5,6 +5,9 @@ import { useGLTF, Environment } from '@react-three/drei'
 import { a, config, useSpring } from '@react-spring/three'
 import { UseCanvas } from '@14islands/r3f-scroll-rig'
 import { StickyScrollScene } from '@14islands/r3f-scroll-rig/powerups'
+import ScrollMarker from './ScrollMarker'
+import TagLabel from './TagLabel'
+import { flowerTags } from '../config/flowerTags'
 
 // Preload the model
 useGLTF.preload('/flower_v001.glb')
@@ -171,11 +174,28 @@ function SpinningModel({ scale, scrollState, inViewport }) {
   if (!clonedScene) return null
 
   return (
-    <a.primitive 
-      ref={modelRef} 
-      object={clonedScene} 
-      scale={spring.scale}
-    />
+    <>
+      <a.primitive 
+        ref={modelRef} 
+        object={clonedScene} 
+        scale={spring.scale}
+      />
+      
+      {flowerTags.map((tag) => (
+        <ScrollMarker
+          key={tag.label}
+          position={tag.position}
+          scrollState={scrollState}
+          showStart={tag.showStart}
+          showEnd={tag.showEnd}
+          fadeOutStart={tag.fadeOutStart}
+          fadeOutEnd={tag.fadeOutEnd}
+          flip={tag.flip}
+        >
+          <TagLabel label={tag.label} color={tag.color} />
+        </ScrollMarker>
+      ))}
+    </>
   )
 }
 
