@@ -82,8 +82,8 @@ function SpinningModel({ scale, scrollState, inViewport }) {
   const cameraPositions = useMemo(() => {
     return {
       start: new THREE.Vector3(0, safeDistance * 0.1, safeDistance),   // Start position
-      betweenStartMiddle: new THREE.Vector3(-safeDistance * 0.4, safeDistance * 0.1, safeDistance * 1),   // Between start and middle
-      middle: new THREE.Vector3(-safeDistance * 0.8, safeDistance * 0.1, safeDistance * 1),   // Middle position
+      betweenStartMiddle: new THREE.Vector3(-safeDistance * 0.4, safeDistance * 0.1, safeDistance * 1.2),   // Between start and middle
+      middle: new THREE.Vector3(-safeDistance * 0.8, safeDistance * 0.1, safeDistance * 1.2),   // Middle position
       betweenMiddleEnd: new THREE.Vector3(-safeDistance * 0.4, safeDistance * 0.15, safeDistance * 0.75),   // Between middle and end
       end: new THREE.Vector3(-safeDistance * 0.3, -safeDistance * 0.6, safeDistance * 0.75)        // End position
     }
