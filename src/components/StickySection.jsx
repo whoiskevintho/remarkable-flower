@@ -1,100 +1,15 @@
 import React, { useRef, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
-import { useGLTF, Environment, Html } from '@react-three/drei'
+import { useGLTF, Environment } from '@react-three/drei'
 import { a, config, useSpring } from '@react-spring/three'
 import { UseCanvas } from '@14islands/r3f-scroll-rig'
 import { StickyScrollScene } from '@14islands/r3f-scroll-rig/powerups'
+import ScrollMarker from './ScrollMarker'
+import TagLabel from './TagLabel'
+import { flowerTags } from '../config/flowerTags'
 
 // Preload the model
 useGLTF.preload('/flower_v001.glb')
-
-// ScrollMarker component with scroll-based visibility
-function ScrollMarker({ 
-  position = [0, 0, 0],
-  children,
-  scrollState,
-  showStart = 0,      // Progress value when tag starts appearing (0-1)
-  showEnd = 1,        // Progress value when tag is fully visible (0-1)
-  fadeInDuration = 0.1,  // Duration of fade-in (as fraction of showStart to showEnd)
-  fadeOutStart = 0.9,   // Progress value when tag starts fading out (0-1)
-  fadeOutEnd = 1        // Progress value when tag is fully hidden (0-1)
-}) {
-  const containerRef = useRef(null)
-  const currentOpacityRef = useRef(0)
-  const targetOpacityRef = useRef(0)
-  
-  // Calculate target opacity based on scroll progress
-  const calculateOpacity = (progress) => {
-    // Before showStart: invisible
-    if (progress < showStart) {
-      return 0
-    }
-    
-    // Fade in phase: between showStart and showEnd
-    if (progress < showEnd) {
-      const fadeInEnd = showStart + (showEnd - showStart) * fadeInDuration
-      if (progress < fadeInEnd) {
-        // Fade in
-        return (progress - showStart) / (fadeInEnd - showStart)
-      }
-      // Fully visible
-      return 1
-    }
-    
-    // Fade out phase: between fadeOutStart and fadeOutEnd
-    if (progress < fadeOutStart) {
-      return 1
-    }
-    
-    if (progress < fadeOutEnd) {
-      // Fade out
-      return 1 - (progress - fadeOutStart) / (fadeOutEnd - fadeOutStart)
-    }
-    
-    // After fadeOutEnd: invisible
-    return 0
-  }
-  
-  // Update opacity smoothly in useFrame
-  useFrame(() => {
-    if (!scrollState || !containerRef.current) return
-    
-    // Calculate target opacity
-    const targetOpacity = calculateOpacity(scrollState.progress)
-    targetOpacityRef.current = targetOpacity
-    
-    // Smooth interpolation towards target (easing)
-    const diff = targetOpacity - currentOpacityRef.current
-    currentOpacityRef.current += diff * 0.15 // Adjust speed (0.15 = smooth, higher = faster)
-    
-    // Update DOM
-    const opacity = currentOpacityRef.current
-    containerRef.current.style.opacity = opacity
-    containerRef.current.style.pointerEvents = opacity > 0.01 ? 'auto' : 'none'
-  })
-  
-  return (
-    <Html
-      position={position}
-      transform
-      center
-      distanceFactor={1000}
-      style={{
-        transform: 'scale(1)'
-      }}
-    >
-      <div
-        ref={containerRef}
-        style={{
-          opacity: 0, // Initial opacity, will be updated in useFrame
-          pointerEvents: 'none'
-        }}
-      >
-        {children}
-      </div>
-    </Html>
-  )
-}
 
 function SpinningModel({ scale, scrollState, inViewport }) {
   const groupRef = useRef()
@@ -229,74 +144,20 @@ function SpinningModel({ scale, scrollState, inViewport }) {
         scale={spring.scale}
       />
       
-      {/* Sepal marker - appears early in scroll (0-40%) */}
-      <ScrollMarker
-        position={[0, -1, 0]}
-        scrollState={scrollState}
-        showStart={0}
-        showEnd={0.05}
-        fadeOutStart={0.35}
-        fadeOutEnd={0.4}
-      >
-        <div style={{ 
-          background: 'rgba(255, 0, 0, 0.95)', 
-          padding: '8px 12px', 
-          borderRadius: '6px',
-          fontSize: '16px',
-          fontWeight: '500',
-          whiteSpace: 'nowrap',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
-          color: '#fff'
-        }}>
-          Sepal
-        </div>
-      </ScrollMarker>
-      
-      {/* Petals marker - appears in middle of scroll (30-70%) */}
-      <ScrollMarker
-        position={[0, 1.5, 0]}
-        scrollState={scrollState}
-        showStart={0.3}
-        showEnd={0.35}
-        fadeOutStart={0.65}
-        fadeOutEnd={0.7}
-      >
-        <div style={{ 
-          background: 'rgba(0, 255, 0, 0.95)', 
-          padding: '8px 12px', 
-          borderRadius: '6px',
-          fontSize: '16px',
-          fontWeight: '500',
-          whiteSpace: 'nowrap',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
-          color: '#fff'
-        }}>
-          Petals
-        </div>
-      </ScrollMarker>
-      
-      {/* Stem marker - appears late in scroll (60-100%) */}
-      <ScrollMarker
-        position={[0, -2.5, 0]}
-        scrollState={scrollState}
-        showStart={0.6}
-        showEnd={0.65}
-        fadeOutStart={0.95}
-        fadeOutEnd={1.0}
-      >
-        <div style={{ 
-          background: 'rgba(0, 0, 255, 0.95)', 
-          padding: '8px 12px', 
-          borderRadius: '6px',
-          fontSize: '16px',
-          fontWeight: '500',
-          whiteSpace: 'nowrap',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
-          color: '#fff'
-        }}>
-          Stem
-        </div>
-      </ScrollMarker>
+      {flowerTags.map((tag) => (
+        <ScrollMarker
+          key={tag.label}
+          position={tag.position}
+          scrollState={scrollState}
+          showStart={tag.showStart}
+          showEnd={tag.showEnd}
+          fadeOutStart={tag.fadeOutStart}
+          fadeOutEnd={tag.fadeOutEnd}
+          flip={tag.flip}
+        >
+          <TagLabel label={tag.label} color={tag.color} />
+        </ScrollMarker>
+      ))}
     </group>
   )
 }
