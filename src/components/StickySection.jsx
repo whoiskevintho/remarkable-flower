@@ -45,12 +45,9 @@ function SpinningModel({ scale, scrollState, inViewport }) {
     return { center, size, maxDimension }
   }, [clonedScene])
   
-  // Define five camera positions (created once, reused every frame)
-  // Using model bounds to set appropriate distances that account for model size
-  const cameraPositions = useMemo(() => {
-    // Calculate safe distance based on model size
-    // The model is scaled by 'size', so we need to account for both base size and scale
-    let safeDistance = 10 // Default fallback
+  // Calculate safe distance based on model size (shared for camera and tags)
+  const safeDistance = useMemo(() => {
+    let distance = 10 // Default fallback
     
     if (modelBounds) {
       // Model's base max dimension
@@ -58,15 +55,31 @@ function SpinningModel({ scale, scrollState, inViewport }) {
       // Account for the scale being applied (size)
       // The effective model size will be: baseMaxDim * (size / baseMaxDim) = size
       // So we use size directly, but add a multiplier for safety
-      safeDistance = Math.max(size * 3, baseMaxDim * 2.5, 8)
+      distance = Math.max(size * 3, baseMaxDim * 2.5, 8)
+      
+      // Adjust for aspect ratio: zoom out when viewport is narrow (portrait mode)
+      const aspectRatio = scale.xy.x / scale.xy.y
+      if (aspectRatio < 1) {
+        // Portrait mode: apply smooth multiplier to push camera back
+        // Using power curve (0.7) for smoother scaling, prevents over-zooming
+        const aspectMultiplier = Math.pow(1 / aspectRatio, 0.7)
+        distance *= aspectMultiplier
+      }
       
       console.log('Camera distance calculation:', {
         baseMaxDimension: baseMaxDim.toFixed(2),
         modelScale: size.toFixed(2),
-        safeDistance: safeDistance.toFixed(2)
+        aspectRatio: aspectRatio.toFixed(2),
+        safeDistance: distance.toFixed(2)
       })
     }
     
+    return distance
+  }, [modelBounds, size, scale])
+
+  // Define five camera positions (created once, reused every frame)
+  // Using model bounds to set appropriate distances that account for model size
+  const cameraPositions = useMemo(() => {
     return {
       start: new THREE.Vector3(0, safeDistance * 0.1, safeDistance),   // Start position
       betweenStartMiddle: new THREE.Vector3(-safeDistance * 0.4, safeDistance * 0.1, safeDistance * 1),   // Between start and middle
@@ -74,19 +87,11 @@ function SpinningModel({ scale, scrollState, inViewport }) {
       betweenMiddleEnd: new THREE.Vector3(-safeDistance * 0.4, safeDistance * 0.15, safeDistance * 0.75),   // Between middle and end
       end: new THREE.Vector3(-safeDistance * 0.3, -safeDistance * 0.6, safeDistance * 0.75)        // End position
     }
-  }, [modelBounds, size])
+  }, [safeDistance])
 
   // Define five lookAt positions (created once, reused every frame)
   // Parallel structure to cameraPositions for smooth interpolation
   const lookAtPositions = useMemo(() => {
-    // Calculate safe distance based on model size (same as camera positions)
-    let safeDistance = 10 // Default fallback
-    
-    if (modelBounds) {
-      const baseMaxDim = modelBounds.maxDimension
-      safeDistance = Math.max(size * 3, baseMaxDim * 2.5, 8)
-    }
-    
     return {
       start: new THREE.Vector3(0, 0, 0),   // Look at model center
       betweenStartMiddle: new THREE.Vector3(0, 0, 0),   // Slightly above center
@@ -94,7 +99,7 @@ function SpinningModel({ scale, scrollState, inViewport }) {
       betweenMiddleEnd: new THREE.Vector3(0, -safeDistance * 0.2, 0),   // Slightly above center
       end: new THREE.Vector3(-safeDistance * 0.4, 0, 0)        // Slightly above center
     }
-  }, [modelBounds, size])
+  }, [safeDistance])
 
   // Find mesh and morph target index once
   const { mesh, morphIndex } = useMemo(() => {
@@ -181,20 +186,36 @@ function SpinningModel({ scale, scrollState, inViewport }) {
         scale={spring.scale}
       />
       
-      {flowerTags.map((tag) => (
-        <ScrollMarker
-          key={tag.label}
-          position={tag.position}
-          scrollState={scrollState}
-          showStart={tag.showStart}
-          showEnd={tag.showEnd}
-          fadeOutStart={tag.fadeOutStart}
-          fadeOutEnd={tag.fadeOutEnd}
-          flip={tag.flip}
-        >
-          <TagLabel label={tag.label} color={tag.color} />
-        </ScrollMarker>
-      ))}
+      {flowerTags.map((tag) => {
+        // Calculate aspect ratio for tag positioning
+        const aspectRatio = scale.xy.x / scale.xy.y
+        // Scale X positions inversely with aspect ratio to keep tags visible in narrow viewports
+        // Using square root for smooth scaling in both portrait and landscape
+        const xMultiplier = Math.pow(aspectRatio, 0.5)
+        
+        // Scale relative position by safeDistance for dynamic positioning
+        // X position is adjusted for aspect ratio to prevent clipping
+        const scaledPosition = [
+          tag.position[0] * safeDistance * xMultiplier,
+          tag.position[1] * safeDistance,
+          tag.position[2] * safeDistance
+        ]
+        
+        return (
+          <ScrollMarker
+            key={tag.label}
+            position={scaledPosition}
+            scrollState={scrollState}
+            showStart={tag.showStart}
+            showEnd={tag.showEnd}
+            fadeOutStart={tag.fadeOutStart}
+            fadeOutEnd={tag.fadeOutEnd}
+            flip={tag.flip}
+          >
+            <TagLabel label={tag.label} color={tag.color} />
+          </ScrollMarker>
+        )
+      })}
     </>
   )
 }

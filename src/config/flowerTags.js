@@ -1,9 +1,11 @@
 // Tag configuration for flower parts
+// Positions are relative multipliers that will be scaled by safeDistance
+// Original positions were calibrated with safeDistance ~1000, so divide by 1000 to get multipliers
 export const flowerTags = [
   {
     label: 'Scape',
     color: 'rgba(0, 0, 0, 1)',
-    position: [-250, 150, 0],
+    position: [-0.25, 0.15, 0], // Relative to safeDistance
     showStart: 0.2,
     showEnd: 0.25,
     fadeOutStart: 0.35,
@@ -13,7 +15,7 @@ export const flowerTags = [
   {
     label: 'Bract',
     color: 'rgba(0, 0, 0, 1)',
-    position: [175, 150, 0],
+    position: [0.175, 0.15, 0], // Relative to safeDistance
     showStart: 0.2,
     showEnd: 0.25,
     fadeOutStart: 0.35,
@@ -23,7 +25,7 @@ export const flowerTags = [
   {
     label: 'Sepal',
     color: 'rgba(0, 0, 0, 1)',
-    position: [400, 100, -2],
+    position: [0.4, 0.1, -0.002], // Relative to safeDistance
     showStart: 0.2,
     showEnd: 0.25,
     fadeOutStart: 0.35,
@@ -33,7 +35,7 @@ export const flowerTags = [
   {
     label: 'Ovary',
     color: 'rgba(0, 0, 0, 1)',
-    position: [500, -50, -2],
+    position: [0.5, -0.05, -0.002], // Relative to safeDistance
     showStart: 0.2,
     showEnd: 0.25,
     fadeOutStart: 0.35,
@@ -43,7 +45,7 @@ export const flowerTags = [
   {
     label: 'Style',
     color: 'rgba(0, 0, 0, 1)',
-    position: [500, -100, -2],
+    position: [0.5, -0.1, -0.002], // Relative to safeDistance
     showStart: 0.2,
     showEnd: 0.25,
     fadeOutStart: 0.35,
@@ -53,7 +55,7 @@ export const flowerTags = [
   {
     label: 'Stigma',
     color: 'rgba(0, 0, 0, 1)',
-    position: [500, -150, -2],
+    position: [0.5, -0.15, -0.002], // Relative to safeDistance
     showStart: 0.2,
     showEnd: 0.25,
     fadeOutStart: 0.35,
@@ -63,7 +65,7 @@ export const flowerTags = [
   {
     label: 'Petals',
     color: 'rgba(0, 0, 0, 1)',
-    position: [500, -400, 0],
+    position: [0.5, -0.4, 0], // Relative to safeDistance
     showStart: 0.2,
     showEnd: 0.25,
     fadeOutStart: 0.35,
@@ -73,7 +75,7 @@ export const flowerTags = [
   {
     label: 'Filament',
     color: 'rgba(0, 0, 0, 1)',
-    position: [-600, -150, -2],
+    position: [-0.6, -0.15, -0.002], // Relative to safeDistance
     showStart: 0.2,
     showEnd: 0.25,
     fadeOutStart: 0.35,
@@ -83,7 +85,7 @@ export const flowerTags = [
   {
     label: 'Anther',
     color: 'rgba(0, 0, 0, 1)',
-    position: [-600, -200, 0],
+    position: [-0.6, -0.2, 0], // Relative to safeDistance
     showStart: 0.2,
     showEnd: 0.25,
     fadeOutStart: 0.35,
