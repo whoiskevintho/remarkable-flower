@@ -41,7 +41,7 @@ function SpinningModel({ scale, scrollState, inViewport }) {
     return { center, size, maxDimension }
   }, [clonedScene])
   
-  // Define three camera positions (created once, reused every frame)
+  // Define five camera positions (created once, reused every frame)
   // Using model bounds to set appropriate distances that account for model size
   const cameraPositions = useMemo(() => {
     // Calculate safe distance based on model size
@@ -64,9 +64,11 @@ function SpinningModel({ scale, scrollState, inViewport }) {
     }
     
     return {
-      start: new THREE.Vector3(0, safeDistance * 0.5, safeDistance * 0.5),   // Start position
-      middle: new THREE.Vector3(-safeDistance * 0.8, safeDistance * 0.5, safeDistance * 0.8),   // Middle position
-      end: new THREE.Vector3(0, safeDistance * 0.2, safeDistance * 1.2)        // End position
+      start: new THREE.Vector3(0, safeDistance * 0.1, safeDistance),   // Start position
+      betweenStartMiddle: new THREE.Vector3(-safeDistance * 0.4, safeDistance * 0.1, safeDistance * 1),   // Between start and middle
+      middle: new THREE.Vector3(-safeDistance * 0.8, safeDistance * 0.1, safeDistance * 1),   // Middle position
+      betweenMiddleEnd: new THREE.Vector3(-safeDistance * 0.4, safeDistance * 0.15, safeDistance * 0.75),   // Between middle and end
+      end: new THREE.Vector3(0, safeDistance * 0.2, safeDistance * 0.75)        // End position
     }
   }, [modelBounds, size])
 
@@ -111,17 +113,25 @@ function SpinningModel({ scale, scrollState, inViewport }) {
       mesh.morphTargetInfluences[morphIndex] = morphInfluence
     }
     
-    // Interpolate camera between three positions based on scroll progress
+    // Interpolate camera between five positions based on scroll progress
     const progress = scrollState.progress // 0 to 1
     
-    if (progress <= 0.5) {
-      // First half: interpolate from start to middle
-      const t = progress * 2 // Map 0-0.5 to 0-1
-      currentPosition.current.lerpVectors(cameraPositions.start, cameraPositions.middle, t)
+    if (progress <= 0.25) {
+      // First quarter: interpolate from start to betweenStartMiddle
+      const t = progress * 4 // Map 0-0.25 to 0-1
+      currentPosition.current.lerpVectors(cameraPositions.start, cameraPositions.betweenStartMiddle, t)
+    } else if (progress <= 0.5) {
+      // Second quarter: interpolate from betweenStartMiddle to middle
+      const t = (progress - 0.25) * 4 // Map 0.25-0.5 to 0-1
+      currentPosition.current.lerpVectors(cameraPositions.betweenStartMiddle, cameraPositions.middle, t)
+    } else if (progress <= 0.75) {
+      // Third quarter: interpolate from middle to betweenMiddleEnd
+      const t = (progress - 0.5) * 4 // Map 0.5-0.75 to 0-1
+      currentPosition.current.lerpVectors(cameraPositions.middle, cameraPositions.betweenMiddleEnd, t)
     } else {
-      // Second half: interpolate from middle to end
-      const t = (progress - 0.5) * 2 // Map 0.5-1 to 0-1
-      currentPosition.current.lerpVectors(cameraPositions.middle, cameraPositions.end, t)
+      // Fourth quarter: interpolate from betweenMiddleEnd to end
+      const t = (progress - 0.75) * 4 // Map 0.75-1 to 0-1
+      currentPosition.current.lerpVectors(cameraPositions.betweenMiddleEnd, cameraPositions.end, t)
     }
     
     state.camera.position.copy(currentPosition.current)
