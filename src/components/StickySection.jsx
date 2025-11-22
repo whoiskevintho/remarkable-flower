@@ -18,8 +18,9 @@ function SpinningModel({ scale, scrollState, inViewport }) {
   }, [scene])
   const size = scale.xy.min() * 0.5
   
-  // Reusable vector for current position calculation
+  // Reusable vectors for current position and lookAt calculation
   const currentPosition = useRef(new THREE.Vector3())
+  const currentLookAt = useRef(new THREE.Vector3())
 
   // Calculate model bounding box to determine its actual size
   const modelBounds = useMemo(() => {
@@ -68,7 +69,27 @@ function SpinningModel({ scale, scrollState, inViewport }) {
       betweenStartMiddle: new THREE.Vector3(-safeDistance * 0.4, safeDistance * 0.1, safeDistance * 1),   // Between start and middle
       middle: new THREE.Vector3(-safeDistance * 0.8, safeDistance * 0.1, safeDistance * 1),   // Middle position
       betweenMiddleEnd: new THREE.Vector3(-safeDistance * 0.4, safeDistance * 0.15, safeDistance * 0.75),   // Between middle and end
-      end: new THREE.Vector3(0, safeDistance * 0.2, safeDistance * 0.75)        // End position
+      end: new THREE.Vector3(-safeDistance * 0.3, -safeDistance * 0.6, safeDistance * 0.75)        // End position
+    }
+  }, [modelBounds, size])
+
+  // Define five lookAt positions (created once, reused every frame)
+  // Parallel structure to cameraPositions for smooth interpolation
+  const lookAtPositions = useMemo(() => {
+    // Calculate safe distance based on model size (same as camera positions)
+    let safeDistance = 10 // Default fallback
+    
+    if (modelBounds) {
+      const baseMaxDim = modelBounds.maxDimension
+      safeDistance = Math.max(size * 3, baseMaxDim * 2.5, 8)
+    }
+    
+    return {
+      start: new THREE.Vector3(0, 0, 0),   // Look at model center
+      betweenStartMiddle: new THREE.Vector3(0, 0, 0),   // Slightly above center
+      middle: new THREE.Vector3(0, 0, 0),   // Above center
+      betweenMiddleEnd: new THREE.Vector3(0, -safeDistance * 0.2, 0),   // Slightly above center
+      end: new THREE.Vector3(-safeDistance * 0.4, 0, 0)        // Slightly above center
     }
   }, [modelBounds, size])
 
@@ -120,22 +141,26 @@ function SpinningModel({ scale, scrollState, inViewport }) {
       // First quarter: interpolate from start to betweenStartMiddle
       const t = progress * 4 // Map 0-0.25 to 0-1
       currentPosition.current.lerpVectors(cameraPositions.start, cameraPositions.betweenStartMiddle, t)
+      currentLookAt.current.lerpVectors(lookAtPositions.start, lookAtPositions.betweenStartMiddle, t)
     } else if (progress <= 0.5) {
       // Second quarter: interpolate from betweenStartMiddle to middle
       const t = (progress - 0.25) * 4 // Map 0.25-0.5 to 0-1
       currentPosition.current.lerpVectors(cameraPositions.betweenStartMiddle, cameraPositions.middle, t)
+      currentLookAt.current.lerpVectors(lookAtPositions.betweenStartMiddle, lookAtPositions.middle, t)
     } else if (progress <= 0.75) {
       // Third quarter: interpolate from middle to betweenMiddleEnd
       const t = (progress - 0.5) * 4 // Map 0.5-0.75 to 0-1
       currentPosition.current.lerpVectors(cameraPositions.middle, cameraPositions.betweenMiddleEnd, t)
+      currentLookAt.current.lerpVectors(lookAtPositions.middle, lookAtPositions.betweenMiddleEnd, t)
     } else {
       // Fourth quarter: interpolate from betweenMiddleEnd to end
       const t = (progress - 0.75) * 4 // Map 0.75-1 to 0-1
       currentPosition.current.lerpVectors(cameraPositions.betweenMiddleEnd, cameraPositions.end, t)
+      currentLookAt.current.lerpVectors(lookAtPositions.betweenMiddleEnd, lookAtPositions.end, t)
     }
     
     state.camera.position.copy(currentPosition.current)
-    state.camera.lookAt(0, 0, 0) // Look at model center
+    state.camera.lookAt(currentLookAt.current) // Look at interpolated target
   })
 
   const spring = useSpring({
