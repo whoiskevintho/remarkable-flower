@@ -1,34 +1,94 @@
 // Tag configuration for flower parts
 export const flowerTags = [
   {
-    label: 'Sepal',
+    label: 'Scape',
     color: 'rgba(0, 0, 0, 1)',
-    position: [200, 200, -2],
-    showStart: 0.23,
-    showEnd: 0.28,
+    position: [-250, 150, 0],
+    showStart: 0.2,
+    showEnd: 0.25,
     fadeOutStart: 0.35,
     fadeOutEnd: 0.4,
-    flip: 'horizontal' // 'none', 'horizontal', 'vertical', or 'both'
+    flip: 'none'
+  },
+  {
+    label: 'Bracet',
+    color: 'rgba(0, 0, 0, 1)',
+    position: [175, 150, 0],
+    showStart: 0.2,
+    showEnd: 0.25,
+    fadeOutStart: 0.35,
+    fadeOutEnd: 0.4,
+    flip: 'none'
+  },
+  {
+    label: 'Sepal',
+    color: 'rgba(0, 0, 0, 1)',
+    position: [400, 100, -2],
+    showStart: 0.2,
+    showEnd: 0.25,
+    fadeOutStart: 0.35,
+    fadeOutEnd: 0.4,
+    flip: 'none' // 'none', 'horizontal', 'vertical', or 'both'
+  },
+  {
+    label: 'Ovary',
+    color: 'rgba(0, 0, 0, 1)',
+    position: [500, -50, -2],
+    showStart: 0.2,
+    showEnd: 0.25,
+    fadeOutStart: 0.35,
+    fadeOutEnd: 0.4,
+    flip: 'none' // 'none', 'horizontal', 'vertical', or 'both'
+  },
+  {
+    label: 'Style',
+    color: 'rgba(0, 0, 0, 1)',
+    position: [500, -100, -2],
+    showStart: 0.2,
+    showEnd: 0.25,
+    fadeOutStart: 0.35,
+    fadeOutEnd: 0.4,
+    flip: 'none' // 'none', 'horizontal', 'vertical', or 'both'
+  },
+  {
+    label: 'Stigma',
+    color: 'rgba(0, 0, 0, 1)',
+    position: [500, -150, -2],
+    showStart: 0.2,
+    showEnd: 0.25,
+    fadeOutStart: 0.35,
+    fadeOutEnd: 0.4,
+    flip: 'none' // 'none', 'horizontal', 'vertical', or 'both'
   },
   {
     label: 'Petals',
     color: 'rgba(0, 0, 0, 1)',
-    position: [0, 1.5, 0],
-    showStart: 0.6,
-    showEnd: 0.65,
-    fadeOutStart: 0.65,
-    fadeOutEnd: 0.7,
-    flip: 'horizontal'
+    position: [500, -400, 0],
+    showStart: 0.2,
+    showEnd: 0.25,
+    fadeOutStart: 0.35,
+    fadeOutEnd: 0.4,
+    flip: 'none'
   },
   {
-    label: 'Stem',
+    label: 'Filament',
     color: 'rgba(0, 0, 0, 1)',
-    position: [0, -2.5, 0],
-    showStart: 0.4,
-    showEnd: 0.45,
-    fadeOutStart: 0.95,
-    fadeOutEnd: 1.0,
-    flip: 'horizontal'
+    position: [-600, -150, -2],
+    showStart: 0.2,
+    showEnd: 0.25,
+    fadeOutStart: 0.35,
+    fadeOutEnd: 0.4,
+    flip: 'none' // 'none', 'horizontal', 'vertical', or 'both'
+  },
+  {
+    label: 'Anther',
+    color: 'rgba(0, 0, 0, 1)',
+    position: [-600, -200, 0],
+    showStart: 0.2,
+    showEnd: 0.25,
+    fadeOutStart: 0.35,
+    fadeOutEnd: 0.4,
+    flip: 'none'
   }
 ]
 

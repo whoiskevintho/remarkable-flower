@@ -6,8 +6,7 @@ function TagLabel({ label, color = '#fff' }) {
       fontSize: '16px',
       fontWeight: '500',
       whiteSpace: 'nowrap',
-      color: color,
-      textShadow: '0 2px 4px rgba(0,0,0,0.5)'
+      color: color
     }}>
       {label}
     </div>

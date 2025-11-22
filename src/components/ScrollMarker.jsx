@@ -77,6 +77,7 @@ function ScrollMarker({
       transform
       center
       distanceFactor={1000}
+      sprite
     >
       <div
         ref={containerRef}
