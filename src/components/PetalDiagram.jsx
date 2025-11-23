@@ -45,6 +45,17 @@ export default function PetalDiagram({ data, species }) {
   }, [data])
   
   // Helper function to generate path from measurements
+  // Petal has 9 points (1-9, where 1 and 9 share same x position)
+  // Starting at top right, moving clockwise:
+  // Point 1: top right (tail end)
+  // Point 2: top, where C is measured
+  // Point 3: top, constriction (where D is measured)
+  // Point 4: top, widest point (where B is measured)
+  // Point 5: tip (far right)
+  // Point 6: bottom, widest point (where B is measured)
+  // Point 7: bottom, constriction (where D is measured)
+  // Point 8: bottom, where C is measured
+  // Point 9: bottom right (tail end, same x as point 1)
   const generatePathFromMeasurements = (meas) => {
     if (!meas) return ''
     
@@ -62,81 +73,61 @@ export default function PetalDiagram({ data, species }) {
     // Center the petal horizontally (so it scales from center, not left)
     const centerOffset = -sA / 2
     
-    // Key X positions (centered around x=0)
-    const xLeft = centerOffset
-    const xConstriction = centerOffset + sE  // Where D is measured
-    const xRight = centerOffset + sA  // Total length
+    // Calculate point positions
+    // Point 1: top right (tail end) - x = start of tail, y = -sC/2 (at C width level)
+    // Point 1 x position: We need to figure this out based on flat edge
+    // Flat edge (between points 1 and 8) = 3/4 of C
+    const flatEdgeLength = 0.75 * sC
     
-    // Measurement positions
-    const xC = centerOffset + sE * 0.5  // C is at 50% of E
-    const xB = centerOffset + sE + (sF * 0.7)  // B is at 70% along F
+    // Point 2: where C is measured (top) - x = centerOffset + sE * 0.5, y = -sC/2
+    const x2 = centerOffset + sE * 0.5
+    const y2 = -sC / 2
     
-    // Flat edge calculation
-    // Distance from C to D = sE - xC = sE - 0.5*sE = 0.5*sE
-    // Flat edge starts at: xC - 0.5*sE = 0.5*sE - 0.5*sE = 0
-    // But wait, let me reconsider...
-    // Actually: flat edge is "to the right of C" and should be positioned
-    // such that distance from flat edge start to C = distance from C to D
-    const distCD = xConstriction - xC  // = 0.5*sE
-    const xFlatStart = xC - distCD  // = 0 (left end)
-    const flatEdgeLength = 0.75 * sC  // 3/4 of C's width
-    const xFlatEnd = xFlatStart + flatEdgeLength
+    // Point 8: where C is measured (bottom) - x = centerOffset + sE * 0.5, y = sC/2
+    const x8 = x2  // Same x as point 2
+    const y8 = sC / 2
     
-    // Rounded edge calculation (to right of B)
-    // Radius based on B's width
-    const roundRadius = sB * 0.5  // Half of B's width
-    const xRoundStart = xB  // Start of rounded section
-    const xRoundEnd = xRight  // End at tip
+    // Point 1: top right (tail end) - flat edge starts here
+    // Distance from point 1 to point 2 = flatEdgeLength
+    // So point 1 x = x2 - flatEdgeLength
+    const x1 = x2 - flatEdgeLength
+    const y1 = -sC / 2  // Same y as point 2 (aligned horizontally)
     
-    // Y positions (centered around y=0)
-    const yCenter = 0
-    const yTopC = -sC / 2
-    const yBottomC = sC / 2
-    const yTopD = -sD / 2
-    const yBottomD = sD / 2
-    const yTopB = -sB / 2
-    const yBottomB = sB / 2
+    // Point 9: bottom right (tail end) - same x as point 1
+    const x9 = x1
+    const y9 = sC / 2  // Same y as point 8 (aligned horizontally)
     
-    // Build path
-    let path = `M ${xLeft} ${yCenter}`  // Start at left center
+    // Point 3: top constriction (where D is measured) - x = centerOffset + sE, y = -sD/2
+    const x3 = centerOffset + sE
+    const y3 = -sD / 2
     
-    // Left section: from left to flat edge
-    path += ` L ${xFlatStart} ${yTopC}`
+    // Point 7: bottom constriction (where D is measured) - x = centerOffset + sE, y = sD/2
+    const x7 = x3  // Same x as point 3
+    const y7 = sD / 2
     
-    // Flat edge (top)
-    path += ` L ${xFlatEnd} ${yTopC}`
+    // Point 4: top widest (where B is measured) - x = centerOffset + sE + (sF * 0.7), y = -sB/2
+    const x4 = centerOffset + sE + (sF * 0.7)
+    const y4 = -sB / 2
     
-    // From flat edge to C measurement point (top)
-    path += ` L ${xC} ${yTopC}`
+    // Point 6: bottom widest (where B is measured) - x = centerOffset + sE + (sF * 0.7), y = sB/2
+    const x6 = x4  // Same x as point 4
+    const y6 = sB / 2
     
-    // From C to constriction (top) - tapering
-    path += ` L ${xConstriction} ${yTopD}`
+    // Point 5: tip (far right) - x = centerOffset + sA, y = 0
+    const x5 = centerOffset + sA
+    const y5 = 0
     
-    // From constriction to B (top) - widening
-    path += ` L ${xB} ${yTopB}`
-    
-    // Rounded edge (top) - using quadratic curve
-    const roundControlX = xRoundStart + (xRoundEnd - xRoundStart) * 0.5
-    const roundControlY = yTopB - roundRadius
-    path += ` Q ${roundControlX} ${roundControlY} ${xRight} ${yCenter}`
-    
-    // Rounded edge (bottom) - mirror
-    path += ` Q ${roundControlX} ${-roundControlY} ${xB} ${yBottomB}`
-    
-    // From B to constriction (bottom) - narrowing
-    path += ` L ${xConstriction} ${yBottomD}`
-    
-    // From constriction to C (bottom) - widening
-    path += ` L ${xC} ${yBottomC}`
-    
-    // From C to flat edge (bottom)
-    path += ` L ${xFlatEnd} ${yBottomC}`
-    
-    // Flat edge (bottom)
-    path += ` L ${xFlatStart} ${yBottomC}`
-    
-    // Back to start
-    path += ` Z`
+    // Build path connecting all points in order (1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 1)
+    let path = `M ${x1} ${y1}`  // Point 1
+    path += ` L ${x2} ${y2}`    // Point 2
+    path += ` L ${x3} ${y3}`    // Point 3
+    path += ` L ${x4} ${y4}`    // Point 4
+    path += ` L ${x5} ${y5}`    // Point 5
+    path += ` L ${x6} ${y6}`    // Point 6
+    path += ` L ${x7} ${y7}`    // Point 7
+    path += ` L ${x8} ${y8}`    // Point 8
+    path += ` L ${x9} ${y9}`    // Point 9
+    path += ` Z`                // Close back to point 1
     
     return path
   }
@@ -163,14 +154,19 @@ export default function PetalDiagram({ data, species }) {
     // Center the petal horizontally (same as path generation)
     const centerOffset = -sA / 2
     
+    // These positions must match the point positions in generatePathFromMeasurements
+    // Point 2 and 8: where C is measured
     const xC = centerOffset + sE * 0.5
-    const xB = centerOffset + sE + (sF * 0.7)
+    // Point 3 and 7: where D is measured (constriction)
     const xConstriction = centerOffset + sE
+    // Point 4 and 6: where B is measured
+    const xB = centerOffset + sE + (sF * 0.7)
     const yCenter = 0
     
     // Calculate bounding box for label positioning
     const maxWidth = Math.max(sB, sC, sD)
-    const labelOffset = maxWidth * 0.6 + 30
+    // Position labels to the right of vertical lines (B, C, D)
+    const labelOffset = 25
     
     return {
       A: {
