@@ -22,6 +22,10 @@ function SpinningModel({ scale, scrollState, inViewport }) {
   }, [scene])
   const size = scale.xy.min() * 0.5
   
+  // Rotation controls
+  const rotationStart = 1 // Starting rotation in radians
+  const rotationSpeed = 0.8 // Rotation multiplier (1 = full rotation, 2 = two rotations, etc.)
+  
   // Reusable vectors for current position and lookAt calculation
   const currentPosition = useRef(new THREE.Vector3())
   const currentLookAt = useRef(new THREE.Vector3())
@@ -120,7 +124,7 @@ function SpinningModel({ scale, scrollState, inViewport }) {
 
   useFrame((state, delta) => {
     if (modelRef.current) {
-      modelRef.current.rotation.y = scrollState.progress * Math.PI * 2
+      modelRef.current.rotation.y = rotationStart + scrollState.progress * Math.PI * 2 * rotationSpeed
     }
     
     // Update morph target based on scroll progress
