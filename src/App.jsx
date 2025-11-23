@@ -5,6 +5,8 @@ import Logo from './Logo'
 import HeroSection from './components/HeroSection'
 import IntroSection from './components/IntroSection'
 import StickySection from './components/StickySection'
+import BodySection from './components/BodySection'
+import PetalsSection from './components/PetalsSection'
 import './index.css'
 
 export default function App() {
@@ -22,6 +24,8 @@ export default function App() {
             <HeroSection />
             <IntroSection isTouch={isTouch} />
             <StickySection />
+            <BodySection />
+            <PetalsSection />
             <Logo />
             <Logo />
             <Logo />
