@@ -24,11 +24,11 @@ export default function IntroSection({ isTouch }) {
         </p>
       </section>
 
-      <section className="intro-text">
+      {/* <section className="intro-text">
         <p>
-        To breed sarracenia, you need to understand the anatomy of the Sarracenia flower. Its floral structure is also used to delineate species and subspecies, since each has distinctive morphological traits.
+        To breed sarracenia, you need to understand the anatomy of the Sarracenia flower.
         </p>
-      </section>
+      </section> */}
     </>
   )
 }
