@@ -228,13 +228,34 @@ function SpinningModel({ scale, scrollState, inViewport }) {
 export default function StickySection() {
   const el = useRef()
   
+  const textBoxes = [
+    {
+      id: 1,
+      text: 'Here we see the anatomy of a Sarracenia flower. Pollen is produced on the anthers and must reach the stigma for fertilization.'
+    },
+    {
+      id: 2,
+      text: 'Most flowers avoid self-pollination to maintain genetic diversity. So how does this flower stop its own pollen from landing on the stigma?'
+    },
+    {
+      id: 3,
+      text: 'Pollinators, like bumble bees, enter beneath the sepal and pass over the stigma as they move into the flower.'
+    },
+    {
+      id: 4,
+      text: `They exit beneath the petal along a different route, creating a one-way path. Pollen carried by visitors is more likely to reach another flower's stigma, promoting cross-fertilization.`
+    }
+  ]
+  
+  const positions = ['10%', '30%', '60%', '80%']
+  
   return (
     <section>
       <div className="StickyContainer">
         <div ref={el} className="SomeStickyContent Debug">
           <p>This element is position:sticky and will be tracked.</p>
         </div>
-        <ScrollyTextContainer />
+        <ScrollyTextContainer textBoxes={textBoxes} positions={positions} />
       </div>
       <UseCanvas>
         <StickyScrollScene track={el}>

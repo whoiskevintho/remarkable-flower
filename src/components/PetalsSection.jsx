@@ -5,6 +5,7 @@ import { useGLTF, Environment } from '@react-three/drei'
 import { a, config, useSpring } from '@react-spring/three'
 import { UseCanvas } from '@14islands/r3f-scroll-rig'
 import { StickyScrollScene } from '@14islands/r3f-scroll-rig/powerups'
+import ScrollyTextContainer from './ScrollyTextContainer'
 import './PetalsSection.css'
 
 // Preload the model
@@ -153,12 +154,34 @@ function PetalsModel({ scale, scrollState, inViewport }) {
 export default function PetalsSection() {
   const el = useRef()
   
+  const textBoxes = [
+    {
+      id: 1,
+      text: 'Text box 1 for PetalsSection'
+    },
+    {
+      id: 2,
+      text: 'Text box 2 for PetalsSection'
+    },
+    {
+      id: 3,
+      text: 'Text box 3 for PetalsSection'
+    },
+    {
+      id: 4,
+      text: 'Text box 4 for PetalsSection'
+    }
+  ]
+  
+  const positions = ['10%', '30%', '60%', '80%']
+  
   return (
     <section className="petals-section">
       <div className="PetalsStickyContainer">
         <div ref={el} className="PetalsStickyContent Debug">
           <p>Petals section - sticky tracked element.</p>
         </div>
+        <ScrollyTextContainer textBoxes={textBoxes} positions={positions} />
       </div>
       <UseCanvas>
         <StickyScrollScene track={el}>
