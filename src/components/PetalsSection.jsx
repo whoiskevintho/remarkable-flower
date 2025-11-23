@@ -2,6 +2,7 @@ import React, { useRef, useMemo } from 'react'
 import * as THREE from 'three'
 import { useFrame } from '@react-three/fiber'
 import { useGLTF, Environment } from '@react-three/drei'
+import { a, config, useSpring } from '@react-spring/three'
 import { UseCanvas } from '@14islands/r3f-scroll-rig'
 import { StickyScrollScene } from '@14islands/r3f-scroll-rig/powerups'
 import './PetalsSection.css'
@@ -13,12 +14,16 @@ useGLTF.preload('/petals_v001.glb')
 const MORPH_START = 0.3
 const MORPH_END = 0.7
 
+// Model transform constants - CHANGE THESE TO ADJUST POSITION AND ROTATION
+const MODEL_POSITION = [0, 0, 0] // [x, y, z] position
+const MODEL_ROTATION = [Math.PI/2, Math.PI/2, 0] // [x, y, z] rotation in radians
+
 function PetalsModel({ scale, scrollState, inViewport }) {
   const modelRef = useRef()
   const { scene } = useGLTF('/petals_v001.glb')
   
   const clonedScene = useMemo(() => scene?.clone() || null, [scene])
-  const modelScale = scale.xy.min() * 0.5
+  const size = scale.xy.min() * 0.5
 
   // Calculate model bounding box for centering
   const modelBounds = useMemo(() => {
@@ -37,14 +42,14 @@ function PetalsModel({ scale, scrollState, inViewport }) {
   const safeDistance = useMemo(() => {
     if (!modelBounds) return 10
     
-    const distance = Math.max(modelScale * 3, modelBounds.maxDimension * 2.5, 8)
+    const distance = Math.max(size * 3, modelBounds.maxDimension * 2.5, 8)
     const aspectRatio = scale.xy.x / scale.xy.y
     
     // Adjust for portrait mode
     return aspectRatio < 1 
       ? distance * Math.pow(1 / aspectRatio, 0.7)
       : distance
-  }, [modelBounds, modelScale, scale])
+  }, [modelBounds, size, scale])
 
   // Find mesh with morph targets
   const { mesh, morphIndex } = useMemo(() => {
@@ -89,18 +94,25 @@ function PetalsModel({ scale, scrollState, inViewport }) {
       mesh.morphTargetInfluences[morphIndex] = morphInfluence
     }
     
-    // Center camera on model
-    state.camera.position.set(0, 0, safeDistance)
+    // Center camera on model - update on every frame to handle resize
+    state.camera.position.set(0, 0, safeDistance * 2)
     state.camera.lookAt(modelBounds.center)
+  })
+
+  const spring = useSpring({
+    scale: inViewport ? size : size * 0.0,
+    config: inViewport ? config.wobbly : config.stiff
   })
 
   if (!clonedScene) return null
 
   return (
-    <primitive 
+    <a.primitive 
       ref={modelRef} 
       object={clonedScene} 
-      scale={modelScale}
+      position={MODEL_POSITION}
+      rotation={MODEL_ROTATION}
+      scale={spring.scale}
     />
   )
 }
