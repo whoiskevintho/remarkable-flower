@@ -146,3 +146,44 @@ section.intro-text p {
   content: 'ViewportScrollScene';
 }
 
+/* Scrolly Text Boxes */
+.scrolly-text-section {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  pointer-events: none;
+}
+
+.scrolly-text-content {
+  max-width: 450px;
+  width: calc(100% - 10vw);
+  background: rgba(255, 255, 255, 0.95);
+  color: #333;
+  padding: 2rem 2.5rem;
+  border-radius: 6px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  font-size: 1.1rem;
+  line-height: 1.7;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  pointer-events: auto;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .scrolly-text-content {
+    max-width: 90%;
+    width: calc(100% - 5vw);
+    padding: 1.5rem 2rem;
+    font-size: 1rem;
+  }
+}
+

@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from 'react'
+import React, { useRef, useMemo, useState } from 'react'
 import * as THREE from 'three'
 import { useFrame } from '@react-three/fiber'
 import { useGLTF, Environment } from '@react-three/drei'
@@ -7,6 +7,7 @@ import { UseCanvas } from '@14islands/r3f-scroll-rig'
 import { StickyScrollScene } from '@14islands/r3f-scroll-rig/powerups'
 import ScrollMarker from './ScrollMarker'
 import TagLabel from './TagLabel'
+import ScrollyTextContainer from './ScrollyTextContainer'
 import { flowerTags } from '../config/flowerTags'
 
 // Preload the model
@@ -222,12 +223,14 @@ function SpinningModel({ scale, scrollState, inViewport }) {
 
 export default function StickySection() {
   const el = useRef()
+  
   return (
     <section>
       <div className="StickyContainer">
         <div ref={el} className="SomeStickyContent Debug">
           <p>This element is position:sticky and will be tracked.</p>
         </div>
+        <ScrollyTextContainer />
       </div>
       <UseCanvas>
         <StickyScrollScene track={el}>
