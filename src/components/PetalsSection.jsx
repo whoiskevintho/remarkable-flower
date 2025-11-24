@@ -27,12 +27,30 @@ const SECOND_MORPH_START = 0.4   // When second morph starts increasing
 const SECOND_MORPH_END = 0.5     // When second morph reaches full influence
 // ============================================================================
 
+// ============================================================================
+// MORPH TARGET STATE - Module-level shared state for cross-context communication
+// ============================================================================
+const morphStateRef = { 
+  current: { 
+    activeIndex: 0,        // Start with first morph target (index 0)
+    maxIndex: 0,           // Will be set when mesh is initialized
+    useButtonMode: false,  // false = scroll mode, true = button mode
+    firstMorphIndex: null, // Index of FIRST_MORPH_TARGET_NAME
+    secondMorphIndex: null // Index of SECOND_MORPH_TARGET_NAME
+  } 
+}
+const LERP_SPEED = 0.08 // Controls smoothness of morph transitions
+
 // Model transform constants - CHANGE THESE TO ADJUST POSITION AND ROTATION
 const MODEL_POSITION = [0, 0, 0] // [x, y, z] position
 const MODEL_ROTATION = [Math.PI/2, Math.PI/2, 0] // [x, y, z] rotation in radians
 
 function PetalsModel({ scale, scrollState, inViewport }) {
   const modelRef = useRef()
+  const meshRef = useRef(null) // Ref to store the actual rendered mesh
+  const morphNamesRef = useRef([]) // Ref to store morph target names
+  const initializedRef = useRef(false) // Track if we've found the mesh
+  
   const { scene } = useGLTF('/petals_v001.glb')
   
   const clonedScene = useMemo(() => scene?.clone() || null, [scene])
@@ -64,78 +82,109 @@ function PetalsModel({ scale, scrollState, inViewport }) {
       : distance
   }, [modelBounds, size, scale])
 
-  // Find mesh with morph targets and get indices for configured morph targets
-  const { mesh, firstMorphIndex, secondMorphIndex } = useMemo(() => {
-    if (!clonedScene) return { mesh: null, firstMorphIndex: null, secondMorphIndex: null }
-    
-    let foundMesh = null
-    clonedScene.traverse((child) => {
-      if (child.isMesh && child.morphTargetDictionary && !foundMesh) {
-        foundMesh = child
-      }
-    })
-    
-    if (!foundMesh?.morphTargetDictionary) {
-      console.warn('No mesh with morph targets found in petals_v001.glb')
-      return { mesh: null, firstMorphIndex: null, secondMorphIndex: null }
-    }
-    
-    const morphTargetNames = Object.keys(foundMesh.morphTargetDictionary)
-    console.log('Available morph targets:', morphTargetNames)
-    
-    const firstIdx = foundMesh.morphTargetDictionary[FIRST_MORPH_TARGET_NAME] ?? null
-    const secondIdx = foundMesh.morphTargetDictionary[SECOND_MORPH_TARGET_NAME] ?? null
-    
-    if (firstIdx === null) {
-      console.warn(`Morph target "${FIRST_MORPH_TARGET_NAME}" not found. Available targets:`, morphTargetNames)
-    }
-    if (secondIdx === null) {
-      console.warn(`Morph target "${SECOND_MORPH_TARGET_NAME}" not found. Available targets:`, morphTargetNames)
-    }
-    
-    return { 
-      mesh: foundMesh, 
-      firstMorphIndex: firstIdx,
-      secondMorphIndex: secondIdx
-    }
-  }, [clonedScene])
-
   useFrame((state) => {
     if (!inViewport || !modelBounds) return
     
-    const { progress } = scrollState
-    
-    // Calculate second morph influence first (needed for first morph calculation)
-    let secondMorphInfluence = 0
-    if (mesh && secondMorphIndex !== null) {
-      if (progress >= SECOND_MORPH_START) {
-        secondMorphInfluence = progress >= SECOND_MORPH_END 
-          ? 1 
-          : (progress - SECOND_MORPH_START) / (SECOND_MORPH_END - SECOND_MORPH_START)
-      }
+    // Find mesh with morph targets from the rendered model (first frame only)
+    if (!initializedRef.current && modelRef.current) {
+      let foundMesh = null
+      modelRef.current.traverse((child) => {
+        if (child.isMesh && child.morphTargetDictionary && !foundMesh) {
+          foundMesh = child
+        }
+      })
       
-      mesh.morphTargetInfluences[secondMorphIndex] = secondMorphInfluence
+      if (foundMesh?.morphTargetDictionary) {
+        meshRef.current = foundMesh
+        morphNamesRef.current = Object.keys(foundMesh.morphTargetDictionary)
+        console.log('Available morph targets:', morphNamesRef.current)
+        
+        // Store indices for scroll-based morph targets
+        morphStateRef.current.firstMorphIndex = foundMesh.morphTargetDictionary[FIRST_MORPH_TARGET_NAME] ?? null
+        morphStateRef.current.secondMorphIndex = foundMesh.morphTargetDictionary[SECOND_MORPH_TARGET_NAME] ?? null
+        
+        if (morphStateRef.current.firstMorphIndex === null) {
+          console.warn(`Morph target "${FIRST_MORPH_TARGET_NAME}" not found. Available targets:`, morphNamesRef.current)
+        }
+        if (morphStateRef.current.secondMorphIndex === null) {
+          console.warn(`Morph target "${SECOND_MORPH_TARGET_NAME}" not found. Available targets:`, morphNamesRef.current)
+        }
+        
+        // Store max index in shared state for button handlers
+        if (foundMesh.morphTargetInfluences) {
+          morphStateRef.current.maxIndex = foundMesh.morphTargetInfluences.length - 1
+          // Initialize all morph targets to 0
+          for (let i = 0; i < foundMesh.morphTargetInfluences.length; i++) {
+            foundMesh.morphTargetInfluences[i] = 0
+          }
+        }
+        
+        initializedRef.current = true
+      }
     }
     
-    // Update first morph target influence
-    // First morph increases, stays at 1, then decreases to 0 as second morph increases
-    if (mesh && firstMorphIndex !== null) {
-      let firstMorphInfluence = 0
+    // Apply morph target influences based on mode
+    if (meshRef.current && meshRef.current.morphTargetInfluences) {
+      const { useButtonMode, firstMorphIndex, secondMorphIndex, activeIndex } = morphStateRef.current
       
-      if (progress >= FIRST_MORPH_START) {
-        if (progress < FIRST_MORPH_END) {
-          // Increasing phase: ramp from 0 to 1
-          firstMorphInfluence = (progress - FIRST_MORPH_START) / (FIRST_MORPH_END - FIRST_MORPH_START)
-        } else if (progress < SECOND_MORPH_START) {
-          // Hold phase: stay at 1
-          firstMorphInfluence = 1
-        } else {
-          // Decreasing phase: decrease inversely to second morph
-          firstMorphInfluence = 1 - secondMorphInfluence
+      if (useButtonMode) {
+        // BUTTON MODE: Lerp morph target influences - active one toward 1, all others toward 0
+        const influences = meshRef.current.morphTargetInfluences
+        const maxIndex = influences.length - 1
+        
+        // Clamp activeIndex to valid range
+        let clampedIndex = activeIndex
+        if (clampedIndex < 0) {
+          clampedIndex = maxIndex // Wrap to end
+          morphStateRef.current.activeIndex = clampedIndex
+        } else if (clampedIndex > maxIndex) {
+          clampedIndex = 0 // Wrap to beginning
+          morphStateRef.current.activeIndex = clampedIndex
+        }
+        
+        // Lerp all morph targets
+        for (let i = 0; i < influences.length; i++) {
+          const target = i === clampedIndex ? 1 : 0
+          influences[i] = THREE.MathUtils.lerp(influences[i], target, LERP_SPEED)
+        }
+      } else {
+        // SCROLL MODE: Blend between two specific morph targets based on scroll progress
+        const { progress } = scrollState
+        const mesh = meshRef.current
+        
+        // Calculate second morph influence first (needed for first morph calculation)
+        let secondMorphInfluence = 0
+        if (secondMorphIndex !== null) {
+          if (progress >= SECOND_MORPH_START) {
+            secondMorphInfluence = progress >= SECOND_MORPH_END 
+              ? 1 
+              : (progress - SECOND_MORPH_START) / (SECOND_MORPH_END - SECOND_MORPH_START)
+          }
+          
+          mesh.morphTargetInfluences[secondMorphIndex] = secondMorphInfluence
+        }
+        
+        // Update first morph target influence
+        // First morph increases, stays at 1, then decreases to 0 as second morph increases
+        if (firstMorphIndex !== null) {
+          let firstMorphInfluence = 0
+          
+          if (progress >= FIRST_MORPH_START) {
+            if (progress < FIRST_MORPH_END) {
+              // Increasing phase: ramp from 0 to 1
+              firstMorphInfluence = (progress - FIRST_MORPH_START) / (FIRST_MORPH_END - FIRST_MORPH_START)
+            } else if (progress < SECOND_MORPH_START) {
+              // Hold phase: stay at 1
+              firstMorphInfluence = 1
+            } else {
+              // Decreasing phase: decrease inversely to second morph
+              firstMorphInfluence = 1 - secondMorphInfluence
+            }
+          }
+          
+          mesh.morphTargetInfluences[firstMorphIndex] = firstMorphInfluence
         }
       }
-      
-      mesh.morphTargetInfluences[firstMorphIndex] = firstMorphInfluence
     }
     
     // Center camera on model - update on every frame to handle resize
@@ -181,9 +230,27 @@ export default function PetalsSection() {
   
   const positions = ['3%', '30%']
   
-  const handleButtonClick = (variety) => {
-    console.log(`Selected variety: ${variety}`)
-    // Add your button click handler logic here
+  const handleButtonClick = (direction) => {
+    // Switch to button mode when a button is clicked
+    morphStateRef.current.useButtonMode = true
+    
+    const currentIndex = morphStateRef.current.activeIndex
+    const maxIndex = morphStateRef.current.maxIndex
+    let newIndex
+    
+    if (direction === 'next') {
+      // Cycle forward through morph targets
+      newIndex = currentIndex >= maxIndex ? 0 : currentIndex + 1
+    } else if (direction === 'previous') {
+      // Cycle backward through morph targets
+      newIndex = currentIndex <= 0 ? maxIndex : currentIndex - 1
+    } else {
+      return
+    }
+    
+    // Update the active index
+    morphStateRef.current.activeIndex = newIndex
+    console.log(`Switching to morph target index: ${newIndex} (max: ${maxIndex})`)
   }
   
   return (
