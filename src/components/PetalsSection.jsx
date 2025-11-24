@@ -50,6 +50,7 @@ function PetalsModel({ scale, scrollState, inViewport }) {
   const meshRef = useRef(null) // Ref to store the actual rendered mesh
   const morphNamesRef = useRef([]) // Ref to store morph target names
   const initializedRef = useRef(false) // Track if we've found the mesh
+  const previousProgressRef = useRef(0) // Track previous scroll progress to detect direction
   
   const { scene } = useGLTF('/petals_v001.glb')
   
@@ -123,67 +124,60 @@ function PetalsModel({ scale, scrollState, inViewport }) {
       }
     }
     
-    // Apply morph target influences based on mode
+    // Unified morph target system: calculate targets, then lerp all morphs
     if (meshRef.current && meshRef.current.morphTargetInfluences) {
-      const { useButtonMode, firstMorphIndex, secondMorphIndex, activeIndex } = morphStateRef.current
+      const { progress } = scrollState
+      const isScrollingUp = progress < previousProgressRef.current
+      previousProgressRef.current = progress
       
-      if (useButtonMode) {
-        // BUTTON MODE: Lerp morph target influences - active one toward 1, all others toward 0
-        const influences = meshRef.current.morphTargetInfluences
-        const maxIndex = influences.length - 1
-        
-        // Clamp activeIndex to valid range
+      // Switch back to scroll mode when scrolling up into scroll section
+      if (morphStateRef.current.useButtonMode && isScrollingUp && progress < SECOND_MORPH_END) {
+        morphStateRef.current.useButtonMode = false
+      }
+      
+      const { useButtonMode, firstMorphIndex, secondMorphIndex, activeIndex, maxIndex } = morphStateRef.current
+      const influences = meshRef.current.morphTargetInfluences
+      const targets = new Array(influences.length).fill(0)
+      
+      // Calculate target values based on mode
+      if (useButtonMode && progress >= SECOND_MORPH_END) {
+        // BUTTON MODE: target is the active button-selected morph
         let clampedIndex = activeIndex
         if (clampedIndex < 0) {
-          clampedIndex = maxIndex // Wrap to end
+          clampedIndex = maxIndex
           morphStateRef.current.activeIndex = clampedIndex
         } else if (clampedIndex > maxIndex) {
-          clampedIndex = 0 // Wrap to beginning
+          clampedIndex = 0
           morphStateRef.current.activeIndex = clampedIndex
         }
-        
-        // Lerp all morph targets
-        for (let i = 0; i < influences.length; i++) {
-          const target = i === clampedIndex ? 1 : 0
-          influences[i] = THREE.MathUtils.lerp(influences[i], target, LERP_SPEED)
-        }
+        targets[clampedIndex] = 1
       } else {
-        // SCROLL MODE: Blend between two specific morph targets based on scroll progress
-        const { progress } = scrollState
-        const mesh = meshRef.current
-        
-        // Calculate second morph influence first (needed for first morph calculation)
-        let secondMorphInfluence = 0
-        if (secondMorphIndex !== null) {
-          if (progress >= SECOND_MORPH_START) {
-            secondMorphInfluence = progress >= SECOND_MORPH_END 
-              ? 1 
-              : (progress - SECOND_MORPH_START) / (SECOND_MORPH_END - SECOND_MORPH_START)
-          }
-          
-          mesh.morphTargetInfluences[secondMorphIndex] = secondMorphInfluence
+        // SCROLL MODE: calculate scroll-based targets
+        let secondMorphTarget = 0
+        if (secondMorphIndex !== null && progress >= SECOND_MORPH_START) {
+          secondMorphTarget = progress >= SECOND_MORPH_END 
+            ? 1 
+            : (progress - SECOND_MORPH_START) / (SECOND_MORPH_END - SECOND_MORPH_START)
         }
         
-        // Update first morph target influence
-        // First morph increases, stays at 1, then decreases to 0 as second morph increases
-        if (firstMorphIndex !== null) {
-          let firstMorphInfluence = 0
-          
-          if (progress >= FIRST_MORPH_START) {
-            if (progress < FIRST_MORPH_END) {
-              // Increasing phase: ramp from 0 to 1
-              firstMorphInfluence = (progress - FIRST_MORPH_START) / (FIRST_MORPH_END - FIRST_MORPH_START)
-            } else if (progress < SECOND_MORPH_START) {
-              // Hold phase: stay at 1
-              firstMorphInfluence = 1
-            } else {
-              // Decreasing phase: decrease inversely to second morph
-              firstMorphInfluence = 1 - secondMorphInfluence
-            }
+        let firstMorphTarget = 0
+        if (firstMorphIndex !== null && progress >= FIRST_MORPH_START) {
+          if (progress < FIRST_MORPH_END) {
+            firstMorphTarget = (progress - FIRST_MORPH_START) / (FIRST_MORPH_END - FIRST_MORPH_START)
+          } else if (progress < SECOND_MORPH_START) {
+            firstMorphTarget = 1
+          } else {
+            firstMorphTarget = 1 - secondMorphTarget
           }
-          
-          mesh.morphTargetInfluences[firstMorphIndex] = firstMorphInfluence
         }
+        
+        if (firstMorphIndex !== null) targets[firstMorphIndex] = firstMorphTarget
+        if (secondMorphIndex !== null) targets[secondMorphIndex] = secondMorphTarget
+      }
+      
+      // Unified lerping: all morphs lerp toward their targets
+      for (let i = 0; i < influences.length; i++) {
+        influences[i] = THREE.MathUtils.lerp(influences[i], targets[i], LERP_SPEED)
       }
     }
     
