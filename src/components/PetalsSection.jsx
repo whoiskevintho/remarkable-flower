@@ -14,8 +14,8 @@ useGLTF.preload('/petals_v001.glb')
 // Morph target animation constants
 const FLAVA_MORPH_START = 0.2
 const FLAVA_MORPH_END = 0.3
-const PSITTACINA_MORPH_START = 0.5
-const PSITTACINA_MORPH_END = 0.6
+const PSITTACINA_MORPH_START = 0.4
+const PSITTACINA_MORPH_END = 0.5
 
 // Model transform constants - CHANGE THESE TO ADJUST POSITION AND ROTATION
 const MODEL_POSITION = [0, 0, 0] // [x, y, z] position
@@ -134,8 +134,9 @@ function PetalsModel({ scale, scrollState, inViewport }) {
   })
 
   const spring = useSpring({
-    scale: inViewport ? size : size * 0.0,
-    config: inViewport ? config.wobbly : config.stiff
+    from: { scale: 0 },
+    scale: inViewport ? size : 0,
+    config: inViewport ? config.wobbly : config.slow
   })
 
   if (!clonedScene) return null
@@ -157,23 +158,19 @@ export default function PetalsSection() {
   const textBoxes = [
     {
       id: 1,
-      text: 'Text box 1 for PetalsSection'
+      text: 'The petal of the S. Flava is long and narrow'
     },
     {
       id: 2,
-      text: 'Text box 2 for PetalsSection'
+      text: 'While the petal of the S. Psittacina is much smaller'
     },
     {
       id: 3,
-      text: 'Text box 3 for PetalsSection'
-    },
-    {
-      id: 4,
-      text: 'Text box 4 for PetalsSection'
+      text: 'Click on the buttons to explore more varieites in Sarracenia flowers'
     }
   ]
   
-  const positions = ['10%', '30%', '60%', '80%']
+  const positions = ['5%', '35%', '65%']
   
   return (
     <section className="petals-section">

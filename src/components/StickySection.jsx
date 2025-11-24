@@ -177,8 +177,9 @@ function SpinningModel({ scale, scrollState, inViewport }) {
   })
 
   const spring = useSpring({
-    scale: inViewport ? size : size * 0.0,
-    config: inViewport ? config.wobbly : config.stiff
+    from: { scale: 0 },
+    scale: inViewport ? size : 0,
+    config: inViewport ? config.wobbly : config.slow
   })
 
   if (!clonedScene) return null

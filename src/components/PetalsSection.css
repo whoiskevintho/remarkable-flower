@@ -4,7 +4,7 @@
 }
 
 .PetalsStickyContainer {
-  height: 500vh; /* Adjust scroll height as needed */
+  height: 400vh; /* Adjust scroll height as needed */
   position: relative; /* IMPORTANT! */
 }
 
