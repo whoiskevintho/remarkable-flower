@@ -12,11 +12,20 @@ import './PetalsSection.css'
 // Preload the model
 useGLTF.preload('/petals_v001.glb')
 
-// Morph target animation constants
-const FLAVA_MORPH_START = 0.2
-const FLAVA_MORPH_END = 0.3
-const PSITTACINA_MORPH_START = 0.4
-const PSITTACINA_MORPH_END = 0.5
+// ============================================================================
+// MORPH TARGET CONFIGURATION
+// ============================================================================
+// Change these to use different morph targets from your GLB model
+// Check the console for available morph target names when the component loads
+const FIRST_MORPH_TARGET_NAME = 'Flava'      // First morph target to animate
+const SECOND_MORPH_TARGET_NAME = 'RubraSspRubra' // Second morph target to animate
+
+// Animation timing constants (0.0 to 1.0 based on scroll progress)
+const FIRST_MORPH_START = 0.2   // When first morph starts increasing
+const FIRST_MORPH_END = 0.3      // When first morph reaches full influence
+const SECOND_MORPH_START = 0.4   // When second morph starts increasing
+const SECOND_MORPH_END = 0.5     // When second morph reaches full influence
+// ============================================================================
 
 // Model transform constants - CHANGE THESE TO ADJUST POSITION AND ROTATION
 const MODEL_POSITION = [0, 0, 0] // [x, y, z] position
@@ -55,9 +64,9 @@ function PetalsModel({ scale, scrollState, inViewport }) {
       : distance
   }, [modelBounds, size, scale])
 
-  // Find mesh with morph targets and get indices for Flava and Psittacina
-  const { mesh, flavaIndex, psittacinaIndex } = useMemo(() => {
-    if (!clonedScene) return { mesh: null, flavaIndex: null, psittacinaIndex: null }
+  // Find mesh with morph targets and get indices for configured morph targets
+  const { mesh, firstMorphIndex, secondMorphIndex } = useMemo(() => {
+    if (!clonedScene) return { mesh: null, firstMorphIndex: null, secondMorphIndex: null }
     
     let foundMesh = null
     clonedScene.traverse((child) => {
@@ -68,26 +77,26 @@ function PetalsModel({ scale, scrollState, inViewport }) {
     
     if (!foundMesh?.morphTargetDictionary) {
       console.warn('No mesh with morph targets found in petals_v001.glb')
-      return { mesh: null, flavaIndex: null, psittacinaIndex: null }
+      return { mesh: null, firstMorphIndex: null, secondMorphIndex: null }
     }
     
     const morphTargetNames = Object.keys(foundMesh.morphTargetDictionary)
     console.log('Available morph targets:', morphTargetNames)
     
-    const flavaIdx = foundMesh.morphTargetDictionary['Flava'] ?? null
-    const psittacinaIdx = foundMesh.morphTargetDictionary['Psittacina'] ?? null
+    const firstIdx = foundMesh.morphTargetDictionary[FIRST_MORPH_TARGET_NAME] ?? null
+    const secondIdx = foundMesh.morphTargetDictionary[SECOND_MORPH_TARGET_NAME] ?? null
     
-    if (flavaIdx === null) {
-      console.warn('Flava morph target not found')
+    if (firstIdx === null) {
+      console.warn(`Morph target "${FIRST_MORPH_TARGET_NAME}" not found. Available targets:`, morphTargetNames)
     }
-    if (psittacinaIdx === null) {
-      console.warn('Psittacina morph target not found')
+    if (secondIdx === null) {
+      console.warn(`Morph target "${SECOND_MORPH_TARGET_NAME}" not found. Available targets:`, morphTargetNames)
     }
     
     return { 
       mesh: foundMesh, 
-      flavaIndex: flavaIdx,
-      psittacinaIndex: psittacinaIdx
+      firstMorphIndex: firstIdx,
+      secondMorphIndex: secondIdx
     }
   }, [clonedScene])
 
@@ -96,37 +105,37 @@ function PetalsModel({ scale, scrollState, inViewport }) {
     
     const { progress } = scrollState
     
-    // Calculate Psittacina influence first (needed for Flava calculation)
-    let psittacinaInfluence = 0
-    if (mesh && psittacinaIndex !== null) {
-      if (progress >= PSITTACINA_MORPH_START) {
-        psittacinaInfluence = progress >= PSITTACINA_MORPH_END 
+    // Calculate second morph influence first (needed for first morph calculation)
+    let secondMorphInfluence = 0
+    if (mesh && secondMorphIndex !== null) {
+      if (progress >= SECOND_MORPH_START) {
+        secondMorphInfluence = progress >= SECOND_MORPH_END 
           ? 1 
-          : (progress - PSITTACINA_MORPH_START) / (PSITTACINA_MORPH_END - PSITTACINA_MORPH_START)
+          : (progress - SECOND_MORPH_START) / (SECOND_MORPH_END - SECOND_MORPH_START)
       }
       
-      mesh.morphTargetInfluences[psittacinaIndex] = psittacinaInfluence
+      mesh.morphTargetInfluences[secondMorphIndex] = secondMorphInfluence
     }
     
-    // Update Flava morph target influence
-    // Flava increases 0.2-0.4, stays at 1 from 0.4-0.6, then decreases to 0 as Psittacina increases 0.6-0.8
-    if (mesh && flavaIndex !== null) {
-      let flavaInfluence = 0
+    // Update first morph target influence
+    // First morph increases, stays at 1, then decreases to 0 as second morph increases
+    if (mesh && firstMorphIndex !== null) {
+      let firstMorphInfluence = 0
       
-      if (progress >= FLAVA_MORPH_START) {
-        if (progress < FLAVA_MORPH_END) {
-          // Increasing phase: 0.2 to 0.4
-          flavaInfluence = (progress - FLAVA_MORPH_START) / (FLAVA_MORPH_END - FLAVA_MORPH_START)
-        } else if (progress < PSITTACINA_MORPH_START) {
-          // Hold phase: 0.4 to 0.6 - stay at 1
-          flavaInfluence = 1
+      if (progress >= FIRST_MORPH_START) {
+        if (progress < FIRST_MORPH_END) {
+          // Increasing phase: ramp from 0 to 1
+          firstMorphInfluence = (progress - FIRST_MORPH_START) / (FIRST_MORPH_END - FIRST_MORPH_START)
+        } else if (progress < SECOND_MORPH_START) {
+          // Hold phase: stay at 1
+          firstMorphInfluence = 1
         } else {
-          // Decreasing phase: 0.6 to 0.8 - decrease inversely to Psittacina
-          flavaInfluence = 1 - psittacinaInfluence
+          // Decreasing phase: decrease inversely to second morph
+          firstMorphInfluence = 1 - secondMorphInfluence
         }
       }
       
-      mesh.morphTargetInfluences[flavaIndex] = flavaInfluence
+      mesh.morphTargetInfluences[firstMorphIndex] = firstMorphInfluence
     }
     
     // Center camera on model - update on every frame to handle resize
@@ -166,7 +175,7 @@ export default function PetalsSection() {
     },
     {
       id: 2,
-      text: 'While the petal of the S. Psittacina is much smaller'
+      text: 'While the petal of the S. Rubra is much smaller'
     },
   ]
   
