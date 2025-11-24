@@ -7,6 +7,7 @@ import IntroSection from './components/IntroSection'
 import StickySection from './components/StickySection'
 import BodySection from './components/BodySection'
 import PetalsSection from './components/PetalsSection'
+import FinalSection from './components/FinalSection'
 import './index.css'
 
 export default function App() {
@@ -26,11 +27,7 @@ export default function App() {
             <StickySection />
             <BodySection />
             <PetalsSection />
-            <Logo />
-            <Logo />
-            <Logo />
-            <Logo />
-            <Logo />
+            <FinalSection />
           </article>
         )}
       </SmoothScrollbar>

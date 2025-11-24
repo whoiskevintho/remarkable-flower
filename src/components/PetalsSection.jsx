@@ -174,7 +174,7 @@ export default function PetalsSection() {
     }
   ]
   
-  const positions = ['5%', '35%', '65%']
+  const positions = ['5%', '35%', '60%']
   
   return (
     <section className="petals-section">
