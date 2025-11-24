@@ -9,6 +9,7 @@ import ScrollMarker from './ScrollMarker'
 import TagLabel from './TagLabel'
 import ScrollyTextContainer from './ScrollyTextContainer'
 import { flowerTags } from '../config/flowerTags'
+import { useFadeOut } from '../hooks/useFadeOut'
 
 // Preload the model
 useGLTF.preload('/flower_v001.glb')
@@ -102,7 +103,7 @@ function SpinningModel({ scale, scrollState, inViewport }) {
       betweenStartMiddle: new THREE.Vector3(0, 0, 0),   // Slightly above center
       middle: new THREE.Vector3(0, 0, 0),   // Above center
       betweenMiddleEnd: new THREE.Vector3(0, -safeDistance * 0.2, 0),   // Slightly above center
-      end: new THREE.Vector3(-safeDistance * 0.4, 0, 0)        // Slightly above center
+      end: new THREE.Vector3(-safeDistance * 0.4, -safeDistance * 0.3, 0)        // Slightly above center
     }
   }, [safeDistance])
 
@@ -181,6 +182,9 @@ function SpinningModel({ scale, scrollState, inViewport }) {
     scale: inViewport ? size : 0,
     config: inViewport ? config.wobbly : config.slow
   })
+
+  // Fade out the model as scroll progresses
+  useFadeOut(scrollState, { fadeStart: 0.95, fadeEnd: 1.0 }, modelRef)
 
   if (!clonedScene) return null
 

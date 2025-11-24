@@ -6,6 +6,7 @@ import { a, config, useSpring } from '@react-spring/three'
 import { UseCanvas } from '@14islands/r3f-scroll-rig'
 import { StickyScrollScene } from '@14islands/r3f-scroll-rig/powerups'
 import ScrollyTextContainer from './ScrollyTextContainer'
+import { useFadeOut } from '../hooks/useFadeOut'
 import './PetalsSection.css'
 
 // Preload the model
@@ -138,6 +139,9 @@ function PetalsModel({ scale, scrollState, inViewport }) {
     scale: inViewport ? size : 0,
     config: inViewport ? config.wobbly : config.slow
   })
+
+  // Fade out the model as scroll progresses
+  useFadeOut(scrollState, { fadeStart: 0.95, fadeEnd: 1.0 }, modelRef)
 
   if (!clonedScene) return null
 
