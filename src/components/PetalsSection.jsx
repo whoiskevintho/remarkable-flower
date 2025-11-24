@@ -168,13 +168,14 @@ export default function PetalsSection() {
       id: 2,
       text: 'While the petal of the S. Psittacina is much smaller'
     },
-    {
-      id: 3,
-      text: 'Click on the buttons to explore more varieites in Sarracenia flowers'
-    }
   ]
   
-  const positions = ['5%', '35%', '60%']
+  const positions = ['3%', '30%']
+  
+  const handleButtonClick = (variety) => {
+    console.log(`Selected variety: ${variety}`)
+    // Add your button click handler logic here
+  }
   
   return (
     <section className="petals-section">
@@ -183,6 +184,38 @@ export default function PetalsSection() {
           <p>Petals section - sticky tracked element.</p>
         </div>
         <ScrollyTextContainer textBoxes={textBoxes} positions={positions} />
+        
+        {/* Spacer to control when buttons appear - adjust height to control scroll position */}
+        <div className="PetalsButtonsSpacer" />
+        
+        {/* New: Buttons and Dialogue Container - scrolls up then sticks */}
+        <div className="PetalsButtonsContainer">
+          <div className="PetalsDialogue">
+            <p>Explore more varieties in Sarracenia flower petals</p>
+          </div>
+          <div className="PetalsButtons">
+            <button 
+              className="PetalsButton"
+              onClick={() => handleButtonClick('previous')}
+              aria-label="Previous variety"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="PetalsButtonIcon">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+            </button>
+            <button 
+              className="PetalsButton"
+              onClick={() => handleButtonClick('next')}
+              aria-label="Next variety"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="PetalsButtonIcon">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
       <UseCanvas>
         <StickyScrollScene track={el}>

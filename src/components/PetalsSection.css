@@ -4,7 +4,7 @@
 }
 
 .PetalsStickyContainer {
-  height: 400vh; /* Adjust scroll height as needed */
+  height: 450vh; /* Adjust scroll height as needed */
   position: relative; /* IMPORTANT! */
 }
 
@@ -25,6 +25,127 @@
   font-size: 1.2rem;
   text-align: center;
   opacity: 0.8;
+}
+
+/* Spacer to control when buttons start scrolling up */
+.PetalsButtonsSpacer {
+  height: 220vh; /* Adjust this value to control when buttons appear */
+  /* 
+   * Container is 450vh total
+   * Spacer height controls when buttons enter viewport:
+   * - 200vh = buttons appear earlier
+   * - 300vh = buttons appear at ~67% scroll
+   * - 350vh = buttons appear at ~78% scroll
+   */
+}
+
+/* New: Buttons and Dialogue Container - scrolls up then sticks */
+.PetalsButtonsContainer {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem;
+}
+
+.PetalsDialogue {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 10rem;
+  width: 100%;
+}
+
+.PetalsDialogue p {
+  max-width: 450px;
+  width: calc(100% - 10vw);
+  background: rgba(255, 255, 255, 0.95);
+  color: #333;
+  padding: 2rem 2.5rem;
+  border-radius: 6px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  font-size: 1.1rem;
+  line-height: 1.7;
+  margin: 0;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  text-align: center;
+}
+
+.PetalsButtons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10rem;
+  width: 100%;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.PetalsButton {
+  background: rgba(255, 255, 255, 0.95);
+  color: #333;
+  border: none;
+  padding: 1rem 1.5rem;
+  font-size: 2rem;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-family: inherit;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3.5rem;
+  min-height: 3.5rem;
+}
+
+.PetalsButtonIcon {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.PetalsButton:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+}
+
+.PetalsButton:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive styles for buttons */
+@media (max-width: 768px) {
+  .PetalsDialogue p {
+    max-width: 90%;
+    width: calc(100% - 5vw);
+    padding: 1.5rem 2rem;
+    font-size: 1.1rem;
+  }
+  
+  .PetalsButtons {
+    gap: 1rem;
+  }
+  
+  .PetalsButton {
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+  }
 }
 
 /* Debug styles for PetalsSection (optional) */
