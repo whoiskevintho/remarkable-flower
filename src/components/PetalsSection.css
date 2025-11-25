@@ -57,26 +57,44 @@
 
 .PetalsDialogue {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-top: 10rem;
+  padding-top: 12rem;
   width: 100%;
 }
 
 .PetalsDialogue p {
-  max-width: 450px;
+  max-width: 600px;
   width: calc(100% - 10vw);
-  background: rgba(255, 255, 255, 0.95);
   color: #333;
   padding: 2rem 2.5rem;
   border-radius: 6px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  font-size: 1.1rem;
+  font-size: 2rem;
   line-height: 1.7;
   margin: 0;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   text-align: center;
+}
+
+.PetalsDialogue p:first-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.PetalsDialogue .PetalsSubtitle,
+.PetalsDialogue p.PetalsSubtitle {
+  font-size: 1.4rem !important;
+  font-style: italic;
+  color: #666;
+  margin-top: -0.8rem;
+  margin-bottom: 0;
+  padding: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  line-height: 1.4;
+  font-weight: 300;
+  max-width: 600px;
+  width: calc(100% - 10vw);
 }
 
 .PetalsButtons {
@@ -84,10 +102,11 @@
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 10rem;
+  padding-bottom: 2rem;
   width: 100%;
   padding-left: 2rem;
   padding-right: 2rem;
+  gap: 2rem;
 }
 
 .PetalsButton {
@@ -129,13 +148,44 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
+.PetalsImageContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  width: clamp(120px, 20vw, 250px);
+  height: clamp(120px, 20vw, 250px);
+  min-width: 120px;
+  min-height: 120px;
+}
+
+.PetalsImage {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  display: block;
+}
+
+/* Adjust PetalsDialogue padding when image is present */
+.PetalsButtonsContainer:has(.PetalsImageContainer) .PetalsDialogue {
+  padding-top: 7rem;
+}
+
 /* Responsive styles for buttons */
 @media (max-width: 768px) {
   .PetalsDialogue p {
     max-width: 90%;
     width: calc(100% - 5vw);
     padding: 1.5rem 2rem;
-    font-size: 1.1rem;
+    font-size: 1.3rem;
+  }
+  
+  .PetalsSubtitle {
+    font-size: 1rem;
   }
   
   .PetalsButtons {
@@ -145,6 +195,13 @@
   .PetalsButton {
     padding: 0.875rem 2rem;
     font-size: 1rem;
+  }
+  
+  .PetalsImageContainer {
+    width: clamp(100px, 25vw, 200px);
+    height: clamp(100px, 25vw, 200px);
+    min-width: 100px;
+    min-height: 100px;
   }
 }
 

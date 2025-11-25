@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from 'react'
+import React, { useRef, useMemo, useState, useEffect } from 'react'
 import * as THREE from 'three'
 import { useFrame } from '@react-three/fiber'
 import { useGLTF, Environment } from '@react-three/drei'
@@ -7,6 +7,7 @@ import { UseCanvas } from '@14islands/r3f-scroll-rig'
 import { StickyScrollScene } from '@14islands/r3f-scroll-rig/powerups'
 import ScrollyTextContainer from './ScrollyTextContainer'
 import { useFadeOut } from '../hooks/useFadeOut'
+import { getMorphDisplayName, getMorphImage, getMorphSubtitle } from '../config/petalMorphs'
 import './PetalsSection.css'
 
 // Preload the model
@@ -36,7 +37,8 @@ const morphStateRef = {
     maxIndex: 0,           // Will be set when mesh is initialized
     useButtonMode: false,  // false = scroll mode, true = button mode
     firstMorphIndex: null, // Index of FIRST_MORPH_TARGET_NAME
-    secondMorphIndex: null // Index of SECOND_MORPH_TARGET_NAME
+    secondMorphIndex: null, // Index of SECOND_MORPH_TARGET_NAME
+    morphNames: []         // Array of morph target names (for React component access)
   } 
 }
 const LERP_SPEED = 0.08 // Controls smoothness of morph transitions
@@ -99,6 +101,9 @@ function PetalsModel({ scale, scrollState, inViewport }) {
         meshRef.current = foundMesh
         morphNamesRef.current = Object.keys(foundMesh.morphTargetDictionary)
         console.log('Available morph targets:', morphNamesRef.current)
+        
+        // Store morph names in shared state for React component access
+        morphStateRef.current.morphNames = morphNamesRef.current
         
         // Store indices for scroll-based morph targets
         morphStateRef.current.firstMorphIndex = foundMesh.morphTargetDictionary[FIRST_MORPH_TARGET_NAME] ?? null
@@ -210,6 +215,34 @@ function PetalsModel({ scale, scrollState, inViewport }) {
 
 export default function PetalsSection() {
   const el = useRef()
+  const [currentMorphName, setCurrentMorphName] = useState('')
+  const [currentMorphDisplayName, setCurrentMorphDisplayName] = useState('Explore more varieties in Sarracenia flower petals')
+  const [currentMorphSubtitle, setCurrentMorphSubtitle] = useState('')
+  const [currentMorphImage, setCurrentMorphImage] = useState('')
+  
+  // Sync React state with morphStateRef when activeIndex or morphNames change
+  useEffect(() => {
+    const updateCurrentMorph = () => {
+      const { activeIndex, morphNames } = morphStateRef.current
+      if (morphNames.length > 0 && activeIndex >= 0 && activeIndex < morphNames.length) {
+        const name = morphNames[activeIndex]
+        setCurrentMorphName(name)
+        setCurrentMorphDisplayName(getMorphDisplayName(name))
+        setCurrentMorphSubtitle(getMorphSubtitle(name) || '')
+        setCurrentMorphImage(getMorphImage(name) || '')
+      }
+    }
+    
+    // Initial update
+    updateCurrentMorph()
+    
+    // Poll for changes (lightweight - only when in button mode)
+    const interval = setInterval(() => {
+      updateCurrentMorph()
+    }, 100) // Check every 100ms
+    
+    return () => clearInterval(interval)
+  }, [])
   
   const textBoxes = [
     {
@@ -220,9 +253,13 @@ export default function PetalsSection() {
       id: 2,
       text: 'While the petal of the S. Rubra is much smaller'
     },
+    {
+      id: 3,
+      text: 'Explore the many varieties in Sarracenia flower petals'
+    },
   ]
   
-  const positions = ['3%', '30%']
+  const positions = ['3%', '30%', '55%']
   
   const handleButtonClick = (direction) => {
     // Switch to button mode when a button is clicked
@@ -244,6 +281,17 @@ export default function PetalsSection() {
     
     // Update the active index
     morphStateRef.current.activeIndex = newIndex
+    
+    // Update React state immediately
+    const { morphNames } = morphStateRef.current
+    if (morphNames.length > 0 && newIndex >= 0 && newIndex < morphNames.length) {
+      const name = morphNames[newIndex]
+      setCurrentMorphName(name)
+      setCurrentMorphDisplayName(getMorphDisplayName(name))
+      setCurrentMorphSubtitle(getMorphSubtitle(name) || '')
+      setCurrentMorphImage(getMorphImage(name) || '')
+    }
+    
     console.log(`Switching to morph target index: ${newIndex} (max: ${maxIndex})`)
   }
   
@@ -261,8 +309,12 @@ export default function PetalsSection() {
         {/* New: Buttons and Dialogue Container - scrolls up then sticks */}
         <div className="PetalsButtonsContainer">
           <div className="PetalsDialogue">
-            <p>Explore more varieties in Sarracenia flower petals</p>
+            <p>{currentMorphDisplayName}</p>
+            {currentMorphSubtitle && (
+              <p className="PetalsSubtitle">{currentMorphSubtitle}</p>
+            )}
           </div>
+          
           <div className="PetalsButtons">
             <button 
               className="PetalsButton"
@@ -274,6 +326,18 @@ export default function PetalsSection() {
                 <polyline points="12 19 5 12 12 5"></polyline>
               </svg>
             </button>
+            
+            {/* Image container between the two buttons */}
+            {currentMorphImage && (
+              <div className="PetalsImageContainer">
+                <img 
+                  src={currentMorphImage} 
+                  alt={currentMorphName}
+                  className="PetalsImage"
+                />
+              </div>
+            )}
+            
             <button 
               className="PetalsButton"
               onClick={() => handleButtonClick('next')}
