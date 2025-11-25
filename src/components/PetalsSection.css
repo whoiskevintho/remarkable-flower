@@ -52,7 +52,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 2rem;
 }
 
 .PetalsDialogue {
@@ -99,15 +98,15 @@
 
 .PetalsButtons {
   display: flex;
+  height: 30vh;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 2rem;
   width: 100%;
   padding-left: 2rem;
   padding-right: 2rem;
   gap: 2rem;
-  min-height: clamp(120px, 20vw, 250px);
+  /* min-height: clamp(120px, 20vw, 250px); */
 }
 
 .PetalsButton {
@@ -153,14 +152,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 0 0 auto;
-  width: clamp(120px, 20vw, 250px);
-  height: clamp(120px, 20vw, 250px);
+  flex: 1;
+  height: 80%;
   position: relative;
 }
 
 .PetalsImage {
-  width: 100%;
   height: 100%;
   object-fit: contain;
   border-radius: 8px;
@@ -190,13 +187,8 @@
     font-size: 1rem;
   }
   
-  .PetalsButtons {
-    min-height: clamp(100px, 25vw, 200px);
-  }
-  
   .PetalsImageContainer {
-    width: clamp(100px, 25vw, 200px);
-    height: clamp(100px, 25vw, 200px);
+    max-width: clamp(100px, 25vw, 200px);
   }
 }
 
