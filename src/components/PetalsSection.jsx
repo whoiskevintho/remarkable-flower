@@ -3,6 +3,7 @@ import * as THREE from 'three'
 import { useFrame } from '@react-three/fiber'
 import { useGLTF, Environment } from '@react-three/drei'
 import { a, config, useSpring } from '@react-spring/three'
+import { useSpring as useSpringWeb, animated } from '@react-spring/web'
 import { UseCanvas } from '@14islands/r3f-scroll-rig'
 import { StickyScrollScene } from '@14islands/r3f-scroll-rig/powerups'
 import ScrollyTextContainer from './ScrollyTextContainer'
@@ -216,9 +217,17 @@ function PetalsModel({ scale, scrollState, inViewport }) {
 export default function PetalsSection() {
   const el = useRef()
   const [currentMorphName, setCurrentMorphName] = useState('')
-  const [currentMorphDisplayName, setCurrentMorphDisplayName] = useState('Explore more varieties in Sarracenia flower petals')
+  const [currentMorphDisplayName, setCurrentMorphDisplayName] = useState('Explore the many varieties in Sarracenia flower petals')
   const [currentMorphSubtitle, setCurrentMorphSubtitle] = useState('')
   const [currentMorphImage, setCurrentMorphImage] = useState('')
+  const [hasInteracted, setHasInteracted] = useState(false)
+  
+  // React Spring animation for image
+  const imageSpring = useSpringWeb({
+    opacity: hasInteracted && currentMorphImage ? 1 : 0,
+    transform: hasInteracted && currentMorphImage ? 'scale(1)' : 'scale(0.95)',
+    config: { tension: 300, friction: 30 }
+  })
   
   // Sync React state with morphStateRef when activeIndex or morphNames change
   useEffect(() => {
@@ -227,6 +236,7 @@ export default function PetalsSection() {
       if (morphNames.length > 0 && activeIndex >= 0 && activeIndex < morphNames.length) {
         const name = morphNames[activeIndex]
         setCurrentMorphName(name)
+        // Always update the morph data internally, but display is controlled by hasInteracted
         setCurrentMorphDisplayName(getMorphDisplayName(name))
         setCurrentMorphSubtitle(getMorphSubtitle(name) || '')
         setCurrentMorphImage(getMorphImage(name) || '')
@@ -252,16 +262,17 @@ export default function PetalsSection() {
     {
       id: 2,
       text: 'While the petal of the S. Rubra is much smaller'
-    },
-    {
-      id: 3,
-      text: 'Explore the many varieties in Sarracenia flower petals'
-    },
+    }
   ]
   
-  const positions = ['3%', '30%', '55%']
+  const positions = ['3%', '30%']
   
   const handleButtonClick = (direction) => {
+    // Mark that user has interacted on first button click
+    if (!hasInteracted) {
+      setHasInteracted(true)
+    }
+    
     // Switch to button mode when a button is clicked
     morphStateRef.current.useButtonMode = true
     
@@ -309,8 +320,8 @@ export default function PetalsSection() {
         {/* New: Buttons and Dialogue Container - scrolls up then sticks */}
         <div className="PetalsButtonsContainer">
           <div className="PetalsDialogue">
-            <p>{currentMorphDisplayName}</p>
-            {currentMorphSubtitle && (
+            <p>{hasInteracted ? currentMorphDisplayName : 'Explore the many varieties in Sarracenia flower petals'}</p>
+            {hasInteracted && currentMorphSubtitle && (
               <p className="PetalsSubtitle">{currentMorphSubtitle}</p>
             )}
           </div>
@@ -327,16 +338,17 @@ export default function PetalsSection() {
               </svg>
             </button>
             
-            {/* Image container between the two buttons */}
-            {currentMorphImage && (
-              <div className="PetalsImageContainer">
-                <img 
+            {/* Image container between the two buttons - always rendered to prevent layout shift */}
+            <div className="PetalsImageContainer">
+              {hasInteracted && currentMorphImage && (
+                <animated.img 
                   src={currentMorphImage} 
                   alt={currentMorphName}
                   className="PetalsImage"
+                  style={imageSpring}
                 />
-              </div>
-            )}
+              )}
+            </div>
             
             <button 
               className="PetalsButton"
