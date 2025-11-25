@@ -10,7 +10,7 @@ import { useFadeOut } from '../hooks/useFadeOut'
 import './PetalsSection.css'
 
 // Preload the model
-useGLTF.preload('/petals_v001.glb')
+useGLTF.preload('/petals_v002.glb')
 
 // ============================================================================
 // MORPH TARGET CONFIGURATION
@@ -18,7 +18,7 @@ useGLTF.preload('/petals_v001.glb')
 // Change these to use different morph targets from your GLB model
 // Check the console for available morph target names when the component loads
 const FIRST_MORPH_TARGET_NAME = 'Flava'      // First morph target to animate
-const SECOND_MORPH_TARGET_NAME = 'RubraSspRubra' // Second morph target to animate
+const SECOND_MORPH_TARGET_NAME = 'RubraRubra' // Second morph target to animate
 
 // Animation timing constants (0.0 to 1.0 based on scroll progress)
 const FIRST_MORPH_START = 0.2   // When first morph starts increasing
@@ -52,7 +52,7 @@ function PetalsModel({ scale, scrollState, inViewport }) {
   const initializedRef = useRef(false) // Track if we've found the mesh
   const previousProgressRef = useRef(0) // Track previous scroll progress to detect direction
   
-  const { scene } = useGLTF('/petals_v001.glb')
+  const { scene } = useGLTF('/petals_v002.glb')
   
   const clonedScene = useMemo(() => scene?.clone() || null, [scene])
   const size = scale.xy.min() * 0.5
