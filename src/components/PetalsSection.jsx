@@ -319,11 +319,13 @@ export default function PetalsSection() {
         
         {/* New: Buttons and Dialogue Container - scrolls up then sticks */}
         <div className="PetalsButtonsContainer">
-          <div className="PetalsDialogue">
-            <p>{hasInteracted ? currentMorphDisplayName : 'Explore the many varieties in Sarracenia flower petals'}</p>
-            {hasInteracted && currentMorphSubtitle && (
-              <p className="PetalsSubtitle">{currentMorphSubtitle}</p>
-            )}
+          <div className="PetalsDialogueWrapper">
+            <div className="PetalsDialogue">
+              <p>{hasInteracted ? currentMorphDisplayName : 'Explore the many varieties in Sarracenia flower petals'}</p>
+              {hasInteracted && currentMorphSubtitle && (
+                <p className="PetalsSubtitle">{currentMorphSubtitle}</p>
+              )}
+            </div>
           </div>
           
           <div className="PetalsButtons">

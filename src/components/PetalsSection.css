@@ -54,25 +54,38 @@
   justify-content: space-between;
 }
 
+.PetalsDialogueWrapper {
+  width: 100%;
+  height: 30vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .PetalsDialogue {
+  max-width: 500px;
+  width: calc(100% - 10vw);
+  background: rgba(255, 255, 255, 0.95);
+  color: #333;
+  padding: 2rem 2.5rem;
+  border-radius: 6px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  font-size: 1.3rem;
+  line-height: 1.7;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  pointer-events: auto;
+  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-top: 12rem;
-  width: 100%;
 }
 
 .PetalsDialogue p {
-  max-width: 600px;
-  width: calc(100% - 10vw);
-  color: #333;
-  padding: 2rem 2.5rem;
-  border-radius: 6px;
-  font-size: 2rem;
-  line-height: 1.7;
   margin: 0;
-  text-align: center;
+  width: 100%;
+  font-size: inherit;
 }
 
 .PetalsDialogue p:first-child {
@@ -82,10 +95,9 @@
 
 .PetalsDialogue .PetalsSubtitle,
 .PetalsDialogue p.PetalsSubtitle {
-  font-size: 1.4rem !important;
+  font-size: 1rem !important;
   font-style: italic;
   color: #666;
-  margin-top: -0.8rem;
   margin-bottom: 0;
   padding: 0 !important;
   padding-top: 0 !important;
@@ -167,11 +179,15 @@
 
 /* Responsive styles for buttons */
 @media (max-width: 768px) {
-  .PetalsDialogue p {
+  .PetalsDialogue {
     max-width: 90%;
     width: calc(100% - 5vw);
     padding: 1.5rem 2rem;
-    font-size: 1.3rem;
+    font-size: 1rem;
+  }
+  
+  .PetalsDialogue p {
+    padding: 0;
   }
   
   .PetalsSubtitle {

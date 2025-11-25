@@ -53,27 +53,27 @@ export const MORPH_CONFIG = {
     },
     'RubraGulfensis': {
         displayName: 'Gulf Coast Pitcher Plant',
-        subtitle: 'Sarracenia rubra ssp. Gulfensis',
+        subtitle: 'Sarracenia rubra ssp. gulfensis',
         image: '/images/rubrarubra_alancressler.webp'
     },
     'RubraJonesii': {
         displayName: 'Mountain Sweet Pitcher Plant',
-        subtitle: 'Sarracenia Rubra ssp. Jonesii',
+        subtitle: 'Sarracenia rubra ssp. jonesii',
         image: '/images/rubrarubra_alancressler.webp'
     },
     'RubraJonesiiViridescens': {
         displayName: 'Mountain Sweet Pitcher Plant all green',
-        subtitle: 'Sarracenia Rubra ssp. Jonesii f. Viridescens',
+        subtitle: 'Sarracenia rubra ssp. jonesii f. viridescens',
         image: '/images/rubrarubra_alancressler.webp'
     },
     'RubraRubra': {
         displayName: 'Sweet Pitcher Plant',
-        subtitle: 'Sarracenia Rubra var. Rubra',
+        subtitle: 'Sarracenia rubra var. rubra',
         image: '/images/rubrarubra_alancressler.webp'
     },
     'RubraWherryi': {
         displayName: 'Wherry\'s pitcher plant',
-        subtitle: 'Sarracenia Rubra ssp. Wherryi',
+        subtitle: 'Sarracenia rubra ssp. wherryi',
         image: '/images/alata_alancressler.webp'
     },
     // Add more morph targets as needed - use exact names from your GLB model
