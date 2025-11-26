@@ -246,6 +246,7 @@ function SpinningModel({ scale, scrollState, inViewport }) {
                 fadeOutEnd={tag.fadeOutEnd}
                 color={tag.color}
                 lineWidth={1}
+                shortenBy={tag.shortenBy}
               />
             )}
           </React.Fragment>

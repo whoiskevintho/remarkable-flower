@@ -11,7 +11,8 @@ export const flowerTags = [
     showEnd: 0.25,
     fadeOutStart: 0.35,
     fadeOutEnd: 0.4,
-    flip: 'none'
+    flip: 'none',
+    shortenBy: 0.15 // Optional: shorten line by this percentage (default: 0.15)
   },
   {
     label: 'Bract',
@@ -88,7 +89,8 @@ export const flowerTags = [
     showEnd: 0.25,
     fadeOutStart: 0.35,
     fadeOutEnd: 0.4,
-    flip: 'none'
+    flip: 'none',
+    shortenBy: 0.25
   },
   {
     label: 'Anther',

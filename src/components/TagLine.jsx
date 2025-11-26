@@ -1,6 +1,7 @@
 import { useRef, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { Line } from '@react-three/drei'
+import * as THREE from 'three'
 
 function TagLine({ 
   startPoint,
@@ -11,15 +12,32 @@ function TagLine({
   fadeOutStart = 0.9,
   fadeOutEnd = 1,
   color = 'rgba(0, 0, 0, 0.5)',
-  lineWidth = 2
+  lineWidth = 2,
+  shortenBy = 0.1 // Shorten line by 8% of distance
 }) {
   const lineRef = useRef()
   const currentOpacityRef = useRef(0)
   
+  // Calculate shortened endpoint - move back from tag center towards model point
+  const adjustedEndPoint = useMemo(() => {
+    if (!startPoint || !endPoint) return [0, 0, 0]
+    
+    const start = new THREE.Vector3(...startPoint)
+    const end = new THREE.Vector3(...endPoint)
+    const direction = new THREE.Vector3().subVectors(end, start).normalize()
+    const distance = start.distanceTo(end)
+    
+    // Move endpoint back by shortenBy percentage of the distance
+    const shortenedDistance = distance * (1 - shortenBy)
+    const adjusted = start.clone().add(direction.multiplyScalar(shortenedDistance))
+    
+    return adjusted.toArray()
+  }, [startPoint, endPoint, shortenBy])
+  
   const points = useMemo(() => {
-    if (!startPoint || !endPoint) return [[0, 0, 0], [0, 0, 0]]
-    return [startPoint, endPoint]
-  }, [startPoint, endPoint])
+    if (!startPoint || !adjustedEndPoint) return [[0, 0, 0], [0, 0, 0]]
+    return [startPoint, adjustedEndPoint]
+  }, [startPoint, adjustedEndPoint])
   
   useFrame(() => {
     if (!lineRef.current || !scrollState) return
