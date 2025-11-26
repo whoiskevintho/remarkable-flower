@@ -19,27 +19,27 @@ export const MORPH_CONFIG = {
     'Leucophylla': {
         displayName: 'White Pitcher Plant',
         subtitle: 'Sarracenia leucophylla',
-        image: '/images/rubrarubra_alancressler.webp'
+        image: '/images/leucophylla_alancressler.webp'
     },
     'Minor': {
         displayName: 'Hooded Pitcher Plant',
         subtitle: 'Sarracenia minor',
-        image: '/images/purpureavenosa_alancressler.webp'
+        image: '/images/minor_alancressler.webp'
     },
     'Oreophila': {
         displayName: 'Green Pitcher Plant',
         subtitle: 'Sarracenia oreophila',
-        image: '/images/alata_alancressler.webp'
+        image: '/images/oreophila_alancressler.webp'
     },
     'Psittacina': {
         displayName: 'Parrot Pitcher Plant',
         subtitle: 'Sarracenia psittacina',
-        image: '/images/rubrarubra_alancressler.webp'
+        image: '/images/psittacina_scottward.webp'
     },
     'PurpureaPurpurea': {
         displayName: 'Northern Purple Pitcher Plant',
         subtitle: 'Sarracenia purpurea ssp. purpurea',
-        image: '/images/purpureavenosa_alancressler.webp'
+        image: '/images/purpureapurpurea_smithrw.webp'
     },
     'PurpureaVenosa': {
         displayName: 'Purple Pitcher Plant',
@@ -49,22 +49,22 @@ export const MORPH_CONFIG = {
     'RubraAlabamensis': {
         displayName: 'Alabama Canebrake Pitcher Plant',
         subtitle: 'Sarracenia rubra ssp. alabamensis',
-        image: '/images/alata_alancressler.webp'
+        image: '/images/rubraalabamensis_alancressler.webp'
     },
     'RubraGulfensis': {
         displayName: 'Gulf Coast Pitcher Plant',
         subtitle: 'Sarracenia rubra ssp. gulfensis',
-        image: '/images/rubrarubra_alancressler.webp'
+        image: '/images/rubragulfensis_billboothe.webp'
     },
     'RubraJonesii': {
         displayName: 'Mountain Sweet Pitcher Plant',
         subtitle: 'Sarracenia rubra ssp. jonesii',
-        image: '/images/rubrarubra_alancressler.webp'
+        image: '/images/rubrajonesii_alancressler.webp'
     },
     'RubraJonesiiViridescens': {
         displayName: 'Mountain Sweet Pitcher Plant all green',
         subtitle: 'Sarracenia rubra ssp. jonesii f. viridescens',
-        image: '/images/rubrarubra_alancressler.webp'
+        image: '/images/minor_alancressler.webp'
     },
     'RubraRubra': {
         displayName: 'Sweet Pitcher Plant',
@@ -74,7 +74,7 @@ export const MORPH_CONFIG = {
     'RubraWherryi': {
         displayName: 'Wherry\'s pitcher plant',
         subtitle: 'Sarracenia rubra ssp. wherryi',
-        image: '/images/alata_alancressler.webp'
+        image: '/images/rubrawherryi_alancressler.webp'
     },
     // Add more morph targets as needed - use exact names from your GLB model
 }
