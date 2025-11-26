@@ -7,6 +7,7 @@ import { UseCanvas } from '@14islands/r3f-scroll-rig'
 import { StickyScrollScene } from '@14islands/r3f-scroll-rig/powerups'
 import ScrollMarker from './ScrollMarker'
 import TagLabel from './TagLabel'
+import TagLine from './TagLine'
 import ScrollyTextContainer from './ScrollyTextContainer'
 import { flowerTags } from '../config/flowerTags'
 import { useFadeOut } from '../hooks/useFadeOut'
@@ -211,19 +212,43 @@ function SpinningModel({ scale, scrollState, inViewport }) {
           tag.position[2] * safeDistance
         ]
         
+        // Calculate model point position (in world space, accounting for model scale)
+        const modelPointPosition = tag.modelPoint 
+          ? [
+              tag.modelPoint[0] * size,
+              tag.modelPoint[1] * size,
+              tag.modelPoint[2] * size
+            ]
+          : null
+        
         return (
-          <ScrollMarker
-            key={tag.label}
-            position={scaledPosition}
-            scrollState={scrollState}
-            showStart={tag.showStart}
-            showEnd={tag.showEnd}
-            fadeOutStart={tag.fadeOutStart}
-            fadeOutEnd={tag.fadeOutEnd}
-            flip={tag.flip}
-          >
-            <TagLabel label={tag.label} color={tag.color} />
-          </ScrollMarker>
+          <React.Fragment key={tag.label}>
+            <ScrollMarker
+              position={scaledPosition}
+              scrollState={scrollState}
+              showStart={tag.showStart}
+              showEnd={tag.showEnd}
+              fadeOutStart={tag.fadeOutStart}
+              fadeOutEnd={tag.fadeOutEnd}
+              flip={tag.flip}
+            >
+              <TagLabel label={tag.label} color={tag.color} />
+            </ScrollMarker>
+            
+            {tag.modelPoint && modelPointPosition && (
+              <TagLine
+                startPoint={modelPointPosition}
+                endPoint={scaledPosition}
+                scrollState={scrollState}
+                showStart={tag.showStart}
+                showEnd={tag.showEnd}
+                fadeOutStart={tag.fadeOutStart}
+                fadeOutEnd={tag.fadeOutEnd}
+                color={tag.color}
+                lineWidth={1}
+              />
+            )}
+          </React.Fragment>
         )
       })}
     </>
