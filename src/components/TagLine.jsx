@@ -1,4 +1,4 @@
-import { useRef, useMemo } from 'react'
+import { useRef, useMemo, useEffect } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { Line } from '@react-three/drei'
 import * as THREE from 'three'
@@ -17,6 +17,17 @@ function TagLine({
 }) {
   const lineRef = useRef()
   const currentOpacityRef = useRef(0)
+  
+  // Configure material to always render on top (sprite-like behavior)
+  useEffect(() => {
+    if (lineRef.current) {
+      lineRef.current.renderOrder = 999
+      if (lineRef.current.material) {
+        lineRef.current.material.depthTest = false
+        lineRef.current.material.depthWrite = false
+      }
+    }
+  }, [])
   
   // Calculate shortened endpoint - move back from tag center towards model point
   const adjustedEndPoint = useMemo(() => {
@@ -73,6 +84,7 @@ function TagLine({
       transparent
       lineWidth={lineWidth}
       opacity={0}
+      renderOrder={999}
     />
   )
 }

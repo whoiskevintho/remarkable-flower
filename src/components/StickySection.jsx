@@ -13,11 +13,11 @@ import { flowerTags } from '../config/flowerTags'
 import { useFadeOut } from '../hooks/useFadeOut'
 
 // Preload the model
-useGLTF.preload('/flower_v003.glb')
+useGLTF.preload('/flower_v005.glb')
 
 function SpinningModel({ scale, scrollState, inViewport }) {
   const modelRef = useRef()
-  const { scene } = useGLTF('/flower_v003.glb')
+  const { scene } = useGLTF('/flower_v005.glb')
   const clonedScene = useMemo(() => {
     if (!scene) return null
     return scene.clone()
