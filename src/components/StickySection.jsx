@@ -31,6 +31,21 @@ function SpinningModel({ scale, scrollState, inViewport }) {
   // Reusable vectors for current position and lookAt calculation
   const currentPosition = useRef(new THREE.Vector3())
   const currentLookAt = useRef(new THREE.Vector3())
+  
+  // Store transformed model points (updated each frame to follow model rotation)
+  const [transformedModelPoints, setTransformedModelPoints] = useState(() => {
+    const initial = new Map()
+    flowerTags.forEach((tag) => {
+      if (tag.modelPoint) {
+        initial.set(tag.label, [
+          tag.modelPoint[0] * size,
+          tag.modelPoint[1] * size,
+          tag.modelPoint[2] * size
+        ])
+      }
+    })
+    return initial
+  })
 
   // Calculate model bounding box to determine its actual size
   const modelBounds = useMemo(() => {
@@ -127,6 +142,24 @@ function SpinningModel({ scale, scrollState, inViewport }) {
   useFrame((state, delta) => {
     if (modelRef.current) {
       modelRef.current.rotation.y = rotationStart + scrollState.progress * Math.PI * 2 * rotationSpeed
+      modelRef.current.updateMatrixWorld(true)
+      
+      // Update model points to follow model rotation
+      const newPoints = new Map()
+      flowerTags.forEach((tag) => {
+        if (tag.modelPoint) {
+          // Scale modelPoint by size (as originally calibrated), then apply rotation
+          const localPoint = new THREE.Vector3(
+            tag.modelPoint[0] * size,
+            tag.modelPoint[1] * size,
+            tag.modelPoint[2] * size
+          )
+          // Apply Y-axis rotation to match model
+          localPoint.applyAxisAngle(new THREE.Vector3(0, 1, 0), modelRef.current.rotation.y)
+          newPoints.set(tag.label, [localPoint.x, localPoint.y, localPoint.z])
+        }
+      })
+      setTransformedModelPoints(newPoints)
     }
     
     // Update morph target based on scroll progress
@@ -212,13 +245,9 @@ function SpinningModel({ scale, scrollState, inViewport }) {
           tag.position[2] * safeDistance
         ]
         
-        // Calculate model point position (in world space, accounting for model scale)
+        // Get transformed model point (updated in useFrame to follow model rotation)
         const modelPointPosition = tag.modelPoint 
-          ? [
-              tag.modelPoint[0] * size,
-              tag.modelPoint[1] * size,
-              tag.modelPoint[2] * size
-            ]
+          ? transformedModelPoints.get(tag.label) || null
           : null
         
         return (

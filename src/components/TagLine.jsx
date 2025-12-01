@@ -37,7 +37,7 @@ function TagLine({
   const points = useMemo(() => {
     if (!startPoint || !adjustedEndPoint) return [[0, 0, 0], [0, 0, 0]]
     return [startPoint, adjustedEndPoint]
-  }, [startPoint, adjustedEndPoint])
+  }, [startPoint, adjustedEndPoint, shortenBy])
   
   useFrame(() => {
     if (!lineRef.current || !scrollState) return

@@ -63,7 +63,7 @@ export const flowerTags = [
     label: 'Stigma',
     color: 'rgba(0, 0, 0, 1)',
     position: [-0.3, -0.15, -0.002], // Relative to safeDistance
-    modelPoint: [-0.9, -0.53, 1], // 3D point on the model
+    modelPoint: [0.289, -0.7, -0.9], // 3D point on the model
     showStart: 0.2,
     showEnd: 0.25,
     fadeOutStart: 0.35,
