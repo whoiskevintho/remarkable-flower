@@ -77,9 +77,13 @@ function SpinningModel({ scale, scrollState, inViewport }) {
     if (!scene) return null
     const cloned = scene.clone()
     
+    // Temporarily removed arrow mesh for performance testing
     const arrowMesh = cloned.getObjectByName('enter_arrow')
-    if (arrowMesh && arrowMesh.isMesh) {
-      arrowMesh.material = createArrowMaterial()
+    if (arrowMesh) {
+      arrowMesh.removeFromParent()
+      // if (arrowMesh && arrowMesh.isMesh) {
+      //   arrowMesh.material = createArrowMaterial()
+      // }
     }
     
     return cloned
