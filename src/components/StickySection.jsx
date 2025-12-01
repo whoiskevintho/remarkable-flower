@@ -57,13 +57,6 @@ function SpinningModel({ scale, scrollState, inViewport }) {
     const size = box.getSize(new THREE.Vector3())
     const maxDimension = Math.max(size.x, size.y, size.z)
     
-    // Log model dimensions (check browser console to see actual size)
-    console.log('Model bounding box (unscaled):', {
-      center: { x: center.x.toFixed(2), y: center.y.toFixed(2), z: center.z.toFixed(2) },
-      size: { x: size.x.toFixed(2), y: size.y.toFixed(2), z: size.z.toFixed(2) },
-      maxDimension: maxDimension.toFixed(2)
-    })
-    
     return { center, size, maxDimension }
   }, [clonedScene])
   
@@ -87,13 +80,6 @@ function SpinningModel({ scale, scrollState, inViewport }) {
         const aspectMultiplier = Math.pow(1 / aspectRatio, 0.7)
         distance *= aspectMultiplier
       }
-      
-      console.log('Camera distance calculation:', {
-        baseMaxDimension: baseMaxDim.toFixed(2),
-        modelScale: size.toFixed(2),
-        aspectRatio: aspectRatio.toFixed(2),
-        safeDistance: distance.toFixed(2)
-      })
     }
     
     return distance
@@ -139,24 +125,29 @@ function SpinningModel({ scale, scrollState, inViewport }) {
     }
   }, [clonedScene])
 
+  // Reusable vectors for model point transformation
+  const yAxis = useMemo(() => new THREE.Vector3(0, 1, 0), [])
+  const tempVector = useRef(new THREE.Vector3())
+  
   useFrame((state, delta) => {
     if (modelRef.current) {
-      modelRef.current.rotation.y = rotationStart + scrollState.progress * Math.PI * 2 * rotationSpeed
-      modelRef.current.updateMatrixWorld(true)
+      const rotationY = rotationStart + scrollState.progress * Math.PI * 2 * rotationSpeed
+      modelRef.current.rotation.y = rotationY
       
       // Update model points to follow model rotation
       const newPoints = new Map()
+      const vec = tempVector.current
       flowerTags.forEach((tag) => {
         if (tag.modelPoint) {
           // Scale modelPoint by size (as originally calibrated), then apply rotation
-          const localPoint = new THREE.Vector3(
+          vec.set(
             tag.modelPoint[0] * size,
             tag.modelPoint[1] * size,
             tag.modelPoint[2] * size
           )
           // Apply Y-axis rotation to match model
-          localPoint.applyAxisAngle(new THREE.Vector3(0, 1, 0), modelRef.current.rotation.y)
-          newPoints.set(tag.label, [localPoint.x, localPoint.y, localPoint.z])
+          vec.applyAxisAngle(yAxis, rotationY)
+          newPoints.set(tag.label, [vec.x, vec.y, vec.z])
         }
       })
       setTransformedModelPoints(newPoints)
@@ -220,6 +211,9 @@ function SpinningModel({ scale, scrollState, inViewport }) {
   // Fade out the model as scroll progresses
   useFadeOut(scrollState, { fadeStart: 0.95, fadeEnd: 1.0 }, modelRef)
 
+  // Calculate aspect ratio once for all tags
+  const aspectRatio = useMemo(() => Math.pow(scale.xy.x / scale.xy.y, 0.5), [scale])
+
   if (!clonedScene) return null
 
   return (
@@ -231,16 +225,10 @@ function SpinningModel({ scale, scrollState, inViewport }) {
       />
       
       {flowerTags.map((tag) => {
-        // Calculate aspect ratio for tag positioning
-        const aspectRatio = scale.xy.x / scale.xy.y
-        // Scale X positions inversely with aspect ratio to keep tags visible in narrow viewports
-        // Using square root for smooth scaling in both portrait and landscape
-        const xMultiplier = Math.pow(aspectRatio, 0.5)
-        
         // Scale relative position by safeDistance for dynamic positioning
         // X position is adjusted for aspect ratio to prevent clipping
         const scaledPosition = [
-          tag.position[0] * safeDistance * xMultiplier,
+          tag.position[0] * safeDistance * aspectRatio,
           tag.position[1] * safeDistance,
           tag.position[2] * safeDistance
         ]
@@ -312,8 +300,7 @@ export default function StickySection() {
   return (
     <section>
       <div className="StickyContainer">
-        <div ref={el} className="SomeStickyContent Debug">
-          <p>This element is position:sticky and will be tracked.</p>
+        <div ref={el} className="SomeStickyContent">
         </div>
         <ScrollyTextContainer textBoxes={textBoxes} positions={positions} />
       </div>
