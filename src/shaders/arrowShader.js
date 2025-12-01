@@ -13,10 +13,18 @@ const vertexShader = `
 // Fragment shader - green arrow moving up in UV space
 const fragmentShader = `
   uniform float uTime;
+  uniform float uScrollProgress;
+  uniform float uScale;
   varying vec2 vUv;
   
   void main() {
     vec2 uv = vUv;
+    
+    // Scale only U (horizontal) coordinate around center (0.5)
+    // uScale is calculated in JavaScript based on scroll progress
+    float centerX = 0.5;
+    uv.x = (uv.x - centerX) / uScale + centerX;
+    
     uv.y = fract(uv.y + uTime * 0.5);
     uv.y = 1.0 - uv.y;
     
@@ -52,7 +60,9 @@ export function createArrowMaterial() {
     vertexShader,
     fragmentShader,
     uniforms: {
-      uTime: { value: 0.0 }
+      uTime: { value: 0.0 },
+      uScrollProgress: { value: 0.0 },
+      uScale: { value: 1.0 }
     },
     transparent: true,
     depthWrite: false

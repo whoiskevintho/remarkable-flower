@@ -17,6 +17,18 @@ import { createArrowMaterial } from '../shaders/arrowShader'
 useGLTF.preload('/flower_v005.glb')
 
 // ============================================================================
+// ARROW SCALE CONFIGURATION
+// ============================================================================
+// Control when the arrow scales up and down based on scroll progress
+// Scale only affects U (horizontal) axis
+const ARROW_SCALE_CONFIG = {
+  fadeInStart: 0.5,    // Start fading in (scale from 0 to 1)
+  fadeInEnd: 0.6,      // Fully faded to 1
+  reverseStart: 0.7,    // Start reversing (scale from 1 to 0)
+  reverseEnd: 0.75      // Fully reversed to 0
+}
+
+// ============================================================================
 // MORPH TARGET CONFIGURATION
 // ============================================================================
 // Define morph targets with their scroll timing
@@ -35,25 +47,17 @@ const MORPH_TARGETS = [
     meshName: 'sepal',
     morphName: 'sepal_morph_001',
     start: 0.5,
-    end: 0.6,
-    reverseStart: 0.7,  // Start reversing at 60% scroll
-    reverseEnd: 0.8     // Fully reversed at 65% scroll
+    end: 0.55,
+    reverseStart: 0.75,  // Start reversing at 60% scroll
+    reverseEnd: 0.85     // Fully reversed at 65% scroll
   },
   {
     meshName: 'style',
     morphName: 'style_morph_002',
     start: 0.5,
-    end: 0.6,
-    reverseStart: 0.7,  // Start reversing at 60% scroll
-    reverseEnd: 0.8     // Fully reversed at 65% scroll
-  },
-  {
-    meshName: 'enter_arrow',
-    morphName: 'enterarrow_morph_001',
-    start: 0.5,
-    end: 0.6,
-    reverseStart: 0.7,  // Start reversing at 60% scroll
-    reverseEnd: 0.8     // Fully reversed at 65% scroll
+    end: 0.55,
+    reverseStart: 0.75,  // Start reversing at 60% scroll
+    reverseEnd: 0.85     // Fully reversed at 65% scroll
   }
   // Add more morph targets here as needed:
   // {
@@ -266,11 +270,47 @@ function SpinningModel({ scale, scrollState, inViewport }) {
     state.camera.position.copy(currentPosition.current)
     state.camera.lookAt(currentLookAt.current) // Look at interpolated target
     
-    // Update shader time uniform for animation
+    // Calculate arrow scale based on scroll progress (U-axis only)
+    let arrowScale = 0.001  // Start at 0
+    
+    const { fadeInStart, fadeInEnd, reverseStart, reverseEnd } = ARROW_SCALE_CONFIG
+    
+    if (progress >= reverseStart) {
+      // Reverse phase: fade out from 1 to 0
+      if (progress >= reverseEnd) {
+        arrowScale = 0.001  // Fully scaled down
+      } else {
+        const t = (progress - reverseStart) / (reverseEnd - reverseStart)
+        arrowScale = 1.0 - t  // Interpolate from 1 to 0
+        arrowScale = Math.max(arrowScale, 0.001)  // Clamp to avoid division by zero
+      }
+    } else if (progress >= fadeInStart) {
+      // Fade in phase: fade in from 0 to 1
+      if (progress >= fadeInEnd) {
+        arrowScale = 1.0  // Fully scaled up
+      } else {
+        const t = (progress - fadeInStart) / (fadeInEnd - fadeInStart)
+        arrowScale = t  // Interpolate from 0 to 1
+        arrowScale = Math.max(arrowScale, 0.001)  // Clamp to avoid division by zero
+      }
+    } else {
+      // Before fade in: scaled down
+      arrowScale = 0.001
+    }
+    
+    // Update shader uniforms for animation
     if (modelRef.current) {
       modelRef.current.traverse((child) => {
-        if (child.isMesh && child.material && child.material.uniforms && child.material.uniforms.uTime) {
-          child.material.uniforms.uTime.value = state.clock.elapsedTime
+        if (child.isMesh && child.material && child.material.uniforms) {
+          if (child.material.uniforms.uTime) {
+            child.material.uniforms.uTime.value = state.clock.elapsedTime
+          }
+          if (child.material.uniforms.uScrollProgress) {
+            child.material.uniforms.uScrollProgress.value = progress
+          }
+          if (child.material.uniforms.uScale) {
+            child.material.uniforms.uScale.value = arrowScale
+          }
         }
       })
     }
