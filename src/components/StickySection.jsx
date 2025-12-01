@@ -15,6 +15,48 @@ import { useFadeOut } from '../hooks/useFadeOut'
 // Preload the model
 useGLTF.preload('/flower_v005.glb')
 
+// ============================================================================
+// MORPH TARGET CONFIGURATION
+// ============================================================================
+// Define morph targets with their scroll timing
+// Each entry: { meshName, morphName, start, end, reverseStart?, reverseEnd? }
+// reverseStart/reverseEnd: when to reverse the morph (optional)
+const MORPH_TARGETS = [
+  {
+    meshName: 'style',
+    morphName: 'style_morph_001',
+    start: 0.2,
+    end: 0.25,
+    reverseStart: 0.4,  // Start reversing at 60% scroll
+    reverseEnd: 0.55     // Fully reversed at 65% scroll
+  },
+  {
+    meshName: 'sepal',
+    morphName: 'sepal_morph_001',
+    start: 0.5,
+    end: 0.6,
+    reverseStart: 0.7,  // Start reversing at 60% scroll
+    reverseEnd: 0.8     // Fully reversed at 65% scroll
+  },
+  {
+    meshName: 'style',
+    morphName: 'style_morph_002',
+    start: 0.5,
+    end: 0.6,
+    reverseStart: 0.7,  // Start reversing at 60% scroll
+    reverseEnd: 0.8     // Fully reversed at 65% scroll
+  }
+  // Add more morph targets here as needed:
+  // {
+  //   meshName: 'petals',
+  //   morphName: 'petal_morph_001',
+  //   start: 0.3,
+  //   end: 0.4
+  //   // No reverse - stays at 1 once reached
+  // }
+]
+// ============================================================================
+
 function SpinningModel({ scale, scrollState, inViewport }) {
   const modelRef = useRef()
   const { scene } = useGLTF('/flower_v005.glb')
@@ -91,9 +133,10 @@ function SpinningModel({ scale, scrollState, inViewport }) {
     return {
       start: new THREE.Vector3(0, safeDistance * 0.1, safeDistance),   // Start position
       betweenStartMiddle: new THREE.Vector3(-safeDistance * 0.4, safeDistance * 0.1, safeDistance * 1.2),   // Between start and middle
-      middle: new THREE.Vector3(-safeDistance * 0.8, safeDistance * 0.1, safeDistance * 1.2),   // Middle position
-      betweenMiddleEnd: new THREE.Vector3(-safeDistance * 0.4, safeDistance * 0.15, safeDistance * 0.75),   // Between middle and end
-      end: new THREE.Vector3(-safeDistance * 0.3, -safeDistance * 0.6, safeDistance * 0.75)        // End position
+      middle: new THREE.Vector3(-safeDistance * 0.5, safeDistance * 0.25, safeDistance * 0.4),   // Middle position
+      // betweenMiddleEnd: new THREE.Vector3(-safeDistance * 0.3, -safeDistance * 0.6, safeDistance * 0.75),   // Between middle and end
+      betweenMiddleEnd: new THREE.Vector3(-safeDistance * 0.4, safeDistance * 0.25, safeDistance * 0.4),   // Between middle and end
+      end: new THREE.Vector3(-safeDistance * 0.3, -safeDistance * 0.4, safeDistance * 0.75)        // End position
     }
   }, [safeDistance])
 
@@ -103,26 +146,23 @@ function SpinningModel({ scale, scrollState, inViewport }) {
     return {
       start: new THREE.Vector3(0, 0, 0),   // Look at model center
       betweenStartMiddle: new THREE.Vector3(0, 0, 0),   // Slightly above center
-      middle: new THREE.Vector3(0, 0, 0),   // Above center
+      middle: new THREE.Vector3(-safeDistance * 0.1, -safeDistance * 0.1, safeDistance * 0.1),   // Above center
       betweenMiddleEnd: new THREE.Vector3(0, -safeDistance * 0.2, 0),   // Slightly above center
-      end: new THREE.Vector3(-safeDistance * 0.4, -safeDistance * 0.3, 0)        // Slightly above center
+      end: new THREE.Vector3(-safeDistance * 0.4, -safeDistance * 0.2, 0)        // Slightly above center
     }
   }, [safeDistance])
 
-  // Find mesh and morph target index once
-  const { mesh, morphIndex } = useMemo(() => {
-    if (!clonedScene) return { mesh: null, morphIndex: null }
+  // Find meshes and morph target indices once
+  const morphTargets = useMemo(() => {
+    if (!clonedScene) return []
     
-    const foundMesh = clonedScene.getObjectByName('style')
-    if (!foundMesh || !foundMesh.morphTargetDictionary) {
-      return { mesh: null, morphIndex: null }
-    }
-    
-    const index = foundMesh.morphTargetDictionary['style_morph_001']
-    return { 
-      mesh: foundMesh, 
-      morphIndex: index !== undefined ? index : null 
-    }
+    return MORPH_TARGETS.map(config => {
+      const mesh = clonedScene.getObjectByName(config.meshName)
+      if (!mesh?.morphTargetDictionary) return null
+      
+      const index = mesh.morphTargetDictionary[config.morphName]
+      return index !== undefined ? { ...config, mesh, index } : null
+    }).filter(Boolean)
   }, [clonedScene])
 
   // Reusable vectors for model point transformation
@@ -153,25 +193,34 @@ function SpinningModel({ scale, scrollState, inViewport }) {
       setTransformedModelPoints(newPoints)
     }
     
-    // Update morph target based on scroll progress
-    if (mesh && morphIndex !== null) {
-      // Map scroll progress (0-1) to morph influence (0-1)
-      // Adjust these values to control when morph starts/ends
-      const morphStart = 0.2  // Start morphing at 30% scroll
-      const morphEnd = 0.25     // Complete morph at 70% scroll
+    // Update all morph targets based on scroll progress
+    morphTargets.forEach(({ mesh, index, start, end, reverseStart, reverseEnd }) => {
+      if (!mesh?.morphTargetInfluences) return
       
-      let morphInfluence = 0
-      if (scrollState.progress >= morphStart) {
-        if (scrollState.progress >= morphEnd) {
-          morphInfluence = 1
+      const progress = scrollState.progress
+      let influence = 0
+      
+      // Check if we're in reverse phase
+      if (reverseStart !== undefined && reverseEnd !== undefined && progress >= reverseStart) {
+        if (progress >= reverseEnd) {
+          influence = 0  // Fully reversed
         } else {
-          // Linear interpolation between start and end
-          morphInfluence = (scrollState.progress - morphStart) / (morphEnd - morphStart)
+          // Reverse interpolation: go from 1 to 0
+          const reverseT = (progress - reverseStart) / (reverseEnd - reverseStart)
+          influence = 1 - reverseT
+        }
+      } else if (progress >= start) {
+        // Forward phase
+        if (progress >= end) {
+          influence = 1
+        } else {
+          // Forward interpolation: go from 0 to 1
+          influence = (progress - start) / (end - start)
         }
       }
       
-      mesh.morphTargetInfluences[morphIndex] = morphInfluence
-    }
+      mesh.morphTargetInfluences[index] = influence
+    })
     
     // Interpolate camera between five positions based on scroll progress
     const progress = scrollState.progress // 0 to 1
@@ -295,7 +344,7 @@ export default function StickySection() {
     }
   ]
   
-  const positions = ['10%', '30%', '60%', '80%']
+  const positions = ['10%', '25%', '50%', '75%']
   
   return (
     <section>
