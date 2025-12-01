@@ -13,11 +13,11 @@ import { flowerTags } from '../config/flowerTags'
 import { useFadeOut } from '../hooks/useFadeOut'
 
 // Preload the model
-useGLTF.preload('/flower_v001.glb')
+useGLTF.preload('/flower_v003.glb')
 
 function SpinningModel({ scale, scrollState, inViewport }) {
   const modelRef = useRef()
-  const { scene } = useGLTF('/flower_v001.glb')
+  const { scene } = useGLTF('/flower_v003.glb')
   const clonedScene = useMemo(() => {
     if (!scene) return null
     return scene.clone()
@@ -112,12 +112,12 @@ function SpinningModel({ scale, scrollState, inViewport }) {
   const { mesh, morphIndex } = useMemo(() => {
     if (!clonedScene) return { mesh: null, morphIndex: null }
     
-    const foundMesh = clonedScene.getObjectByName('top_petal')
+    const foundMesh = clonedScene.getObjectByName('style')
     if (!foundMesh || !foundMesh.morphTargetDictionary) {
       return { mesh: null, morphIndex: null }
     }
     
-    const index = foundMesh.morphTargetDictionary['blend_001']
+    const index = foundMesh.morphTargetDictionary['style_morph_001']
     return { 
       mesh: foundMesh, 
       morphIndex: index !== undefined ? index : null 
@@ -133,8 +133,8 @@ function SpinningModel({ scale, scrollState, inViewport }) {
     if (mesh && morphIndex !== null) {
       // Map scroll progress (0-1) to morph influence (0-1)
       // Adjust these values to control when morph starts/ends
-      const morphStart = 0.75  // Start morphing at 30% scroll
-      const morphEnd = 0.8     // Complete morph at 70% scroll
+      const morphStart = 0.2  // Start morphing at 30% scroll
+      const morphEnd = 0.25     // Complete morph at 70% scroll
       
       let morphInfluence = 0
       if (scrollState.progress >= morphStart) {
