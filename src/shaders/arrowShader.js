@@ -10,11 +10,12 @@ const vertexShader = `
   }
 `
 
-// Fragment shader - green arrow moving up in UV space
+// Fragment shader - arrow moving up in UV space with customizable color
 const fragmentShader = `
   uniform float uTime;
   uniform float uScrollProgress;
   uniform float uScale;
+  uniform vec3 uColor;
   varying vec2 vUv;
   
   void main() {
@@ -50,19 +51,19 @@ const fragmentShader = `
       discard;
     }
     
-    vec3 green = vec3(0.0, 1.0, 0.0);
-    gl_FragColor = vec4(green * arrow, arrow);
+    gl_FragColor = vec4(uColor * arrow, arrow);
   }
 `
 
-export function createArrowMaterial() {
+export function createArrowMaterial(color = { r: 0.0, g: 1.0, b: 0.0 }) {
   return new THREE.ShaderMaterial({
     vertexShader,
     fragmentShader,
     uniforms: {
       uTime: { value: 0.0 },
       uScrollProgress: { value: 0.0 },
-      uScale: { value: 1.0 }
+      uScale: { value: 1.0 },
+      uColor: { value: new THREE.Vector3(color.r, color.g, color.b) }
     },
     transparent: true,
     depthWrite: false

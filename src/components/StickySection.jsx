@@ -19,13 +19,21 @@ useGLTF.preload('/flower_v005.glb')
 // ============================================================================
 // ARROW SCALE CONFIGURATION
 // ============================================================================
-// Control when the arrow scales up and down based on scroll progress
+// Control when each arrow scales up and down based on scroll progress
 // Scale only affects U (horizontal) axis
 const ARROW_SCALE_CONFIG = {
-  fadeInStart: 0.5,    // Start fading in (scale from 0 to 1)
-  fadeInEnd: 0.6,      // Fully faded to 1
-  reverseStart: 0.7,    // Start reversing (scale from 1 to 0)
-  reverseEnd: 0.75      // Fully reversed to 0
+  enter_arrow: {
+    fadeInStart: 0.5,    // Start fading in (scale from 0 to 1)
+    fadeInEnd: 0.6,      // Fully faded to 1
+    reverseStart: 0.7,    // Start reversing (scale from 1 to 0)
+    reverseEnd: 0.75      // Fully reversed to 0
+  },
+  exit_arrow: {
+    fadeInStart: 0.8,    // Start fading in (scale from 0 to 1)
+    fadeInEnd: 0.85,      // Fully faded to 1
+    reverseStart: 0.99,    // Start reversing (scale from 1 to 0)
+    reverseEnd: 1.0      // Fully reversed to 0
+  }
 }
 
 // ============================================================================
@@ -93,9 +101,16 @@ function SpinningModel({ scale, scrollState, inViewport }) {
     if (!scene) return null
     const cloned = scene.clone()
     
-    const arrowMesh = cloned.getObjectByName('enter_arrow')
-    if (arrowMesh && arrowMesh.isMesh) {
-      arrowMesh.material = createArrowMaterial()
+    // Apply shader to enter_arrow (green)
+    const enterArrowMesh = cloned.getObjectByName('enter_arrow')
+    if (enterArrowMesh && enterArrowMesh.isMesh) {
+      enterArrowMesh.material = createArrowMaterial({ r: 0.0, g: 1.0, b: 0.0 })
+    }
+    
+    // Apply shader to exit_arrow (red)
+    const exitArrowMesh = cloned.getObjectByName('exit_arrow')
+    if (exitArrowMesh && exitArrowMesh.isMesh) {
+      exitArrowMesh.material = createArrowMaterial({ r: 1.0, g: 0.0, b: 0.0 })
     }
     
     return cloned
@@ -286,46 +301,61 @@ function SpinningModel({ scale, scrollState, inViewport }) {
     state.camera.position.copy(currentPosition.current)
     state.camera.lookAt(currentLookAt.current) // Look at interpolated target
     
-    // Calculate arrow scale based on scroll progress (U-axis only)
-    let arrowScale = 0.001  // Start at 0
-    
-    const { fadeInStart, fadeInEnd, reverseStart, reverseEnd } = ARROW_SCALE_CONFIG
-    
-    if (progress >= reverseStart) {
-      // Reverse phase: fade out from 1 to 0
-      if (progress >= reverseEnd) {
-        arrowScale = 0.001  // Fully scaled down
+    // Calculate arrow scales based on scroll progress (U-axis only)
+    // Handle each arrow separately with its own config
+    const calculateArrowScale = (config) => {
+      let arrowScale = 0.001  // Start at 0
+      
+      const { fadeInStart, fadeInEnd, reverseStart, reverseEnd } = config
+      
+      if (progress >= reverseStart) {
+        // Reverse phase: fade out from 1 to 0
+        if (progress >= reverseEnd) {
+          arrowScale = 0.001  // Fully scaled down
+        } else {
+          const t = (progress - reverseStart) / (reverseEnd - reverseStart)
+          arrowScale = 1.0 - t  // Interpolate from 1 to 0
+          arrowScale = Math.max(arrowScale, 0.001)  // Clamp to avoid division by zero
+        }
+      } else if (progress >= fadeInStart) {
+        // Fade in phase: fade in from 0 to 1
+        if (progress >= fadeInEnd) {
+          arrowScale = 1.0  // Fully scaled up
+        } else {
+          const t = (progress - fadeInStart) / (fadeInEnd - fadeInStart)
+          arrowScale = t  // Interpolate from 0 to 1
+          arrowScale = Math.max(arrowScale, 0.001)  // Clamp to avoid division by zero
+        }
       } else {
-        const t = (progress - reverseStart) / (reverseEnd - reverseStart)
-        arrowScale = 1.0 - t  // Interpolate from 1 to 0
-        arrowScale = Math.max(arrowScale, 0.001)  // Clamp to avoid division by zero
+        // Before fade in: scaled down
+        arrowScale = 0.001
       }
-    } else if (progress >= fadeInStart) {
-      // Fade in phase: fade in from 0 to 1
-      if (progress >= fadeInEnd) {
-        arrowScale = 1.0  // Fully scaled up
-      } else {
-        const t = (progress - fadeInStart) / (fadeInEnd - fadeInStart)
-        arrowScale = t  // Interpolate from 0 to 1
-        arrowScale = Math.max(arrowScale, 0.001)  // Clamp to avoid division by zero
-      }
-    } else {
-      // Before fade in: scaled down
-      arrowScale = 0.001
+      
+      return arrowScale
     }
     
-    // Update shader uniforms for animation
+    const enterArrowScale = calculateArrowScale(ARROW_SCALE_CONFIG.enter_arrow)
+    const exitArrowScale = calculateArrowScale(ARROW_SCALE_CONFIG.exit_arrow)
+    
+    // Update shader uniforms for both arrows
     if (modelRef.current) {
       modelRef.current.traverse((child) => {
         if (child.isMesh && child.material && child.material.uniforms) {
+          // Update time and scroll progress for all shader materials
           if (child.material.uniforms.uTime) {
             child.material.uniforms.uTime.value = state.clock.elapsedTime
           }
           if (child.material.uniforms.uScrollProgress) {
             child.material.uniforms.uScrollProgress.value = progress
           }
+          
+          // Update scale based on which arrow this is
           if (child.material.uniforms.uScale) {
-            child.material.uniforms.uScale.value = arrowScale
+            if (child.name === 'enter_arrow') {
+              child.material.uniforms.uScale.value = enterArrowScale
+            } else if (child.name === 'exit_arrow') {
+              child.material.uniforms.uScale.value = exitArrowScale
+            }
           }
         }
       })
