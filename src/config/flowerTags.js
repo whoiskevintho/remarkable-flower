@@ -88,7 +88,7 @@ export const flowerTags = [
     label: 'Filament',
     color: 'rgba(0, 0, 0, 1)',
     position: [0.39, 0, -0.002], // Relative to safeDistance
-    modelPoint: [-0.14, 0.12, -0.18], // 3D point on the model
+    modelPoint: [-0.158, 0.15, -0.18], // 3D point on the model
     showStart: 0.2,
     showEnd: 0.25,
     fadeOutStart: 0.35,
@@ -100,7 +100,7 @@ export const flowerTags = [
     label: 'Anther',
     color: 'rgba(0, 0, 0, 1)',
     position: [0.39, -0.05, 0], // Relative to safeDistance
-    modelPoint: [-0.14, 0.0, -0.18], // 3D point on the model
+    modelPoint: [-0.18, 0.02, -0.18], // 3D point on the model
     showStart: 0.2,
     showEnd: 0.25,
     fadeOutStart: 0.35,
