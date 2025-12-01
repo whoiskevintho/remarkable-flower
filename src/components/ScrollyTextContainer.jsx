@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function ScrollyTextContainer({ textBoxes, positions = ['5%', '20%', '25%', '50%'] }) {
+export default function ScrollyTextContainer({ textBoxes, positions = ['10%', '25%', '50%', '80%'] }) {
   return (
     <>
       {textBoxes.map((box, index) => (

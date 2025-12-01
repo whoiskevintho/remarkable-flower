@@ -36,6 +36,14 @@ const ARROW_SCALE_CONFIG = {
 // reverseStart/reverseEnd: when to reverse the morph (optional)
 const MORPH_TARGETS = [
   {
+    meshName: 'petal_002',
+    morphName: 'petal_002_morph',
+    start: 0.2,
+    end: 0.25,
+    reverseStart: 0.4,  // Start reversing at 60% scroll
+    reverseEnd: 0.55     // Fully reversed at 65% scroll
+  },
+  {
     meshName: 'style',
     morphName: 'style_morph_001',
     start: 0.2,
@@ -58,6 +66,14 @@ const MORPH_TARGETS = [
     end: 0.55,
     reverseStart: 0.75,  // Start reversing at 60% scroll
     reverseEnd: 0.85     // Fully reversed at 65% scroll
+  },
+  {
+    meshName: 'petal_005',
+    morphName: 'petal_005_morph',
+    start: 0.8,
+    end: 0.9,
+    reverseStart: 1.0,  // Start reversing at 60% scroll
+    reverseEnd: 1.0    // Fully reversed at 65% scroll
   }
   // Add more morph targets here as needed:
   // {
@@ -409,7 +425,7 @@ export default function StickySection() {
     }
   ]
   
-  const positions = ['10%', '25%', '50%', '75%']
+  const positions = ['10%', '25%', '50%', '80%']
   
   return (
     <section>
