@@ -11,6 +11,7 @@ import TagLine from './TagLine'
 import ScrollyTextContainer from './ScrollyTextContainer'
 import { flowerTags } from '../config/flowerTags'
 import { useFadeOut } from '../hooks/useFadeOut'
+import { createArrowMaterial } from '../shaders/arrowShader'
 
 // Preload the model
 useGLTF.preload('/flower_v005.glb')
@@ -45,6 +46,14 @@ const MORPH_TARGETS = [
     end: 0.6,
     reverseStart: 0.7,  // Start reversing at 60% scroll
     reverseEnd: 0.8     // Fully reversed at 65% scroll
+  },
+  {
+    meshName: 'enter_arrow',
+    morphName: 'enterarrow_morph_001',
+    start: 0.5,
+    end: 0.6,
+    reverseStart: 0.7,  // Start reversing at 60% scroll
+    reverseEnd: 0.8     // Fully reversed at 65% scroll
   }
   // Add more morph targets here as needed:
   // {
@@ -62,7 +71,14 @@ function SpinningModel({ scale, scrollState, inViewport }) {
   const { scene } = useGLTF('/flower_v005.glb')
   const clonedScene = useMemo(() => {
     if (!scene) return null
-    return scene.clone()
+    const cloned = scene.clone()
+    
+    const arrowMesh = cloned.getObjectByName('enter_arrow')
+    if (arrowMesh && arrowMesh.isMesh) {
+      arrowMesh.material = createArrowMaterial()
+    }
+    
+    return cloned
   }, [scene])
   const size = scale.xy.min() * 0.5
   
@@ -249,6 +265,15 @@ function SpinningModel({ scale, scrollState, inViewport }) {
     
     state.camera.position.copy(currentPosition.current)
     state.camera.lookAt(currentLookAt.current) // Look at interpolated target
+    
+    // Update shader time uniform for animation
+    if (modelRef.current) {
+      modelRef.current.traverse((child) => {
+        if (child.isMesh && child.material && child.material.uniforms && child.material.uniforms.uTime) {
+          child.material.uniforms.uTime.value = state.clock.elapsedTime
+        }
+      })
+    }
   })
 
   const spring = useSpring({
