@@ -1,0 +1,77 @@
+.smell-chart-container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 4vw auto;
+  padding: 2rem 0;
+}
+
+.smell-chart-title {
+  font-size: 2.5vw;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  color: #f2f2f2;
+}
+
+.smell-legend {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #f2f2f2;
+}
+
+.legend-emoji {
+  font-size: 1.5rem;
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  border-radius: 2px;
+}
+
+.legend-label {
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .smell-chart-title {
+    font-size: 1.5rem;
+  }
+  
+  .smell-chart-container {
+    padding: 1rem 0;
+  }
+
+  .smell-legend {
+    gap: 1rem;
+  }
+
+  .legend-item {
+    gap: 0.3rem;
+  }
+
+  .legend-emoji {
+    font-size: 1.2rem;
+  }
+
+  .legend-color {
+    width: 16px;
+    height: 16px;
+  }
+
+  .legend-label {
+    font-size: 0.9rem;
+  }
+}
+

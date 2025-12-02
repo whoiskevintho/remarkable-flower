@@ -1,3 +1,5 @@
+import SmellStrengthChart from './SmellStrengthChart'
+
 export default function BodySection() {
   return (
     <>
@@ -10,11 +12,16 @@ export default function BodySection() {
       </section>
 
       <section className="intro-text">
+        <SmellStrengthChart />
+      </section>
+
+      <section className="intro-text">
         <p>
         One of the main characteristics is scent, most sarracenia have a sweet smell, but others smell like cat urine. 
         Schnell & McPherson documented this variation amongst species in their monograph.
         </p>
       </section>
+
     </>
   )
 }
