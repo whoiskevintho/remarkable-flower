@@ -10,10 +10,11 @@ import ScrollyTextContainer from './ScrollyTextContainer'
 import ImageModal from './ImageModal'
 import { useFadeOut } from '../hooks/useFadeOut'
 import { getMorphDisplayName, getMorphImage, getMorphSubtitle, getMorphCaption } from '../config/petalMorphs'
+import { applyMaterialsToScene } from '../shaders/petalMaterials'
 import './PetalsSection.css'
 
 // Preload the model
-useGLTF.preload('/petals_v002.glb')
+useGLTF.preload('/petals_v003.glb')
 
 // ============================================================================
 // MORPH TARGET CONFIGURATION
@@ -56,9 +57,20 @@ function PetalsModel({ scale, scrollState, inViewport }) {
   const initializedRef = useRef(false) // Track if we've found the mesh
   const previousProgressRef = useRef(0) // Track previous scroll progress to detect direction
   
-  const { scene } = useGLTF('/petals_v002.glb')
+  const { scene } = useGLTF('/petals_v003.glb')
   
-  const clonedScene = useMemo(() => scene?.clone() || null, [scene])
+  const clonedScene = useMemo(() => {
+    if (!scene) return null
+    const cloned = scene.clone()
+    
+    // Apply all materials from the material loader
+    // This will create materials for all meshes based on MATERIAL_CONFIG
+    applyMaterialsToScene(cloned, {
+      overrideExisting: true
+    })
+    
+    return cloned
+  }, [scene])
   const size = scale.xy.min() * 0.5
 
   // Calculate model bounding box for centering
