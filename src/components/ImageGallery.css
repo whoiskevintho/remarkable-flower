@@ -1,0 +1,54 @@
+.image-gallery {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.image-gallery-item {
+  flex: 1;
+  min-width: 0;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.image-gallery-item:hover {
+  transform: translateY(-4px);
+  opacity: 0.9;
+}
+
+.image-gallery-thumbnail {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 4px;
+  display: block;
+}
+
+/* Mobile: images stay side by side but scale down */
+@media (max-width: 768px) {
+  .image-gallery {
+    gap: 0.5rem;
+  }
+  
+  .image-gallery-item {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .image-gallery-thumbnail {
+    border-radius: 2px;
+  }
+}
+
+/* Very small screens: still side by side but with minimal gap */
+@media (max-width: 480px) {
+  .image-gallery {
+    gap: 0.25rem;
+  }
+}
+
