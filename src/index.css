@@ -100,14 +100,14 @@ section.intro-text {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  min-height: 70vh;
   margin: 0;
   padding: 2rem;
 }
 
 section.intro-text p {
-  max-width: 800px;
-  font-size: 2rem;
+  max-width: 1000px;
+  font-size: 1.5rem;
   line-height: 1.6;
   text-align: left;
 }

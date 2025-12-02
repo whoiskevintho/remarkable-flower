@@ -35,7 +35,7 @@ export default function IntroSection({ isTouch }) {
         <br />
         <br/>
         But a lesser-known, and perhaps underappreciated, reason to grow these plants is their flowers. 
-        They hang like alien lanterns on long, curved stems—like claw-machine arms suspending a prize above the forest floor, hovering over the gaping pitchers below. 
+        They hang like alien lanterns on long, curved stems, like claw-machine arms suspending a prize above over the pitchers below. 
         There is simply no other flower in the plant kingdom quite like it.
         </p>
       </section>
