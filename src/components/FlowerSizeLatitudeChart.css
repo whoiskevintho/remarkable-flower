@@ -1,0 +1,59 @@
+.flower-chart-container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 4vw auto;
+  padding: 2rem 0;
+}
+
+.flower-chart-title {
+  font-size: 2.5vw;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  color: #f2f2f2;
+}
+
+.flower-chart-subtitle {
+  font-size: 1.2vw;
+  font-weight: 300;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #d2d2d2;
+  font-style: italic;
+}
+
+.flower-tooltip {
+  background-color: rgba(0, 0, 0, 0.9);
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.tooltip-species {
+  color: #fff;
+  margin: 0 0 8px 0;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.tooltip-info {
+  color: #e0e0e0;
+  margin: 4px 0;
+  font-size: 13px;
+}
+
+@media (max-width: 768px) {
+  .flower-chart-title {
+    font-size: 1.5rem;
+  }
+  
+  .flower-chart-subtitle {
+    font-size: 0.9rem;
+  }
+  
+  .flower-chart-container {
+    padding: 1rem 0;
+  }
+}
+
