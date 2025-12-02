@@ -16,6 +16,7 @@ const fragmentShader = `
   uniform float uScrollProgress;
   uniform float uScale;
   uniform vec3 uColor;
+  uniform float uOpacity;
   varying vec2 vUv;
   
   void main() {
@@ -51,7 +52,7 @@ const fragmentShader = `
       discard;
     }
     
-    gl_FragColor = vec4(uColor * arrow, arrow);
+    gl_FragColor = vec4(uColor * arrow, arrow * uOpacity);
   }
 `
 
@@ -63,7 +64,8 @@ export function createArrowMaterial(color = { r: 0.0, g: 1.0, b: 0.0 }) {
       uTime: { value: 0.0 },
       uScrollProgress: { value: 0.0 },
       uScale: { value: 1.0 },
-      uColor: { value: new THREE.Vector3(color.r, color.g, color.b) }
+      uColor: { value: new THREE.Vector3(color.r, color.g, color.b) },
+      uOpacity: { value: 1.0 }
     },
     transparent: true,
     depthWrite: false
