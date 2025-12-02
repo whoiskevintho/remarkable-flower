@@ -11,10 +11,10 @@ import TagLine from './TagLine'
 import ScrollyTextContainer from './ScrollyTextContainer'
 import { flowerTags } from '../config/flowerTags'
 import { useFadeOut } from '../hooks/useFadeOut'
-import { createArrowMaterial } from '../shaders/arrowShader'
+import { applyMaterialsToScene } from '../shaders/flowerMaterials'
 
 // Preload the model
-useGLTF.preload('/flower_v005.glb')
+useGLTF.preload('/flower_v006.glb')
 
 // ============================================================================
 // ARROW SCALE CONFIGURATION
@@ -96,22 +96,16 @@ const MORPH_TARGETS = [
 
 function SpinningModel({ scale, scrollState, inViewport }) {
   const modelRef = useRef()
-  const { scene } = useGLTF('/flower_v005.glb')
+  const { scene } = useGLTF('/flower_v006.glb')
   const clonedScene = useMemo(() => {
     if (!scene) return null
     const cloned = scene.clone()
     
-    // Apply shader to enter_arrow (green)
-    const enterArrowMesh = cloned.getObjectByName('enter_arrow')
-    if (enterArrowMesh && enterArrowMesh.isMesh) {
-      enterArrowMesh.material = createArrowMaterial({ r: 0.0, g: 1.0, b: 0.0 })
-    }
-    
-    // Apply shader to exit_arrow (red)
-    const exitArrowMesh = cloned.getObjectByName('exit_arrow')
-    if (exitArrowMesh && exitArrowMesh.isMesh) {
-      exitArrowMesh.material = createArrowMaterial({ r: 1.0, g: 0.0, b: 0.0 })
-    }
+    // Apply all materials from the material loader
+    // This will create materials for all meshes based on MATERIAL_CONFIG
+    applyMaterialsToScene(cloned, {
+      overrideExisting: true
+    })
     
     return cloned
   }, [scene])
@@ -270,7 +264,16 @@ function SpinningModel({ scale, scrollState, inViewport }) {
         }
       }
       
+      // Update morph target influence on front mesh
       mesh.morphTargetInfluences[index] = influence
+      
+      // If this is a dual-sided mesh, also update the back mesh
+      if (mesh.userData?.dualSidedBackMesh) {
+        const backMesh = mesh.userData.dualSidedBackMesh
+        if (backMesh.morphTargetInfluences) {
+          backMesh.morphTargetInfluences[index] = influence
+        }
+      }
     })
     
     // Interpolate camera between five positions based on scroll progress
