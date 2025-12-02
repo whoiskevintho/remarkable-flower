@@ -7,8 +7,9 @@ import { useSpring as useSpringWeb, animated } from '@react-spring/web'
 import { UseCanvas } from '@14islands/r3f-scroll-rig'
 import { StickyScrollScene } from '@14islands/r3f-scroll-rig/powerups'
 import ScrollyTextContainer from './ScrollyTextContainer'
+import ImageModal from './ImageModal'
 import { useFadeOut } from '../hooks/useFadeOut'
-import { getMorphDisplayName, getMorphImage, getMorphSubtitle } from '../config/petalMorphs'
+import { getMorphDisplayName, getMorphImage, getMorphSubtitle, getMorphCaption } from '../config/petalMorphs'
 import './PetalsSection.css'
 
 // Preload the model
@@ -220,7 +221,9 @@ export default function PetalsSection() {
   const [currentMorphDisplayName, setCurrentMorphDisplayName] = useState('Explore the many varieties in Sarracenia flower petals')
   const [currentMorphSubtitle, setCurrentMorphSubtitle] = useState('')
   const [currentMorphImage, setCurrentMorphImage] = useState('')
+  const [currentMorphCaption, setCurrentMorphCaption] = useState(null)
   const [hasInteracted, setHasInteracted] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   
   // React Spring animation for image
   const imageSpring = useSpringWeb({
@@ -240,6 +243,7 @@ export default function PetalsSection() {
         setCurrentMorphDisplayName(getMorphDisplayName(name))
         setCurrentMorphSubtitle(getMorphSubtitle(name) || '')
         setCurrentMorphImage(getMorphImage(name) || '')
+        setCurrentMorphCaption(getMorphCaption(name))
       }
     }
     
@@ -301,6 +305,7 @@ export default function PetalsSection() {
       setCurrentMorphDisplayName(getMorphDisplayName(name))
       setCurrentMorphSubtitle(getMorphSubtitle(name) || '')
       setCurrentMorphImage(getMorphImage(name) || '')
+      setCurrentMorphCaption(getMorphCaption(name))
     }
     
     console.log(`Switching to morph target index: ${newIndex} (max: ${maxIndex})`)
@@ -347,7 +352,8 @@ export default function PetalsSection() {
                   src={currentMorphImage} 
                   alt={currentMorphName}
                   className="PetalsImage"
-                  style={imageSpring}
+                  style={{ ...imageSpring, cursor: 'pointer' }}
+                  onClick={() => setIsModalOpen(true)}
                 />
               )}
             </div>
@@ -375,6 +381,23 @@ export default function PetalsSection() {
           )}
         </StickyScrollScene>
       </UseCanvas>
+      <ImageModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        imageSrc={currentMorphImage}
+        caption={
+          currentMorphCaption ? (
+            <>
+              {currentMorphDisplayName} ({currentMorphSubtitle}) • Photo by{' '}
+              <a href={currentMorphCaption.link} target="_blank" rel="noopener noreferrer">
+                {currentMorphCaption.photographer}
+              </a>
+            </>
+          ) : (
+            currentMorphSubtitle || currentMorphDisplayName
+          )
+        }
+      />
     </section>
   )
 }

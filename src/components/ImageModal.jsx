@@ -41,7 +41,7 @@ export default function ImageModal({ isOpen, onClose, imageSrc, caption }) {
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
         </button>
-        <img src={imageSrc} alt={typeof caption === 'string' ? caption : 'Modal image'} className="image-modal-image" />
+        <img src={imageSrc} alt={typeof caption === 'string' || React.isValidElement(caption) ? String(caption) : 'Modal image'} className="image-modal-image" />
         {caption && (
           <div className="image-modal-caption">{caption}</div>
         )}
