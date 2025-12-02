@@ -152,11 +152,8 @@ export default function IntroSection({ isTouch }) {
           Among them, the North American pitcher plants (Sarracenia if you want to sound technical or maybe roman) are one of the most spectacular genera. As the name suggests,
           they’re native to North America, ranging from the Gulf Coast of Texas and Louisiana up the Atlantic seaboard and the Appalachian range, all the way to Maine, to Quebec,
           through Saskatchewan and over to Alberta.
-        </p>
-      </section >
-
-      <section className="intro-text">
-        <p>
+          <br />
+          <br />
           Their most remarkable feature is the carnivorous leaves, or pitchers. (Technically they’re “insectivorous,” but carnivorous sounds cooler.)
           The pitchers are what most growers fall in love with first. Across the ~8 species, Sarracenia produce an incredible diversity of forms: short,
           stout pitchers; tall, elegant ones; green and heavily veined; deep red; snowy white; hooded and hoodless. Despite their dramatic differences,
@@ -171,7 +168,7 @@ export default function IntroSection({ isTouch }) {
       <section className="intro-text">
         <p>
           But a lesser-known, and perhaps underappreciated, reason to grow these plants is their flowers.
-          They hang like alien lanterns on long, curved stems, like claw-machine arms suspending a prize above over the pitchers below.
+          They hang like alien lanterns on long, curved stems, like claw-machine arms suspending a prize over the pitchers below.
           There is simply no other flower in the plant kingdom quite like it.
         </p>
       </section >

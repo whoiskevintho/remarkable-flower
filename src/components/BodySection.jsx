@@ -3,13 +3,16 @@ export default function BodySection() {
     <>
       <section className="intro-text">
         <p>
-          Its floral structure is also used to delineate species and subspecies, since each has distinctive morphological traits.
+        The anatomy of the sarracenia flower is consistent throughout the genus - however there are difference in floral coloration, 
+        size, proportion, and scent. All these traits are useful when identifying a species, and can be helpful when trying to distinguish 
+        the parentage in a complex hybrid. 
         </p>
       </section>
 
       <section className="intro-text">
         <p>
-          Lets take a closer look at the petals.
+        One of the main characteristics is scent, most sarracenia have a sweet smell, but others smell like cat urine. 
+        Schnell & McPherson documented this variation amongst species in their monograph.
         </p>
       </section>
     </>
