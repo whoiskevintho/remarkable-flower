@@ -94,17 +94,69 @@ const MATERIAL_CONFIG = {
     type: 'arrow',
     color: { r: 1.0, g: 0.0, b: 0.0 }
   },
-  petal_material: {
-    meshes: ['petal_002', 'petal_005'],
+  anther_material: {
+    meshes: ['anthers'],
+    type: 'standard',
+    diffuseMap: '/textures/style_outside.jpg',
+    color: { r: 0.9, g: 0.9, b: 0.95 },
+    roughness: 0.9,
+    metalness: 0.0
+  },
+  ovary_material: {
+    meshes: ['ovary'],
+    type: 'standard',
+    diffuseMap: '/textures/style_outside.jpg',
+    color: { r: 0.9, g: 0.9, b: 0.95 },
+    roughness: 0.9,
+    metalness: 0.0
+  },
+  scape_material: {
+    meshes: ['scape'],
+    type: 'standard',
+    diffuseMap: '/textures/sepal_outside.jpg',
+    color: { r: 0.9, g: 0.9, b: 0.95 },
+    roughness: 0.9,
+    metalness: 0.0
+  },
+  petal_dual_material: {
+    meshes: ['petal_001','petal_002', 'petal_003', 'petal_004', 'petal_005'],
+    frontMaterial: 'petal_outside_material',
+    backMaterial: 'petal_inside_material'
+  },
+  petal_outside_material: {
+    meshes: [],
     type: 'standard',
     diffuseMap: '/textures/petal_outside.jpg',
     color: { r: 0.9, g: 0.9, b: 0.95 },
-    roughness: 0.6,
+    roughness: 0.9,
     metalness: 0.0
   },
-  style_material: {
-    meshes: ['style'],
+  petal_inside_material: {
+    meshes: [],
     type: 'standard',
+    diffuseMap: '/textures/petal_inside.jpg',
+    color: { r: 0.9, g: 0.9, b: 0.95 },
+    roughness: 0.9,
+    metalness: 0.0
+  },
+  style_dual_material: {
+    meshes: ['style'],
+    frontMaterial: 'style_outside_material',
+    backMaterial: 'style_inside_material'
+  },
+  style_inside_material: {
+    meshes: [],
+    type: 'standard',
+    diffuseMap: '/textures/style_inside.jpg',
+    color: { r: 0.8, g: 0.8, b: 0.85 },
+    roughness: 0.7,
+    metalness: 0.0,
+    side: THREE.DoubleSide
+  },
+  style_outside_material: {
+    meshes: [],
+    type: 'standard',
+    diffuseMap: '/textures/style_outside.jpg',
     color: { r: 0.8, g: 0.8, b: 0.85 },
     roughness: 0.7,
     metalness: 0.0
