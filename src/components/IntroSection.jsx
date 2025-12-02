@@ -80,6 +80,45 @@ export default function IntroSection({ isTouch }) {
     }
   ]
 
+  const sarraceniaVariation = [
+    {
+      src: '/images/leucophylla_white_alancressler.webp',
+      alt: 'White Pitcher Plant',
+      caption: (
+        <>
+          White Pitcher Plant (Sarracenia leucophylla) • Photo by{' '}
+          <a href="https://flic.kr/p/2hng622" target="_blank" rel="noopener noreferrer">
+            Alan Cressler
+          </a>
+        </>
+      )
+    },
+    {
+      src: '/images/purpurea_purple_mikewang.webp',
+      alt: 'Purple Pitcher Plant',
+      caption: (
+        <>
+          Purple Pitcher Plant (Sarracenia purpurea ssp. purpurea) • Photo by{' '}
+          <a href="https://flic.kr/p/2rB914a" target="_blank" rel="noopener noreferrer">
+            Mike Wang
+          </a>
+        </>
+      )
+    },
+    {
+      src: '/images/rubra_sheridan_mikewang.webp',
+      alt: 'Sweet Pitcher Plant',
+      caption: (
+        <>
+          Sweet Pitcher Plant (Sarracenia rubra) • Photo by{' '}
+          <a href="https://fsus.ncbg.unc.edu/main.php?pg=show-taxon.php&&plantname=sarracenia&limit=1&offset=5&taxonid=4610" target="_blank" rel="noopener noreferrer">
+            Mike Wang
+          </a>
+        </>
+      )
+    },
+  ]
+
   return (
     <>
       {isTouch && <TouchDeviceWarning />}
@@ -122,13 +161,20 @@ export default function IntroSection({ isTouch }) {
           The pitchers are what most growers fall in love with first. Across the ~8 species, Sarracenia produce an incredible diversity of forms: short,
           stout pitchers; tall, elegant ones; green and heavily veined; deep red; snowy white; hooded and hoodless. Despite their dramatic differences,
           the species are closely related genetically and readily hybridize, letting growers breed endless new variants and traits.
-          <br />
-          <br />
+        </p>
+      </section>
+
+      <section style={{ margin: '0vw 0', padding: '0 5vw' }}>
+        <ImageGallery images={sarraceniaVariation} />
+      </section>
+
+      <section className="intro-text">
+        <p>
           But a lesser-known, and perhaps underappreciated, reason to grow these plants is their flowers.
           They hang like alien lanterns on long, curved stems, like claw-machine arms suspending a prize above over the pitchers below.
           There is simply no other flower in the plant kingdom quite like it.
         </p>
-      </section>
+      </section >
     </>
   )
 }
