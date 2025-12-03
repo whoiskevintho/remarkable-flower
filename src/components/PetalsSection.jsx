@@ -10,7 +10,7 @@ import ScrollyTextContainer from './ScrollyTextContainer'
 import ImageModal from './ImageModal'
 import { useFadeOut } from '../hooks/useFadeOut'
 import { getMorphDisplayName, getMorphImage, getMorphSubtitle, getMorphCaption } from '../config/petalMorphs'
-import { applyMaterialsToScene, updateMaterialTextureForMorph, preloadMorphTextures, getAvailableUVAttributes } from '../shaders/petalMaterials'
+import { applyMaterialsToScene, updateMaterialTextureForMorph, preloadMorphTextures } from '../shaders/petalMaterials'
 import './PetalsSection.css'
 
 // Preload the model
@@ -57,6 +57,8 @@ function PetalsModel({ scale, scrollState, inViewport }) {
   const morphNamesRef = useRef([]) // Ref to store morph target names
   const initializedRef = useRef(false) // Track if we've found the mesh
   const previousProgressRef = useRef(0) // Track previous scroll progress to detect direction
+  const currentScrollTextureRef = useRef(null) // Track active scroll texture
+  const DEFAULT_TEXTURE_MORPH = 'PurpureaPurpurea' // Default/base texture morph target
   
   const { scene } = useGLTF('/petals_v004.glb')
   
@@ -114,11 +116,11 @@ function PetalsModel({ scale, scrollState, inViewport }) {
       
       if (foundMesh?.morphTargetDictionary) {
         meshRef.current = foundMesh
-        morphNamesRef.current = Object.keys(foundMesh.morphTargetDictionary)
-        console.log('Available morph targets:', morphNamesRef.current)
+        const morphNames = Object.keys(foundMesh.morphTargetDictionary)
+        morphNamesRef.current = morphNames
         
         // Store morph names in shared state for React component access
-        morphStateRef.current.morphNames = morphNamesRef.current
+        morphStateRef.current.morphNames = morphNames
         
         // Store mesh reference for texture updates
         morphStateRef.current.mesh = foundMesh
@@ -128,10 +130,10 @@ function PetalsModel({ scale, scrollState, inViewport }) {
         morphStateRef.current.secondMorphIndex = foundMesh.morphTargetDictionary[SECOND_MORPH_TARGET_NAME] ?? null
         
         if (morphStateRef.current.firstMorphIndex === null) {
-          console.warn(`Morph target "${FIRST_MORPH_TARGET_NAME}" not found. Available targets:`, morphNamesRef.current)
+          console.warn(`Morph target "${FIRST_MORPH_TARGET_NAME}" not found. Available targets:`, morphNames)
         }
         if (morphStateRef.current.secondMorphIndex === null) {
-          console.warn(`Morph target "${SECOND_MORPH_TARGET_NAME}" not found. Available targets:`, morphNamesRef.current)
+          console.warn(`Morph target "${SECOND_MORPH_TARGET_NAME}" not found. Available targets:`, morphNames)
         }
         
         // Store max index in shared state for button handlers
@@ -145,28 +147,6 @@ function PetalsModel({ scale, scrollState, inViewport }) {
         
         // Preload all morph textures
         preloadMorphTextures()
-        
-        // Log available UV attributes for debugging
-        if (foundMesh.geometry) {
-          const availableUVs = getAvailableUVAttributes(foundMesh.geometry)
-          console.log('Available UV channels:', availableUVs)
-          
-          // Log detailed info about each UV channel
-          availableUVs.forEach(uvName => {
-            const uvAttr = foundMesh.geometry.attributes[uvName]
-            if (uvAttr) {
-              console.log(`  ${uvName}:`, {
-                itemSize: uvAttr.itemSize,
-                count: uvAttr.count,
-                normalized: uvAttr.normalized,
-                array: uvAttr.array
-              })
-            }
-          })
-          
-          // Also log all attributes to see what's available
-          console.log('All geometry attributes:', Object.keys(foundMesh.geometry.attributes))
-        }
         
         initializedRef.current = true
       }
@@ -221,6 +201,26 @@ function PetalsModel({ scale, scrollState, inViewport }) {
         
         if (firstMorphIndex !== null) targets[firstMorphIndex] = firstMorphTarget
         if (secondMorphIndex !== null) targets[secondMorphIndex] = secondMorphTarget
+        
+        //TO-DO: Implimentation of this scroll logic is buggy - come back and fix it
+        // Update texture for scroll-based morphs - use morph target values to determine dominant texture
+        let targetTexture = null
+        if (secondMorphTarget > firstMorphTarget && secondMorphTarget > 0) {
+          // Second morph is dominant
+          targetTexture = SECOND_MORPH_TARGET_NAME
+        } else if (firstMorphTarget > 0) {
+          // First morph is active
+          targetTexture = FIRST_MORPH_TARGET_NAME
+        } else {
+          // Below first morph start - use default texture
+          targetTexture = DEFAULT_TEXTURE_MORPH
+        }
+        
+        // Update texture if it needs to change
+        if (targetTexture !== currentScrollTextureRef.current && meshRef.current) {
+          updateMaterialTextureForMorph(meshRef.current, targetTexture)
+          currentScrollTextureRef.current = targetTexture
+        }
       }
       
       // Unified lerping: all morphs lerp toward their targets
@@ -280,7 +280,6 @@ export default function PetalsSection() {
       if (morphNames.length > 0 && activeIndex >= 0 && activeIndex < morphNames.length) {
         const name = morphNames[activeIndex]
         setCurrentMorphName(name)
-        // Always update the morph data internally, but display is controlled by hasInteracted
         setCurrentMorphDisplayName(getMorphDisplayName(name))
         setCurrentMorphSubtitle(getMorphSubtitle(name) || '')
         setCurrentMorphImage(getMorphImage(name) || '')
@@ -291,10 +290,12 @@ export default function PetalsSection() {
     // Initial update
     updateCurrentMorph()
     
-    // Poll for changes (lightweight - only when in button mode)
+    // Poll for changes when morph names are available
     const interval = setInterval(() => {
-      updateCurrentMorph()
-    }, 100) // Check every 100ms
+      if (morphStateRef.current.morphNames.length > 0) {
+        updateCurrentMorph()
+      }
+    }, 100)
     
     return () => clearInterval(interval)
   }, [])
@@ -353,16 +354,12 @@ export default function PetalsSection() {
         updateMaterialTextureForMorph(mesh, name)
       }
     }
-    
-    console.log(`Switching to morph target index: ${newIndex} (max: ${maxIndex})`)
   }
   
   return (
     <section className="petals-section">
       <div className="PetalsStickyContainer">
-        <div ref={el} className="PetalsStickyContent Debug">
-          <p>Petals section - sticky tracked element.</p>
-        </div>
+        <div ref={el} className="PetalsStickyContent" />
         <ScrollyTextContainer textBoxes={textBoxes} positions={positions} />
         
         {/* Spacer to control when buttons appear - adjust height to control scroll position */}
