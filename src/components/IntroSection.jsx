@@ -167,11 +167,24 @@ export default function IntroSection({ isTouch }) {
 
       <section className="intro-text">
         <p>
-          But a lesser-known, and perhaps underappreciated, reason to grow these plants is their flowers.
-          They hang like alien lanterns on long, curved stems, like claw-machine arms suspending a prize over the pitchers below.
-          There is simply no other flower in the plant kingdom quite like it.
+        But a lesser appreciated reason to grow these plants is their flowers. 
+        They look like alien lanterns hanging down from long curved lamp posts. 
+        Like claw machines arms dangling a prize over the gaping maws of the pitchers below them.
+        <br />
+        <br />
+        So let’s reuse a metaphor and fall deeper into the pitfall trap, to learn what makes these flowers remarkable. 
+        Is it worth growing for the blooms alone? Can flowers hold their own against the more famous carnivorous leaves? 
+        And are some species more desirable than others? 
+        After spending a full day at the Mertz botanical library with Schnell & McPherson's monograph, <i>Sarraceniaea in North America</i> - 
+        I think we can come up with some concrete answers to these completely subjective questions.
         </p>
       </section >
+
+      <section className="intro-text">
+        <p>
+        First things first - let’s look at the flower itself and how it’s designed.
+        </p>
+      </section>
     </>
   )
 }
