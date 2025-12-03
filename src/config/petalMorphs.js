@@ -70,12 +70,12 @@ export const MORPH_CONFIG = {
         }
     },
     'PurpureaVenosa': {
-        displayName: 'Purple Pitcher Plant',
-        subtitle: 'Sarracenia purpurea ssp. venosa',
-        image: '/images/purpureavenosa_alancressler.webp',
+        displayName: 'Burk\'s Southern Pitcher Plant',
+        subtitle: 'Sarracenia rosea',
+        image: '/images/rosea_alancressler.webp',
         caption: {
             photographer: 'Alan Cressler',
-            link: 'https://fsus.ncbg.unc.edu/main.php?pg=show-taxon.php&&plantname=sarracenia&limit=1&offset=14&taxonid=4619'
+            link: 'https://flic.kr/p/rrV7QA'
         }
     },
     // Add more morph targets as needed - use exact names from your GLB model
