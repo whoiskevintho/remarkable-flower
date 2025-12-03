@@ -1,0 +1,74 @@
+.parallel-chart-container {
+  width: 100%;
+  max-width: 1400px;
+  padding: 2rem 1rem;
+}
+
+.parallel-chart-title {
+  font-size: 2.5vw;
+  font-weight: 400;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #f2f2f2;
+}
+
+.chart-wrapper {
+  background-color: #1c1c1cc0;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.no-data-message {
+  text-align: center;
+  color: #d2d2d2;
+  font-size: 1.2rem;
+  padding: 2rem;
+}
+
+.legend-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding-bottom: 1.5rem;
+  /* background-color: rgba(255, 255, 255, 0.05); */
+  border-radius: 8px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #f2f2f2;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  user-select: none;
+}
+
+.legend-item:hover {
+  opacity: 0.8;
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.legend-label {
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .parallel-chart-title {
+    font-size: 1.5rem;
+  }
+  
+  .parallel-chart-container {
+    padding: 1rem 0.5rem;
+  }
+}
