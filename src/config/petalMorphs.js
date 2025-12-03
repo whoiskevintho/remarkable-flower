@@ -6,6 +6,15 @@
  * Add your custom display name and image path for each variety
  */
 export const MORPH_CONFIG = {
+    'PurpureaPurpurea': {
+        displayName: 'Northern Purple Pitcher Plant',
+        subtitle: 'Sarracenia purpurea ssp. purpurea',
+        image: '/images/purpureapurpurea_smithrw.webp',
+        caption: {
+            photographer: 'Smith, R. W.',
+            link: 'https://www.wildflower.org/gallery/result.php?id_image=30780'
+        }
+    },
     'Alata': {
         displayName: 'Pale Pitcher Plant',
         subtitle: 'Sarracenia alata',
@@ -33,6 +42,15 @@ export const MORPH_CONFIG = {
             link: 'https://flic.kr/p/bvgLe7'
         }
     },
+    'RubraRubra': {
+        displayName: 'Sweet Pitcher Plant',
+        subtitle: 'Sarracenia rubra var. rubra',
+        image: '/images/rubrarubra_alancressler.webp',
+        caption: {
+            photographer: 'Alan Cressler',
+            link: 'https://flic.kr/p/nuSezp'
+        }
+    },
     'Minor': {
         displayName: 'Hooded Pitcher Plant',
         subtitle: 'Sarracenia minor',
@@ -40,15 +58,6 @@ export const MORPH_CONFIG = {
         caption: {
             photographer: 'Scott Ward',
             link: 'https://fsus.ncbg.unc.edu/main.php?pg=show-taxon.php&&plantname=sarracenia&limit=1&offset=8&taxonid=4613'
-        }
-    },
-    'Oreophila': {
-        displayName: 'Green Pitcher Plant',
-        subtitle: 'Sarracenia oreophila',
-        image: '/images/oreophila_alancressler.webp',
-        caption: {
-            photographer: 'Alan Cressler',
-            link: 'https://fsus.ncbg.unc.edu/main.php?pg=show-taxon.php&&plantname=sarracenia&limit=1&offset=10&taxonid=4615'
         }
     },
     'Psittacina': {
@@ -60,15 +69,6 @@ export const MORPH_CONFIG = {
             link: 'https://fsus.ncbg.unc.edu/main.php?pg=show-taxon.php&&plantname=sarracenia&limit=1&offset=11&taxonid=4616'
         }
     },
-    'PurpureaPurpurea': {
-        displayName: 'Northern Purple Pitcher Plant',
-        subtitle: 'Sarracenia purpurea ssp. purpurea',
-        image: '/images/purpureapurpurea_smithrw.webp',
-        caption: {
-            photographer: 'Smith, R. W.',
-            link: 'https://www.wildflower.org/gallery/result.php?id_image=30780'
-        }
-    },
     'PurpureaVenosa': {
         displayName: 'Purple Pitcher Plant',
         subtitle: 'Sarracenia purpurea ssp. venosa',
@@ -76,60 +76,6 @@ export const MORPH_CONFIG = {
         caption: {
             photographer: 'Alan Cressler',
             link: 'https://fsus.ncbg.unc.edu/main.php?pg=show-taxon.php&&plantname=sarracenia&limit=1&offset=14&taxonid=4619'
-        }
-    },
-    'RubraAlabamensis': {
-        displayName: 'Alabama Canebrake Pitcher Plant',
-        subtitle: 'Sarracenia rubra ssp. alabamensis',
-        image: '/images/rubraalabamensis_alancressler.webp',
-        caption: {
-            photographer: 'Alan Cressler',
-            link: 'https://flic.kr/p/bxxEzj'
-        }
-    },
-    'RubraGulfensis': {
-        displayName: 'Gulf Coast Pitcher Plant',
-        subtitle: 'Sarracenia rubra ssp. gulfensis',
-        image: '/images/rubragulfensis_billboothe.webp',
-        caption: {
-            photographer: 'Bill Boothe',
-            link: 'https://natureinfocus.com/plants/gulf-coast-redflower-pitcherplant/'
-        }
-    },
-    'RubraJonesii': {
-        displayName: 'Mountain Sweet Pitcher Plant',
-        subtitle: 'Sarracenia rubra ssp. jonesii',
-        image: '/images/rubrajonesii_alancressler.webp',
-        caption: {
-            photographer: 'Alan Cressler',
-            link: 'https://flic.kr/p/bATy1f'
-        }
-    },
-    'RubraJonesiiViridescens': {
-        displayName: 'Mountain Sweet Pitcher Plant all green',
-        subtitle: 'Sarracenia rubra ssp. jonesii f. viridescens',
-        image: '/images/minor_alancressler.webp',
-        caption: {
-            photographer: 'Alan Cressler',
-            link: 'https://flic.kr/p/bATy1f'
-        }
-    },
-    'RubraRubra': {
-        displayName: 'Sweet Pitcher Plant',
-        subtitle: 'Sarracenia rubra var. rubra',
-        image: '/images/rubrarubra_alancressler.webp',
-        caption: {
-            photographer: 'Alan Cressler',
-            link: 'https://flic.kr/p/nuSezp'
-        }
-    },
-    'RubraWherryi': {
-        displayName: 'Wherry\'s pitcher plant',
-        subtitle: 'Sarracenia rubra ssp. wherryi',
-        image: '/images/rubrawherryi_alancressler.webp',
-        caption: {
-            photographer: 'Alan Cressler',
-            link: 'https://fsus.ncbg.unc.edu/main.php?pg=show-taxon-detail.php&taxonid=4608'
         }
     },
     // Add more morph targets as needed - use exact names from your GLB model

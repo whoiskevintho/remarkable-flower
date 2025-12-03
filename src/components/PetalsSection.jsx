@@ -1,7 +1,7 @@
 import React, { useRef, useMemo, useState, useEffect } from 'react'
 import * as THREE from 'three'
 import { useFrame } from '@react-three/fiber'
-import { useGLTF, Environment } from '@react-three/drei'
+import { useGLTF } from '@react-three/drei'
 import { a, config, useSpring } from '@react-spring/three'
 import { useSpring as useSpringWeb, animated } from '@react-spring/web'
 import { UseCanvas } from '@14islands/r3f-scroll-rig'
@@ -10,11 +10,11 @@ import ScrollyTextContainer from './ScrollyTextContainer'
 import ImageModal from './ImageModal'
 import { useFadeOut } from '../hooks/useFadeOut'
 import { getMorphDisplayName, getMorphImage, getMorphSubtitle, getMorphCaption } from '../config/petalMorphs'
-import { applyMaterialsToScene } from '../shaders/petalMaterials'
+import { applyMaterialsToScene, updateMaterialTextureForMorph, preloadMorphTextures, getAvailableUVAttributes } from '../shaders/petalMaterials'
 import './PetalsSection.css'
 
 // Preload the model
-useGLTF.preload('/petals_v003.glb')
+useGLTF.preload('/petals_v004.glb')
 
 // ============================================================================
 // MORPH TARGET CONFIGURATION
@@ -41,7 +41,8 @@ const morphStateRef = {
     useButtonMode: false,  // false = scroll mode, true = button mode
     firstMorphIndex: null, // Index of FIRST_MORPH_TARGET_NAME
     secondMorphIndex: null, // Index of SECOND_MORPH_TARGET_NAME
-    morphNames: []         // Array of morph target names (for React component access)
+    morphNames: [],       // Array of morph target names (for React component access)
+    mesh: null            // Reference to the mesh for texture updates
   } 
 }
 const LERP_SPEED = 0.08 // Controls smoothness of morph transitions
@@ -57,7 +58,7 @@ function PetalsModel({ scale, scrollState, inViewport }) {
   const initializedRef = useRef(false) // Track if we've found the mesh
   const previousProgressRef = useRef(0) // Track previous scroll progress to detect direction
   
-  const { scene } = useGLTF('/petals_v003.glb')
+  const { scene } = useGLTF('/petals_v004.glb')
   
   const clonedScene = useMemo(() => {
     if (!scene) return null
@@ -119,6 +120,9 @@ function PetalsModel({ scale, scrollState, inViewport }) {
         // Store morph names in shared state for React component access
         morphStateRef.current.morphNames = morphNamesRef.current
         
+        // Store mesh reference for texture updates
+        morphStateRef.current.mesh = foundMesh
+        
         // Store indices for scroll-based morph targets
         morphStateRef.current.firstMorphIndex = foundMesh.morphTargetDictionary[FIRST_MORPH_TARGET_NAME] ?? null
         morphStateRef.current.secondMorphIndex = foundMesh.morphTargetDictionary[SECOND_MORPH_TARGET_NAME] ?? null
@@ -137,6 +141,31 @@ function PetalsModel({ scale, scrollState, inViewport }) {
           for (let i = 0; i < foundMesh.morphTargetInfluences.length; i++) {
             foundMesh.morphTargetInfluences[i] = 0
           }
+        }
+        
+        // Preload all morph textures
+        preloadMorphTextures()
+        
+        // Log available UV attributes for debugging
+        if (foundMesh.geometry) {
+          const availableUVs = getAvailableUVAttributes(foundMesh.geometry)
+          console.log('Available UV channels:', availableUVs)
+          
+          // Log detailed info about each UV channel
+          availableUVs.forEach(uvName => {
+            const uvAttr = foundMesh.geometry.attributes[uvName]
+            if (uvAttr) {
+              console.log(`  ${uvName}:`, {
+                itemSize: uvAttr.itemSize,
+                count: uvAttr.count,
+                normalized: uvAttr.normalized,
+                array: uvAttr.array
+              })
+            }
+          })
+          
+          // Also log all attributes to see what's available
+          console.log('All geometry attributes:', Object.keys(foundMesh.geometry.attributes))
         }
         
         initializedRef.current = true
@@ -310,7 +339,7 @@ export default function PetalsSection() {
     morphStateRef.current.activeIndex = newIndex
     
     // Update React state immediately
-    const { morphNames } = morphStateRef.current
+    const { morphNames, mesh } = morphStateRef.current
     if (morphNames.length > 0 && newIndex >= 0 && newIndex < morphNames.length) {
       const name = morphNames[newIndex]
       setCurrentMorphName(name)
@@ -318,6 +347,11 @@ export default function PetalsSection() {
       setCurrentMorphSubtitle(getMorphSubtitle(name) || '')
       setCurrentMorphImage(getMorphImage(name) || '')
       setCurrentMorphCaption(getMorphCaption(name))
+      
+      // Update material texture for the new morph
+      if (mesh) {
+        updateMaterialTextureForMorph(mesh, name)
+      }
     }
     
     console.log(`Switching to morph target index: ${newIndex} (max: ${maxIndex})`)
@@ -386,10 +420,7 @@ export default function PetalsSection() {
       <UseCanvas>
         <StickyScrollScene track={el}>
           {(props) => (
-            <>
-              <Environment preset="apartment" />
-              <PetalsModel {...props} />
-            </>
+            <PetalsModel {...props} />
           )}
         </StickyScrollScene>
       </UseCanvas>

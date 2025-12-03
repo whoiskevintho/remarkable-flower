@@ -9,9 +9,11 @@
   box-sizing: border-box;
 }
 
+/* greeen - #57C785 yellow - #F3D34D blue - 5793c7*/
+
 html {
-  background-color: #F3D34D;
-  background-image: linear-gradient(0deg, #F3D34D 0%, #57C785 100%);
+  background-color: #30ac64;
+  background-image: linear-gradient(0deg, #30ac64 0%, #57C785 100%);
   color: #f2f2f2;
   font-family: 'Aften Screen', system, -apple-system, \.SFNSText-Regular, San Francisco, Roboto, Segoe UI, Helvetica Neue, Lucida Grande,
     sans-serif;
