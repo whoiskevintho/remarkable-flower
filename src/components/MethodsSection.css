@@ -1,0 +1,43 @@
+/* Methods Section */
+.methods-section {
+  background-color: #0d5c33;
+  margin: 0;
+  padding: 4vw 5vw;
+  width: 100%;
+  margin-top: 10vh;
+}
+
+.methods-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 4rem;
+}
+
+.methods-section h2 {
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 0 0 1rem 0;
+  text-align: left;
+}
+
+.methods-section p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  .methods-section {
+    padding: 3vw 5vw;
+  }
+
+  .methods-section h2 {
+    font-size: 1.3rem;
+  }
+
+  .methods-section p {
+    font-size: 0.85rem;
+  }
+}
+
