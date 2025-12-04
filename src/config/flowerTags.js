@@ -4,7 +4,7 @@
 export const flowerTags = [
   {
     label: 'Scape',
-    color: 'rgba(0, 0, 0, 1)',
+    color: 'rgba(255, 255, 255, 1)',
     position: [0.2, 0.25, 0], // Relative to safeDistance
     modelPoint: [-0.05, 0.46, -0.08], // 3D point on the model (in model's local space, will be scaled by size)
     showStart: 0.2,
@@ -16,7 +16,7 @@ export const flowerTags = [
   },
   {
     label: 'Bract',
-    color: 'rgba(0, 0, 0, 1)',
+    color: 'rgba(255, 255, 255, 1)',
     position: [-0.13, 0.2, 0], // Relative to safeDistance
     modelPoint: [0.08, 0.3, -0.05], // 3D point on the model
     showStart: 0.2,
@@ -28,7 +28,7 @@ export const flowerTags = [
   },
   {
     label: 'Sepal',
-    color: 'rgba(0, 0, 0, 1)',
+    color: 'rgba(255, 255, 255, 1)',
     position: [-0.3, 0.15, -0.002], // Relative to safeDistance
     modelPoint: [0.24, 0.1, -0.78], // 3D point on the model
     showStart: 0.2,
@@ -39,7 +39,7 @@ export const flowerTags = [
   },
   {
     label: 'Ovary',
-    color: 'rgba(0, 0, 0, 1)',
+    color: 'rgba(255, 255, 255, 1)',
     position: [-0.32, 0.02, -0.002], // Relative to safeDistance
     modelPoint: [-0.05, 0.16, -0.18], // 3D point on the model
     showStart: 0.2,
@@ -50,7 +50,7 @@ export const flowerTags = [
   },
   {
     label: 'Style',
-    color: 'rgba(0, 0, 0, 1)',
+    color: 'rgba(255, 255, 255, 1)',
     position: [-0.32, -0.03, -0.002], // Relative to safeDistance
     modelPoint: [0.32, -0.36, -0.71], // 3D point on the model
     showStart: 0.2,
@@ -62,7 +62,7 @@ export const flowerTags = [
   },
   {
     label: 'Stigma',
-    color: 'rgba(0, 0, 0, 1)',
+    color: 'rgba(255, 255, 255, 1)',
     position: [-0.32, -0.08, -0.002], // Relative to safeDistance
     modelPoint: [0.289, -0.47, -0.9], // 3D point on the model
     showStart: 0.2,
@@ -74,7 +74,7 @@ export const flowerTags = [
   },
   {
     label: 'Petal',
-    color: 'rgba(0, 0, 0, 1)',
+    color: 'rgba(255, 255, 255, 1)',
     position: [0.38, -0.28, 0], // Relative to safeDistance
     modelPoint: [-0.81, -0.76, -0.23], // 3D point on the model
     showStart: 0.2,
@@ -86,7 +86,7 @@ export const flowerTags = [
   },
   {
     label: 'Filament',
-    color: 'rgba(0, 0, 0, 1)',
+    color: 'rgba(255, 255, 255, 1)',
     position: [0.39, 0, -0.002], // Relative to safeDistance
     modelPoint: [-0.158, 0.15, -0.18], // 3D point on the model
     showStart: 0.2,
@@ -98,7 +98,7 @@ export const flowerTags = [
   },
   {
     label: 'Anther',
-    color: 'rgba(0, 0, 0, 1)',
+    color: 'rgba(255, 255, 255, 1)',
     position: [0.39, -0.05, 0], // Relative to safeDistance
     modelPoint: [-0.18, 0.02, -0.18], // 3D point on the model
     showStart: 0.2,
