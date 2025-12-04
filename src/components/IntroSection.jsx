@@ -175,8 +175,8 @@ export default function IntroSection({ isTouch }) {
         So let’s reuse a metaphor and fall deeper into the pitfall trap, to learn what makes these flowers remarkable. 
         Is it worth growing for the blooms alone? Can flowers hold their own against the more famous carnivorous leaves? 
         And are some species more desirable than others? 
-        After spending a full day at the Mertz botanical library with Schnell & McPherson's monograph, <i>Sarraceniaea in North America</i> - 
-        I think we can come up with some concrete answers to these completely subjective questions.
+        After spending a fair amount of time at the Mertz Botanical Library, I don’t think there are concrete answers to these vague and subjective questions! 
+        But I’ll provide as much information as I can to let you decide for yourself.
         </p>
       </section >
 

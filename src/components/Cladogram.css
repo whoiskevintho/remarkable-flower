@@ -19,7 +19,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  min-width: 400px;
+  min-width: 100px;
   max-width: 1400px;
   height: clamp(300px, 40vh, 600px);
   margin: 0 auto;
