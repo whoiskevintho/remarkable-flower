@@ -97,15 +97,7 @@ const MATERIAL_CONFIG = {
   anther_material: {
     meshes: ['anthers'],
     type: 'standard',
-    diffuseMap: '/textures/style_outside.jpg',
-    color: { r: 0.9, g: 0.9, b: 0.95 },
-    roughness: 0.9,
-    metalness: 0.0
-  },
-  ovary_material: {
-    meshes: ['ovary'],
-    type: 'standard',
-    diffuseMap: '/textures/style_outside.jpg',
+    diffuseMap: '/textures/anthersovary_diffuse.jpg',
     color: { r: 0.9, g: 0.9, b: 0.95 },
     roughness: 0.9,
     metalness: 0.0
@@ -119,7 +111,7 @@ const MATERIAL_CONFIG = {
     metalness: 0.0
   },
   petal_dual_material: {
-    meshes: ['petal_001','petal_002', 'petal_003', 'petal_004', 'petal_005'],
+    meshes: ['petal_001','petal_002', 'petal_003', 'petal_004', 'petal_005', 'petals_scape'],
     frontMaterial: 'petal_outside_material',
     backMaterial: 'petal_inside_material'
   },
@@ -162,7 +154,7 @@ const MATERIAL_CONFIG = {
     metalness: 0.0
   },
   sepal_dual_material: {
-    meshes: ['sepal', 'sepals'],
+    meshes: ['sepal', 'bract'],
     frontMaterial: 'sepal_outside_material',
     backMaterial: 'sepal_inside_material'
   },

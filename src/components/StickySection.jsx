@@ -14,7 +14,7 @@ import { useFadeOut } from '../hooks/useFadeOut'
 import { applyMaterialsToScene } from '../shaders/flowerMaterials'
 
 // Preload the model
-useGLTF.preload('/flower_v006.glb')
+useGLTF.preload('/flower_v007.glb')
 
 // ============================================================================
 // ARROW SCALE CONFIGURATION
@@ -96,7 +96,7 @@ const MORPH_TARGETS = [
 
 function SpinningModel({ scale, scrollState, inViewport }) {
   const modelRef = useRef()
-  const { scene } = useGLTF('/flower_v006.glb')
+  const { scene } = useGLTF('/flower_v007.glb')
   const clonedScene = useMemo(() => {
     if (!scene) return null
     const cloned = scene.clone()
