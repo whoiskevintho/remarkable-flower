@@ -1,5 +1,6 @@
 import PetalSizeRadarChart from './PetalSizeRadarChart'
 import ParallelCoordinatesChart from './ParallelCoordinatesChart'
+import PetalDiagramSection from './PetalDiagramSection'
 import { petalSizes } from '../config/petalSizes'
 
 export default function FinalSection() {
@@ -18,14 +19,14 @@ export default function FinalSection() {
       </section>
 
       <section className="intro-text">
+        <PetalDiagramSection />
+      </section>
+
+      <section className="intro-text">
         <p>
           Lets chart this information so we can more easily identify the trends in flower size. Note that the measurements have been normalized.
         </p>
       </section>
-
-      {/* <section className="intro-text">
-        <PetalSizeRadarChart />
-      </section> */}
 
       <section className="intro-text">
         <ParallelCoordinatesChart data={petalSizes} />

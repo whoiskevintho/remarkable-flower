@@ -1,0 +1,138 @@
+.petal-diagram-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0rem;
+  margin: 0;
+}
+
+.petal-diagram-container {
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0rem;
+}
+
+.petal-diagram-image {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.accordion-container {
+  width: 100%;
+  max-width: 1000px;
+}
+
+.accordion-button {
+  width: 100%;
+  background-color: #1c1c1cc0;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #f2f2f2;
+  padding: 1rem 1.5rem;
+  font-size: 1.2rem;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+}
+
+.accordion-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.accordion-icon {
+  transition: transform 0.3s ease;
+  font-size: 0.8rem;
+}
+
+.accordion-icon.open {
+  transform: rotate(180deg);
+}
+
+.accordion-content {
+  margin-top: 1rem;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.data-table-container {
+  overflow-x: auto;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 4px;
+  padding: 1rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.petal-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #1C1C1C;
+  font-size: 0.9rem;
+}
+
+.petal-data-table thead {
+  background: rgba(87, 199, 133, 0.2);
+  position: sticky;
+  top: 0;
+}
+
+.petal-data-table th {
+  padding: 0.75rem 0.5rem;
+  text-align: center;
+  font-weight: 600;
+  border-bottom: 2px solid rgba(87, 199, 133, 0.3);
+  white-space: nowrap;
+}
+
+.petal-data-table td {
+  padding: 0.6rem 0.5rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.petal-data-table tbody tr:hover {
+  background: rgba(87, 199, 133, 0.1);
+}
+
+.petal-data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.petal-data-table sub {
+  font-size: 0.7em;
+  vertical-align: sub;
+}
+
+@media (max-width: 768px) {
+  .petal-diagram-section {
+    padding: 1rem;
+  }
+  
+  .petal-data-table {
+    font-size: 0.75rem;
+  }
+  
+  .petal-data-table th,
+  .petal-data-table td {
+    padding: 0.4rem 0.3rem;
+  }
+}
+
