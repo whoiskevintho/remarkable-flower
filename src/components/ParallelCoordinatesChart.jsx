@@ -7,7 +7,7 @@ import {
   CartesianGrid,
   ResponsiveContainer
 } from 'recharts'
-import { flowerSizeLatitudeData } from '../config/flowerSizeLatitudeData'
+import { petalSizes } from '../config/petalSizes'
 import './ParallelCoordinatesChart.css'
 
 // Default color palette
@@ -30,8 +30,10 @@ const defaultColors = [
 
 // Create a map of species names to flower colors
 const flowerColorMap = new Map()
-flowerSizeLatitudeData.forEach(item => {
-  flowerColorMap.set(item.species, item.flowerColor)
+petalSizes.forEach(item => {
+  if (item.flowerColor) {
+    flowerColorMap.set(item.species, item.flowerColor)
+  }
 })
 
 export default function ParallelCoordinatesChart({ data = [] }) {

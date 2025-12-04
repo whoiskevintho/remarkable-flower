@@ -3,6 +3,7 @@
 // n = sample size
 // L, A, B, C, D, E, F = different petal measurements
 // As, Bs, Cs, Ds, Es, Fs = standard deviations for respective measurements
+// flowerColor = hex color code representing the typical flower color
 
 export const petalSizes = [
   { 
@@ -20,7 +21,8 @@ export const petalSizes = [
     E: 20,
     Es: 2,
     F: 36,
-    Fs: 5
+    Fs: 5,
+    flowerColor: '#F8EE8F' // Yellow/cream
   },
   { 
     species: 'S. flava', 
@@ -37,7 +39,8 @@ export const petalSizes = [
     E: 25,
     Es: 3,
     F: 52,
-    Fs: 6
+    Fs: 6,
+    flowerColor: '#F9E547' // Yellow
   },
   { 
     species: 'S. leucophylla', 
@@ -54,7 +57,8 @@ export const petalSizes = [
     E: 21,
     Es: 3,
     F: 30,
-    Fs: 4
+    Fs: 4,
+    flowerColor: '#C62828' // red
   },
   { 
     species: 'S. minor', 
@@ -71,7 +75,8 @@ export const petalSizes = [
     E: 15,
     Es: 2,
     F: 30,
-    Fs: 5
+    Fs: 5,
+    flowerColor: '#CFEA6E' // yellowish - light green
   },
   { 
     species: 'S. oreophila', 
@@ -88,7 +93,8 @@ export const petalSizes = [
     E: 20,
     Es: 1,
     F: 27,
-    Fs: 3
+    Fs: 3,
+    flowerColor: '#CFEA6E' // yellowish - light green
   },
   { 
     species: 'S. psittacina', 
@@ -105,7 +111,8 @@ export const petalSizes = [
     E: 12,
     Es: 2,
     F: 26,
-    Fs: 3
+    Fs: 3,
+    flowerColor: '#C62828' // red
   },
   { 
     species: 'S. purpurea ssp. purpurea', 
@@ -122,7 +129,8 @@ export const petalSizes = [
     E: 15,
     Es: 1,
     F: 29,
-    Fs: 4
+    Fs: 4,
+    flowerColor: '#8E1D21' // red to maroon
   },
   { 
     species: 'S. purpurea ssp. venosa', 
@@ -139,7 +147,8 @@ export const petalSizes = [
     E: 20,
     Es: 2,
     F: 40,
-    Fs: 5
+    Fs: 5,
+    flowerColor: '#C62828' // red
   },
   { 
     species: 'S. rosea', 
@@ -156,7 +165,8 @@ export const petalSizes = [
     E: 19,
     Es: 2,
     F: 36,
-    Fs: 3
+    Fs: 3,
+    flowerColor: '#FCD6E6' // pink to red
   },
   { 
     species: 'S. rubra ssp. rubra', 
@@ -173,10 +183,11 @@ export const petalSizes = [
     E: 10,
     Es: 1,
     F: 21,
-    Fs: 3
+    Fs: 3,
+    flowerColor: '#C62828' // red
   },
   { 
-    species: 'S. rubra ssp. alabamensis', 
+    species: 'S. alabamensis ssp. alabamensis', 
     n: 46,
     L: 6,
     A: 34,
@@ -190,7 +201,8 @@ export const petalSizes = [
     E: 11,
     Es: 1,
     F: 23,
-    Fs: 3
+    Fs: 3,
+    flowerColor: '#C62828' // red
   },
   { 
     species: 'S. rubra ssp. gulfensis', 
@@ -207,10 +219,11 @@ export const petalSizes = [
     E: 12,
     Es: 2,
     F: 24,
-    Fs: 3
+    Fs: 3,
+    flowerColor: '#C62828' // red
   },
   { 
-    species: 'S. rubra ssp. jonesii', 
+    species: 'S. jonesii', 
     n: 59,
     L: 5,
     A: 36,
@@ -224,10 +237,11 @@ export const petalSizes = [
     E: 12,
     Es: 1,
     F: 24,
-    Fs: 3
+    Fs: 3,
+    flowerColor: '#C62828' // red
   },
   { 
-    species: 'S. rubra ssp. wherryi', 
+    species: 'S. alabamensis ssp. wherryi', 
     n: 63,
     L: 7,
     A: 35,
@@ -241,7 +255,8 @@ export const petalSizes = [
     E: 13,
     Es: 1,
     F: 22,
-    Fs: 3
+    Fs: 3,
+    flowerColor: '#C62828' // red
   }
 ]
 
