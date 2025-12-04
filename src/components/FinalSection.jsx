@@ -49,9 +49,9 @@ export default function FinalSection() {
     <>
       <section className="intro-text">
         <p>
-          As you can see, there is a lot of diversity in Sarracenia flowers!
+          As you can see, there is a lot of diversity in <i>Sarracenia</i> flowers!
           A big part of that variation simply comes down to the conditions in which the plant grew - sunlight exposure, soil, water, all of it.
-          That said, averages from wild sarracenia populations have been measured, and the petal shapes you saw above are scaled accurately relative to each other.
+          That said, averages from wild <i>Sarracenia</i> populations have been measured, and the petal shapes you saw above are scaled accurately relative to each other.
           This data comes from Schnell & McPherson (2011).
           <br />
           <br />
@@ -75,14 +75,14 @@ export default function FinalSection() {
 
       <section className="intro-text">
         <p>
-          Clearly, S. flava, S. alata, and S. rosea are your best bets if you’re interested in larger flowers!
-          Notice the inverted curve of S. leucophylla and S. oreophila - on average, the base of the petal is wider than the tip. Neat!
-          We can also see a slight trend in the color of Sarracenia flowers: larger flowers tend to display a greater diversity of colors.
+          Clearly, <i>S. flava</i>, <i>S. alata</i>, and <i>S. rosea</i> are your best bets if you’re interested in larger flowers!
+          Notice the inverted curve of <i>S. leucophylla</i> and <i>S. oreophila</i> - on average, the base of the petal is wider than the tip. Neat!
+          We can also see a slight trend in the color of <i>Sarracenia</i> flowers: larger flowers tend to display a greater diversity of colors.
           But I’m not a biologist - I’m just a guy trapped in a pitfall of mostly useless plant knowledge.
           <br />
           <br />
-          What’s really interesting is the variation in flower types you can get from outcrossing, or “hybridizing,” different species of Sarracenia.
-          This is the main reason growers obsess over these plants. It’s fun and easy to cross plants and see which traits appear.
+          What’s really interesting is the variation in flower types you can get from outcrossing different species of <i>Sarracenia</i>.
+          This is the main reason gardeners obsess over these plants. It’s fun and easy to cross plants and see which traits appear.
           In every tiny seed lies a new and never-before-seen mix of characteristics.
           Most horticulturists focus on breeding for pitchers, but here are some interesting flowers that result from hybridization!
         </p>
@@ -94,13 +94,13 @@ export default function FinalSection() {
 
       <section className="intro-text">
         <p>
-          I’m drawn to carnivorous plants because they’re just dang cool. A plant that eats!? Ludicrous. You might not have even heard of Sarracenia before reading this -
+          I’m drawn to carnivorous plants because they’re just dang cool. A plant that eats!? Ludicrous. You might not have even heard of <i>Sarracenia</i> before reading this -
           let alone heard about their flowers. Eating bugs is cool and all, but their flowers make them strange, inconsistent, and wholly unique.
-          They reward curiosity more than the dramatic snap of a fly trap - there is a slow burn and reveal of form while a gardner breeds and grows these plants.
+          They reward curiosity with more than the dramatic snap of a fly trap around a stray finger (again, unless you really really want to) - there is a slow burn and reveal of form while a gardner breeds and grows these plants.
           And that’s all thanks to their remarkable flowers!
           <br />
           <br />
-          If you want to continue your journey down the pitfall trap - I’ve put together an interactive map you can use to explore the distribution of Sarracenia species across North America.
+          If you want to continue your journey down the pitfall trap - I’ve put together an interactive map you can use to explore the distribution of <i>Sarracenia</i> species across North America.
         </p>
       </section>
 

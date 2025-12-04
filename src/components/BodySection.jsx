@@ -7,8 +7,8 @@ export default function BodySection() {
     <>
       <section className="intro-text">
         <p>
-          Few plants have evolved such a complex pollination scheme. Their one-way pollination pathway strongly favors cross-pollination (or 'outcrossing'),
-          and many researchers believe this is a major reason <i>Sarracenia</i> have such a range of morphological traits. Ironically,
+          Few plants have evolved such a complex pollination scheme. Their one-way pollination pathway strongly favors cross-pollination, or 'outcrossing'.
+          Many researchers believe this is a major reason <i>Sarracenia</i> have such a range of morphological traits. Ironically,
           this reliance on cross-pollination also means the genus carries a heavy 'genetic load'. When self-pollination
           does occur, those hidden deleterious genes are suddenly expressed, leading to rapid inbreeding depression.
           <br />
@@ -23,8 +23,8 @@ export default function BodySection() {
       <section className="intro-text">
         <p>
           This complex design also means that the humble bumble bee is the primary pollinator of Sarracenia, and one of the few insects that knows how to enter and exit its complex flower.
-          In this way, the bumble bee and the Sarracenia are bound together by fate - if the bumble bee were to go away, the Sarracenia would have a hard time finding other insects to pick up the slack.
-          So what draws a bumblebee to a Sarracenia flower? Like most blooms, it comes down to sight and scent.
+          In this way, the bumble bee and the <i>Sarracenia</i> are bound together by fate - if the bumble bee were to go away, the <i>Sarracenia</i> would have a hard time finding other insects to pick up the slack.
+          So what draws a bumblebee to a <i>Sarracenia</i> flower? Like most blooms, it comes down to sight and scent.
         </p>
       </section>
 
@@ -34,8 +34,8 @@ export default function BodySection() {
 
       <section className="intro-text">
         <p>
-          Despite the beautiful intricacies of the flower design, their fragrance can be less enchanting. Unless you’re a cat, because several Sarracenia species produce flowers with a distinctly feline musk.
-          This is fortunate for the plants, because bumblebees seem to like it. This is unfortunate for us gardeners, because they smell like cat pee. Sarracenia are large, full-sun, temperate bog plants though, 
+          Despite the beautiful intricacies of the flower design, their fragrance can be less enchanting. Unless you’re a cat, because several <i>Sarracenia</i> species produce flowers with a distinctly feline musk.
+          This is fortunate for the plants, because bumblebees seem to like it. This is unfortunate for us gardeners, because they smell like cat pee. <i>Sarracenia</i> are large, full-sun, temperate bog plants though, 
           so they’re meant to live outdoors anyway. Don’t expect to grow S. <i>flava</i> inside and wake up to the gentle smell of spring blossoms.
           <br />
           <br />
@@ -45,7 +45,7 @@ export default function BodySection() {
 
       <section className="intro-text">
         <p>
-          Let’s take a closer look at the petal morphology and explore the range of traits in Sarracenia flowers.
+          Let’s take a closer look at the petal morphology and explore the range of traits in <i>Sarracenia</i> flowers.
         </p>
       </section>
 

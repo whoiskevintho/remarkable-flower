@@ -303,11 +303,11 @@ export default function PetalsSection() {
   const textBoxes = [
     {
       id: 1,
-      text: 'The petal of the S. Flava is long and narrow'
+      text: 'The petal of the S. Flava is long and yellow'
     },
     {
       id: 2,
-      text: 'While the petal of the S. Rubra is much smaller'
+      text: 'While the petal of the S. Rubra is much smaller and red'
     }
   ]
   

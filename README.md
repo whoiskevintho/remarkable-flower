@@ -1,6 +1,27 @@
-# Remarkable Flower - Sticky Scroll Scene
+# A Remarkable Flower
 
-A React + Vite project demonstrating a sticky scroll scene with 3D model integration using `@14islands/r3f-scroll-rig`.
+An interactive web experience exploring the remarkable flowers of Sarracenia (North American pitcher plants). This project combines scroll-controlled 3D visualizations, data-driven charts, and educational narrative to showcase the diversity and beauty of these carnivorous plant flowers.
+
+## Project Overview
+
+This is a React + Vite project that presents an immersive, scroll-driven exploration of Sarracenia flowers. The experience includes:
+
+- **Interactive 3D Models**: Scroll-controlled 3D flower models with morph targets showing different species variations
+- **Data Visualizations**: Multiple charts exploring flower morphology, scent characteristics, and geographic relationships
+- **Educational Narrative**: A comprehensive guide to Sarracenia flowers, from pollination mechanisms to petal diversity
+- **Image Galleries**: Curated photographs of various Sarracenia species and hybrids
+
+### Key Features
+
+- **Sticky Scroll Sections**: 3D models that animate and morph as you scroll
+- **Interactive Morph Targets**: Explore different Sarracenia species through interactive 3D petal models
+- **Cladogram**: Phylogenetic visualization of Sarracenia relationships
+- **Data Charts**: 
+  - Smell strength comparison across species
+  - Flower size vs. latitude relationships
+  - Parallel coordinates chart for petal measurements
+  - Radar charts for petal morphology
+- **Responsive Design**: Optimized for desktop viewing with touch device warnings
 
 ## How the Sticky Container Works
 
@@ -138,19 +159,107 @@ Each section has vertical margins that add scroll distance, creating spacing bet
 ```
 src/
   components/
-    StickySection.jsx    # Main sticky section component
-    Header.jsx           # Page header
-    TouchDeviceWarning.jsx
-  App.jsx                # Main app with SmoothScrollbar
-  index.css              # Styles including .StickyContainer
+    HeroSection.jsx              # Hero section with title
+    IntroSection.jsx             # Introduction to carnivorous plants
+    StickySection.jsx            # Main 3D flower model sticky section
+    BodySection.jsx              # Cladogram and smell strength charts
+    PetalsSection.jsx            # Interactive 3D petal morphing section
+    FinalSection.jsx              # Petal measurements and final content
+    MethodsSection.jsx            # References and methodology
+    Cladogram.jsx                 # Phylogenetic tree visualization
+    SmellStrengthChart.jsx        # Scent comparison chart
+    FlowerSizeLatitudeChart.jsx   # Geographic size analysis
+    ParallelCoordinatesChart.jsx  # Multi-dimensional petal data
+    PetalSizeRadarChart.jsx       # Radar chart for petal morphology
+    PetalDiagramSection.jsx       # Petal measurement diagram
+    ImageGallery.jsx              # Image gallery component
+    ImageModal.jsx                # Image modal viewer
+    Header.jsx                    # Page header
+    TouchDeviceWarning.jsx        # Touch device compatibility warning
+  config/
+    cladogramData.js             # Phylogenetic data
+    cladogramImages.js           # Species images for cladogram
+    petalSizes.js                # Petal measurement data
+    petalMorphs.js               # Morph target configurations
+    flowerSizeLatitudeData.js    # Geographic size data
+    smellData.js                 # Scent characteristics data
+    flowerTags.js                # Species tagging data
+  shaders/
+    flowerMaterials.js           # 3D flower material definitions
+    petalMaterials.js            # 3D petal material and texture handling
+    arrowShader.js               # Custom shader for arrows
+  hooks/
+    useFadeOut.js                # Fade out animation hook
+  App.jsx                        # Main app with SmoothScrollbar
+  index.css                      # Global styles
+  Logo.jsx                       # 14islands logo component
 ```
 
-### Dependencies
+## Dependencies & Repositories
 
-- `@14islands/r3f-scroll-rig`: Scroll-rig library for scroll-controlled 3D scenes
-- `@react-three/fiber`: React renderer for Three.js
-- `@react-three/drei`: Useful helpers for react-three/fiber (useGLTF, Environment)
-- `@react-spring/three`: Spring animations for 3D
+### Core 3D & Animation Libraries
+
+- **`@14islands/r3f-scroll-rig`** (v8.14.0): Scroll-rig library for scroll-controlled 3D scenes, providing smooth scroll integration with React Three Fiber
+- **`@react-three/fiber`** (v8.13.4): React renderer for Three.js, enabling declarative 3D graphics
+- **`@react-three/drei`** (v9.78.1): Useful helpers for react-three/fiber (useGLTF, Environment, etc.)
+- **`three`** (v0.154.0): Core 3D graphics library
+- **`@react-spring/three`** (v9.5.4): Spring animations for 3D objects
+- **`@react-spring/web`** (v9.5.4): Spring animations for web elements
+
+### Data Visualization
+
+- **`d3`** (v7.9.0): Data visualization library used for custom chart implementations
+- **`recharts`** (v3.5.1): React charting library for data visualizations
+
+### UI & Animation
+
+- **`framer-motion`** (v9.0.2): Animation library for React components
+- **`react`** (v18.2.0): React framework
+- **`react-dom`** (v18.2.0): React DOM renderer
+
+### Development Tools
+
+- **`vite`** (rolldown-vite@7.2.5): Build tool and development server
+- **`@vitejs/plugin-react`**: Vite plugin for React support
+- **`eslint`**: Code linting
+
+## Methods
+
+### Data Sources
+
+The project draws from several scientific sources for species data, measurements, and phylogenetic information:
+
+**Primary Reference:**
+- McPherson, S., & Schnell, D. (2011). *Sarraceniaceae of North America*. Redfern Natural History Productions.
+
+**Phylogenetic Data:**
+- Ellison, Aaron M., et al. "Phylogeny and Biogeography of the Carnivorous Plant Family Sarraceniaceae." *PLOS ONE*, vol. 7, no. 6, 2012, e39291. [Source](https://doi.org/10.1371/journal.pone.0039291)
+
+**Species Recognition:**
+- Naczi, Robert F. C., et al. "Sarracenia rosea (Sarraceniaceae), a New Species of Pitcher Plant from the Southeastern United States." *SIDA, Contributions to Botany*, vol. 18, 1999, pp. 1188–1191. [Source](https://www.biodiversitylibrary.org/part/163260)
+
+**Additional Resources:**
+- International Carnivorous Plant Society – Evolution of the Ericales Carnivores [Source](https://www.carnivorousplants.org/cp/evolution/Ericales)
+
+### Species Nomenclature Notes
+
+Schnell & McPherson's 2011 monograph served as a primary source for this study, recognizing approximately 8 species of Sarracenia. Since publication, additional species have been recognized based on further research, including:
+
+- *S. rosea*
+- *S. jonesii*
+- *S. alabamensis*
+- *S. alabamensis ssp. wherryi*
+
+The nomenclature used in this project has been updated to reflect these additional species. Petal measurements and morphological data are based on averages from wild Sarracenia populations as documented in Schnell & McPherson (2011).
+
+### Data Visualization Methods
+
+- **Petal Measurements**: Normalized measurements from wild populations, accurately scaled relative to each other
+- **Morphological Comparisons**: Data-driven visualizations comparing petal shapes, sizes, and characteristics across species
+- **Geographic Analysis**: Flower size relationships with latitude based on species distribution data
+- **Phylogenetic Visualization**: Cladogram based on molecular phylogenetic studies
+
+## Technical Implementation
 
 ### Key Concepts
 
@@ -159,3 +268,11 @@ src/
 3. **Progress Mapping**: Scroll progress (0-1) maps to animation values (rotation, scale, etc.)
 4. **Viewport Detection**: `inViewport` triggers visibility changes
 5. **Container Height**: Taller containers = longer scroll duration
+
+## Repository
+
+This project is available on GitHub: [remarkable-flower](https://github.com/whoiskevintho/remarkable-flower)
+
+## Related Projects
+
+- [Carnivorous Plant Mapping](https://carnivorous-plant-mapping.vercel.app/) - Interactive map exploring the distribution of Sarracenia species across North America

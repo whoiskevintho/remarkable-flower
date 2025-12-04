@@ -126,7 +126,7 @@ export default function IntroSection({ isTouch }) {
         <p>
           I'll bet you're familiar with the Venus flytrap. It's the poster child of the carnivorous plant world - gaping maws lined with red 'teeth' waiting for unsuspecting arthropods
           to wander in.  All it takes is to touch one and watch it snap shut around your finger to spark your curiosity (but for the record, triggering the traps with your
-          finger wastes the plant's energy and should be avoided unless you're a professional). Most people are surprised to learn these iconic plants aren't from some alien world.
+          finger wastes the plant's energy and should be avoided unless you really really want to). Most people are surprised to learn these iconic plants aren't from some alien world.
           They're endemic to a tiny region of the coastal Carolinas, not Mars.
         </p>
       </section>
@@ -149,13 +149,13 @@ export default function IntroSection({ isTouch }) {
 
       <section className="intro-text">
         <p>
-          Among them, the North American pitcher plants (Sarracenia if you want to sound technical or maybe roman) are one of the most spectacular genera. As the name suggests,
+          Among them, the North American pitcher plants (<i>Sarracenia</i> if you want to sound technical or maybe roman) are one of the most spectacular genera. As the name suggests,
           they’re native to North America, ranging from the Gulf Coast of Texas and Louisiana up the Atlantic seaboard and the Appalachian range, all the way to Maine, to Quebec,
           through Saskatchewan and over to Alberta.
           <br />
           <br />
-          Their most remarkable feature is the carnivorous leaves, or pitchers. (Technically they’re “insectivorous,” but carnivorous sounds cooler.)
-          The pitchers are what most growers fall in love with first. Across the ~11 species, Sarracenia produce an incredible diversity of forms: short,
+          Their most remarkable feature is the carnivorous leaves, or pitchers. Technically, they’re insectivorous, but carnivorous sounds cooler.
+          The pitchers are what most growers fall in love with first. Across the ~11 species, <i>Sarracenia</i> produce an incredible diversity of forms: short,
           stout pitchers; tall, elegant ones; green and heavily veined; deep red; snowy white; hooded and hoodless. Despite their dramatic differences,
           the species are closely related genetically and readily hybridize, letting growers breed endless new variants and traits.
         </p>
@@ -169,7 +169,7 @@ export default function IntroSection({ isTouch }) {
         <p>
         But a lesser appreciated reason to grow these plants is their flowers. 
         They look like alien lanterns hanging down from long curved lamp posts. 
-        Like claw machines arms dangling a prize over the gaping maws of the pitchers below them.
+        Like a claw machine's arm dangling a prize over the hungry pitchers below.
         <br />
         <br />
         So let’s reuse our new metaphor, and fall deeper down the pitfall trap! To learn what makes these flowers remarkable. 
