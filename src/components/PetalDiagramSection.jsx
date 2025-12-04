@@ -53,7 +53,7 @@ export default function PetalDiagramSection() {
                     <tr key={index}>
                       <td>{row.species}</td>
                       <td>{row.n}</td>
-                      <td>{row.L}</td>
+                      <td>{row.L != null ? row.L : 'N/A'}</td>
                       <td>{row.A}</td>
                       <td>{row.As}</td>
                       <td>{row.B}</td>
@@ -70,6 +70,9 @@ export default function PetalDiagramSection() {
                   ))}
                 </tbody>
               </table>
+              <p className="data-table-note">
+                S. <i>rosea</i> data added from Naczi et al. (1999)
+              </p>
             </div>
           </div>
         )}

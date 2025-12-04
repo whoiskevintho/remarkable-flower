@@ -446,11 +446,11 @@ export default function StickySection() {
     },
     {
       id: 2,
-      text: 'Most flowers avoid self-pollination to maintain genetic diversity. So how does this flower stop its own pollen from landing on the stigma?'
+      text: 'Sarracenia flowers avoid self-pollination to maintain genetic diversity. So how does this flower stop its own pollen from landing on the stigma?'
     },
     {
       id: 3,
-      text: 'Pollinators, like bumble bees, enter beneath the sepal and pass over the stigma as they move into the flower.'
+      text: 'Pollinators, mostly bumble bees, enter beneath the sepal and pass over the stigma as they move into the flower.'
     },
     {
       id: 4,

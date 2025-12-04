@@ -121,6 +121,14 @@
   vertical-align: sub;
 }
 
+.data-table-container .data-table-note {
+  font-size: 0.75rem !important;
+  line-height: 1.6;
+  margin: 1rem 0 0 0;
+  color: #1C1C1C;
+  opacity: 0.8;
+}
+
 @media (max-width: 768px) {
   .petal-diagram-section {
     padding: 1rem;
@@ -133,6 +141,10 @@
   .petal-data-table th,
   .petal-data-table td {
     padding: 0.4rem 0.3rem;
+  }
+  
+  .data-table-container .data-table-note {
+    font-size: 0.7rem !important;
   }
 }
 

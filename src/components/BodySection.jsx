@@ -8,12 +8,12 @@ export default function BodySection() {
       <section className="intro-text">
         <p>
           Few plants have evolved such a complex pollination scheme. Their one-way pollination pathway strongly favors cross-pollination (or 'outcrossing'),
-          and many researchers believe this is a major reason pitcher plants show such a range in morphological diversity. Ironically,
-          this reliance on cross-pollination also means the genus carries a heavy genetic load. When self-pollination
+          and many researchers believe this is a major reason <i>Sarracenia</i> have such a range of morphological traits. Ironically,
+          this reliance on cross-pollination also means the genus carries a heavy 'genetic load'. When self-pollination
           does occur, those hidden deleterious genes are suddenly expressed, leading to rapid inbreeding depression.
           <br />
           <br />
-          We’ll be referring to the specific sarracenia species throughout the rest of the story - so here is a cladogram to get you oriented.
+          We’ll be referring to the specific <i>Sarracenia</i> species throughout the rest of the story - so here is a cladogram to get you oriented.
         </p>
       </section>
       <section className="intro-text">
@@ -35,12 +35,11 @@ export default function BodySection() {
       <section className="intro-text">
         <p>
           Despite the beautiful intricacies of the flower design, their fragrance can be less enchanting. Unless you’re a cat, because several Sarracenia species produce flowers with a distinctly feline musk.
-          This is fortunate for the plants, because bumblebees seem to ‘like’ it. This is unfortunate for us gardeners, because they smell like cat pee. Sarracenia are large, full-sun, temperate bog plants though, 
+          This is fortunate for the plants, because bumblebees seem to like it. This is unfortunate for us gardeners, because they smell like cat pee. Sarracenia are large, full-sun, temperate bog plants though, 
           so they’re meant to live outdoors anyway. Don’t expect to grow S. <i>flava</i> inside and wake up to the gentle smell of spring blossoms.
           <br />
           <br />
-          As we continue our quest to find the most desirable Sarracenia species, we'll keep in mind that S. minor smells subtley of watermelon, that the S. rubra complex has a sweet pleseant fragrance,
-          and that S. flava smells of pee.
+          If we group the species by scent alone, <i>S. minor</i> lands in the 'fruit-like' category, the rubra complex is consistently sweet and pleasant, and <i>S. flava</i> smells a lot like pee.
         </p>
       </section >
 

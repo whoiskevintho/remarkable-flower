@@ -142,6 +142,23 @@ export const petalSizes = [
     Fs: 5
   },
   { 
+    species: 'S. rosea', 
+    n: 18,
+    L: null,
+    A: 55,
+    As: 5,
+    B: 28,
+    Bs: 4,
+    C: 19,
+    Cs: 2,
+    D: 15,
+    Ds: 2,
+    E: 19,
+    Es: 2,
+    F: 36,
+    Fs: 3
+  },
+  { 
     species: 'S. rubra ssp. rubra', 
     n: 63,
     L: 7,
@@ -207,23 +224,6 @@ export const petalSizes = [
     E: 12,
     Es: 1,
     F: 24,
-    Fs: 3
-  },
-  { 
-    species: 'S. rubra ssp. jonesii f. viridescens', 
-    n: 18,
-    L: 2,
-    A: 34,
-    As: 3,
-    B: 18,
-    Bs: 3,
-    C: 10,
-    Cs: 1,
-    D: 4,
-    Ds: 1,
-    E: 12,
-    Es: 1,
-    F: 22,
     Fs: 3
   },
   { 

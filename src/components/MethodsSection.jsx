@@ -11,13 +11,16 @@ export default function MethodsSection() {
                     Ellison, Aaron M., et al. “Phylogeny and Biogeography of the Carnivorous Plant Family Sarraceniaceae.” <em>PLOS ONE</em>, vol. 7, no. 6, 2012, e39291.
                     <a href="https://doi.org/10.1371/journal.pone.0039291" target="_blank" rel="noopener noreferrer"> Source</a>
                 </p>
-
-                <br />
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                Naczi, Robert F. C., et al. “Sarracenia rosea (Sarraceniaceae), a New Species of Pitcher Plant from the Southeastern United States.” SIDA, Contributions to Botany, vol. 18, 1999, pp. 1188–1191. Biodiversity Heritage Library
+                    <a href="https://www.biodiversitylibrary.org/part/163260" target="_blank" rel="noopener noreferrer"> Source</a>
+                </p>
+                <br />
+                <h2>Notes</h2>
+                <p>
+                    Schnell & McPherson's monograph served as a primary source for this study - however they only recognize ~8 species of Sarracenia. Since the publishcation in 2011 - a strong case has been made for recognizing
+                    additional species, including S. <i>rosea</i>, S. <i>jonesii</i>, S. <i>alabamensis</i>, and S. <i>alabemensis ssp. wherryi</i>. So their former nomenclature in the monograph has been updated to reflect these additional species. 
+                    It may seem pedandtic to stipulate this here - but I wanted to be clear about the species I am using.
                 </p>
                 <br />
                 <p> <a href="https://github.com/whoiskevintho/remarkable-flower" target="_blank" rel="noopener noreferrer">GITHUB</a></p>
