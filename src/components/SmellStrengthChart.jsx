@@ -66,7 +66,7 @@ export default function SmellStrengthChart() {
 
   return (
     <div className="smell-chart-container">
-      <h2 className="smell-chart-title">Species and Scent Type</h2>
+      <h2 className="smell-chart-title">Species and Scent Type / Strength</h2>
       <ResponsiveContainer width="100%" height={chartHeight}>
         <BarChart
           layout="vertical"

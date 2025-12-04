@@ -116,7 +116,7 @@ export default function ParallelCoordinatesChart({ data = [] }) {
   return (
     <div className="parallel-chart-container">
       <div className="chart-header">
-        <h2 className="parallel-chart-title">Parallel Coordinates Chart</h2>
+        <h2 className="parallel-chart-title">Parallel Coordinates Plot for <i>Sarracenia</i> Petals</h2>
         <button 
           className="color-scheme-button"
           onClick={handlePaletteChange}
@@ -143,9 +143,11 @@ export default function ParallelCoordinatesChart({ data = [] }) {
             />
             <YAxis
               domain={[0, 1]}
+              type="number"
               tick={{ fill: '#f2f2f2', fontSize: 12 }}
               stroke="#f2f2f2"
-              tickFormatter={(value) => `${(value * 100).toFixed(0)}%`}
+              tickFormatter={(value) => `${(value * 100).toFixed(0)}`}
+              allowDataOverflow={false}
             />
             {speciesInfo.map((species) => {
               const strokeOpacity = hoveringDataKey && hoveringDataKey !== species.name ? 0.15 : 1

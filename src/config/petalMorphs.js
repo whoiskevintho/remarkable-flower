@@ -44,7 +44,7 @@ export const MORPH_CONFIG = {
     },
     'RubraRubra': {
         displayName: 'Sweet Pitcher Plant',
-        subtitle: 'Sarracenia rubra var. rubra',
+        subtitle: 'Sarracenia rubra ssp. rubra',
         image: '/images/rubrarubra_alancressler.webp',
         caption: {
             photographer: 'Alan Cressler',

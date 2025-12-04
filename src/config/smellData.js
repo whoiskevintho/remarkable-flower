@@ -11,10 +11,10 @@ export const smellData = [
   { species: 'S. purpurea ssp. venosa', scentType: 'sweet_feline', smellStrength: 3 },
   { species: 'S. rosea', scentType: 'sweet_feline', smellStrength: 3 },
   { species: 'S. rubra ssp. rubra', scentType: 'sweet', smellStrength: 4 },
-  { species: 'S. rubra ssp. alabamensis', scentType: 'sweet', smellStrength: 3 },
+  { species: 'S. alabamensis ssp. alabamensis', scentType: 'sweet', smellStrength: 3 },
   { species: 'S. rubra ssp. gulfensis', scentType: 'sweet', smellStrength: 2 },
-  { species: 'S. rubra ssp. jonesii', scentType: 'sweet', smellStrength: 3 },
-  { species: 'S. rubra ssp. wherryi', scentType: 'sweet', smellStrength: 3 },
+  { species: 'S. jonesii', scentType: 'sweet', smellStrength: 3 },
+  { species: 'S. alabamensis ssp. wherryi', scentType: 'sweet', smellStrength: 3 },
   // Add more species as needed - each with one scentType and one smellStrength
 ]
 
