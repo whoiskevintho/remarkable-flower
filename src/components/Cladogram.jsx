@@ -2,49 +2,11 @@ import React, { useEffect, useRef, useState, useMemo } from 'react'
 import * as d3 from 'd3'
 import './Cladogram.css'
 import { cladogramData } from '../config/cladogramData'
+import { getSpeciesImage, getSpeciesCaption } from '../config/cladogramImages'
 import ImageModal from './ImageModal'
 
 const MARGIN = { top: 60, right: 200, bottom: 60, left: 60 }
 const STROKE_COLOR = '#f2f2f2'
-
-// Available images from public/images folder
-const AVAILABLE_IMAGES = [
-  'alata_alancressler.webp',
-  'darlingtonia_bradwilson.webp',
-  'flava_brucesorrie.webp',
-  'flava_willstuart.webp',
-  'leucophylla_alancressler.webp',
-  'leucophylla_white_alancressler.webp',
-  'minor_alancressler.webp',
-  'oreophila_alancressler.webp',
-  'psittacina_scottward.webp',
-  'purpurea_purple_mikewang.webp',
-  'purpureapurpurea_smithrw.webp',
-  'purpureavenosa_alancressler.webp',
-  'rosea_alancressler.webp',
-  'rubra_sheridan_mikewang.webp',
-  'rubraalabamensis_alancressler.webp',
-  'rubragulfensis_billboothe.webp',
-  'rubrajonesii_alancressler.webp',
-  'rubrarubra_alancressler.webp',
-  'rubrawherryi_alancressler.webp'
-]
-
-// Helper function to match species name to image filename
-const matchSpeciesToImage = (speciesName) => {
-  const normalized = speciesName.toLowerCase()
-    .replace(/^s\.\s*/, '')
-    .replace(/\s+ssp\.\s+/g, '')
-    .replace(/\s+/g, '')
-    .replace(/alabemensis/g, 'alabamensis')
-  
-  const match = AVAILABLE_IMAGES.find(img => {
-    const imgName = img.toLowerCase().replace(/_/g, '').replace('.webp', '')
-    return imgName.includes(normalized) || normalized.includes(imgName.split('_')[0])
-  })
-  
-  return match || AVAILABLE_IMAGES[Math.floor(Math.random() * AVAILABLE_IMAGES.length)]
-}
 
 export default function Cladogram() {
   const svgRef = useRef(null)
@@ -94,7 +56,8 @@ export default function Cladogram() {
   const imageMapping = useMemo(() => {
     return speciesNames.map(speciesName => ({
       speciesName,
-      imagePath: `/images/${matchSpeciesToImage(speciesName)}`
+      imagePath: getSpeciesImage(speciesName) || '/images/a_remarkable_flower.png',
+      caption: getSpeciesCaption(speciesName)
     }))
   }, [speciesNames])
 
@@ -194,8 +157,20 @@ export default function Cladogram() {
     setHoveredSpecies(null)
   }
 
-  const handleImageClick = (image) => {
-    setSelectedImage(image)
+  const handleImageClick = (item) => {
+    const caption = item.caption ? (
+      <>
+        {item.speciesName} • Photo by{' '}
+        <a href={item.caption.link} target="_blank" rel="noopener noreferrer">
+          {item.caption.photographer}
+        </a>
+      </>
+    ) : item.speciesName
+    
+    setSelectedImage({
+      src: item.imagePath,
+      caption
+    })
   }
 
   const handleCloseModal = () => {
@@ -230,7 +205,7 @@ export default function Cladogram() {
             className={`cladogram-image-item ${hoveredSpecies === item.speciesName ? 'highlighted' : ''}`}
             onMouseEnter={() => handleImageHover(item.speciesName)}
             onMouseLeave={handleImageLeave}
-            onClick={() => handleImageClick({ src: item.imagePath, caption: item.speciesName })}
+            onClick={() => handleImageClick(item)}
           >
             <img
               src={item.imagePath}
@@ -253,7 +228,7 @@ export default function Cladogram() {
             className={`cladogram-image-item ${hoveredSpecies === item.speciesName ? 'highlighted' : ''}`}
             onMouseEnter={() => handleImageHover(item.speciesName)}
             onMouseLeave={handleImageLeave}
-            onClick={() => handleImageClick({ src: item.imagePath, caption: item.speciesName })}
+            onClick={() => handleImageClick(item)}
           >
             <img
               src={item.imagePath}
