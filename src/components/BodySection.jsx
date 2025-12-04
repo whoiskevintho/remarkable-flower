@@ -1,5 +1,6 @@
 import SmellStrengthChart from './SmellStrengthChart'
 import FlowerSizeLatitudeChart from './FlowerSizeLatitudeChart'
+import Cladogram from './Cladogram'
 
 export default function BodySection() {
   return (
@@ -11,6 +12,9 @@ export default function BodySection() {
           this reliance on cross-pollination also means the genus carries a heavy genetic load. When self-pollination
           does occur, those hidden deleterious genes are suddenly expressed, leading to rapid inbreeding depression.
         </p>
+      </section>
+      <section className="intro-text">
+        <Cladogram />
       </section>
 
       <section className="intro-text">
@@ -32,7 +36,7 @@ export default function BodySection() {
           Don’t expect to grow one inside and wake up to the gentle smell of spring blossoms.
           <br />
           <br />
-          As we continue our quest to find the most desirable Sarracenia species, we'll keep in mind that S. minor smells subtley of watermelon, that the S. rubra complex has a sweet fragrance, 
+          As we continue our quest to find the most desirable Sarracenia species, we'll keep in mind that S. minor smells subtley of watermelon, that the S. rubra complex has a sweet fragrance,
           and that S. flava smells of pee.
         </p>
       </section >
