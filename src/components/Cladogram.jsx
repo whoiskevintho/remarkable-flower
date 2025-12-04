@@ -220,7 +220,7 @@ export default function Cladogram() {
 
   return (
     <div className="cladogram-container">
-      <h2 className="cladogram-title">Sarracenia Phylogeny</h2>
+      <h2 className="cladogram-title">Sarracenia Cladogram</h2>
       
       {/* Top image row */}
       <div className="cladogram-images-row cladogram-images-top">

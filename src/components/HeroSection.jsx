@@ -4,7 +4,16 @@ export default function HeroSection() {
   return (
     <section className="hero-section">
       <Header />
-      <h1 className="hero-title">A Remarkable Flower</h1>
+      <img 
+        src="/images/a_remarkable_flower_pitcher.png" 
+        alt="Pitcher plant" 
+        className="hero-image-right"
+      />
+      <h1 className="hero-title">
+        <span className="hero-word hero-word-a">A</span>
+        <span className="hero-word hero-word-remarkable">Remarkable</span>
+        <span className="hero-word hero-word-flower">Flower</span>
+      </h1>
     </section>
   )
 }

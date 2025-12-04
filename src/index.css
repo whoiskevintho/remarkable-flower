@@ -49,11 +49,7 @@ article > *:not(.hero-section) {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-image: url('https://inaturalist-open-data.s3.amazonaws.com/photos/140692324/original.jpg');
-  background-size: cover;
-  background-position: center bottom;
-  background-repeat: no-repeat;
-  background-attachment: scroll;
+  background: url('/images/a_remarkable_flower.png') no-repeat left bottom / contain;
   padding: 0;
   margin: 0;
 }
@@ -67,12 +63,46 @@ article > *:not(.hero-section) {
   width: 100%;
 }
 
+.hero-image-right {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 50vh;
+  width: auto;
+  object-fit: contain;
+  object-position: right bottom;
+  z-index: 0;
+}
+
 .hero-title {
-  font-size: 5vw;
-  font-weight: 400;
-  text-align: center;
-  margin: 0;
+  font-family: 'Playfair Display', 'Georgia', 'Times New Roman', serif;
+  font-weight: 700;
+  font-style: italic;
+  margin: 30vh 0 0;
   z-index: 1;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8em;
+}
+
+.hero-word {
+  letter-spacing: 0.05em;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2);
+  line-height: 1.2;
+}
+
+.hero-word-a {
+  font-size: 6vw;
+}
+
+.hero-word-remarkable {
+  font-size: 6vw;
+}
+
+.hero-word-flower {
+  font-size: 6vw;
 }
 
 header {
