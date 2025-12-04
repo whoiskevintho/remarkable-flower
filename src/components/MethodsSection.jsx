@@ -7,6 +7,11 @@ export default function MethodsSection() {
                 <h2>References</h2>
                 <p>McPherson, S., & Schnell, D. (2011). <em>Sarraceniaceae of North America</em>. Redfern Natural History Productions.</p>
                 <p>International Carnivorous Plant Society – Evolution of the Ericales Carnivores <a href="https://www.carnivorousplants.org/cp/evolution/Ericales" target="_blank" rel="noopener noreferrer">Source</a></p>
+                <p>
+                    Ellison, Aaron M., et al. “Phylogeny and Biogeography of the Carnivorous Plant Family Sarraceniaceae.” <em>PLOS ONE</em>, vol. 7, no. 6, 2012, e39291.
+                    <a href="https://doi.org/10.1371/journal.pone.0039291" target="_blank" rel="noopener noreferrer"> Source</a>
+                </p>
+
                 <br />
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
