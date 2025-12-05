@@ -149,7 +149,7 @@ export default function IntroSection({ isTouch }) {
 
       <section className="intro-text">
         <p>
-          Among them, the North American pitcher plants (<i>Sarracenia</i> if you want to sound technical or maybe roman) are one of the most spectacular genera. As the name suggests,
+          Among them, the North American pitcher plants (<i>Sarracenia</i> if you want to sound technical or maybe Roman) are one of the most spectacular genera. As the name suggests,
           they’re native to North America, ranging from the Gulf Coast of Texas and Louisiana up the Atlantic seaboard and the Appalachian range, all the way to Maine, to Quebec,
           through Saskatchewan and over to Alberta.
           <br />
