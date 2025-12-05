@@ -1,6 +1,6 @@
 # A Remarkable Flower
 
-An interactive web experience exploring the remarkable flowers of Sarracenia (North American pitcher plants). This project combines scroll-controlled 3D visualizations, data-driven charts, and educational narrative to showcase the diversity and beauty of these carnivorous plant flowers.
+An interactive web experience exploring the remarkable flowers of Sarracenia. This project combines scroll-controlled 3D visualizations, data-driven charts, and educational narrative to showcase the diversity and beauty of these carnivorous plant flowers.
 
 ## Project Overview
 

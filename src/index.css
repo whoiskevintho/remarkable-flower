@@ -89,7 +89,6 @@ article > *:not(.hero-section) {
 
 .hero-word {
   letter-spacing: 0.05em;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2);
   line-height: 1.2;
 }
 
