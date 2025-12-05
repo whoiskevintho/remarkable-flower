@@ -137,7 +137,7 @@ export default function IntroSection({ isTouch }) {
 
       <section className="intro-text">
         <p>
-          For many, Venus flytraps are the gateway drug of carnivorous plants. The next stop down the rabbit hole (or perhaps more appropriately, as you fall into the pitfall trap)
+          For many, Venus flytraps are the gateway drug of carnivorous plants. The next stop down the rabbit hole (or perhaps more appropriately, down the 'pitfall trap')
           is the largest group of carnivorous plants: the pitcher plants. These plants have evolved long, cylindrical leaves filled with digestive fluid.
           This trap style is called pitfall trap - but the leaves are most commonly referred to as pitchers. Insects slip inside, can’t climb out, and slowly dissolve into nutrients.
         </p>
