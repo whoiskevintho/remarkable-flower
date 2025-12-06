@@ -71,6 +71,9 @@ export default function PetalDiagramSection() {
                 </tbody>
               </table>
               <p className="data-table-note">
+                n = sample size <br />
+                L = number of locations samples taken from <br />
+                Sub<sub>s</sub> = standard deviation <br />
                 S. <i>rosea</i> data added from Naczi et al. (1999)
               </p>
             </div>
