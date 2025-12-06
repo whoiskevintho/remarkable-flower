@@ -124,8 +124,8 @@ export default function IntroSection({ isTouch }) {
       {isTouch && <TouchDeviceWarning />}
       <section className="intro-text">
         <p>
-          I'll bet you're familiar with the Venus flytrap. It's the poster child of the carnivorous plant world - gaping maws lined with red 'teeth' waiting for unsuspecting arthropods
-          to wander in.  All it takes is to touch one and watch it snap shut around your finger to spark your curiosity (but for the record, triggering the traps with your
+          I'll bet you're familiar with the Venus flytrap. It's the poster child of the carnivorous plant world, with it's gaping maws lined in red 'teeth' waiting for unsuspecting insects
+          to wander in. All it takes is to touch one and watch it snap shut around your finger to spark your curiosity (but for the record, triggering the traps with your
           finger wastes the plant's energy and should be avoided unless you really really want to). Most people are surprised to learn these iconic plants aren't from some alien world.
           They're endemic to a tiny region of the coastal Carolinas, not Mars.
         </p>
@@ -137,9 +137,9 @@ export default function IntroSection({ isTouch }) {
 
       <section className="intro-text">
         <p>
-          For many, Venus flytraps are the gateway drug of carnivorous plants. The next stop down the rabbit hole (or perhaps more appropriately, down the 'pitfall trap')
+          For gardners, Venus flytraps are the gateway drug of carnivorous plants. The next stop down the rabbit hole (or perhaps more appropriately, down the 'pitfall trap')
           is the largest group of carnivorous plants: the pitcher plants. These plants have evolved long, cylindrical leaves filled with digestive fluid.
-          This trap style is called pitfall trap - but the leaves are most commonly referred to as pitchers. Insects slip inside, can’t climb out, and slowly dissolve into nutrients.
+          This trap style is called a 'pitfall trap', but the leaves are most commonly referred to as pitchers. The insects fall inside, can’t climb out, and slowly dissolve into nutrients.
         </p>
       </section>
 
@@ -154,9 +154,9 @@ export default function IntroSection({ isTouch }) {
           through Saskatchewan and over to Alberta.
           <br />
           <br />
-          Their most remarkable feature is the carnivorous leaves, or pitchers. Technically, they’re insectivorous, but carnivorous sounds cooler.
+          Their most remarkable feature is the carnivorous leaves - their pitchers. Technically they’re insectivorous, but 'carnivorous' sounds cooler.
           The pitchers are what most growers fall in love with first. Across the ~11 species, <i>Sarracenia</i> produce an incredible diversity of forms: short,
-          stout pitchers; tall, elegant ones; green and heavily veined; deep red; snowy white; hooded and hoodless. Despite their dramatic differences,
+          stout pitchers; tall, elegant ones; green with heavy veins; deep red; snowy white; hooded and hoodless. Despite their dramatic differences,
           the species are closely related genetically and readily hybridize, letting growers breed endless new variants and traits.
         </p>
       </section>
@@ -175,7 +175,7 @@ export default function IntroSection({ isTouch }) {
         So let’s reuse our new metaphor, and fall deeper down the pitfall trap! To learn what makes these flowers remarkable. 
         Is it worth growing for the blooms alone? Can flowers hold their own against the more famous carnivorous leaves? 
         And are some species more desirable than others? 
-        After spending a fair amount of time at the Mertz Botanical Library, I don’t think there are concrete answers to these vague and subjective questions. 
+        After spending a fair amount of time at the Mertz Botanical Library, of course I was not able to findconcrete answers to these vague and subjective questions I just posed! 
         But I’ll provide as much information as I can to let you decide for yourself.
         </p>
       </section >

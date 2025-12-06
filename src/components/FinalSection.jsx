@@ -55,7 +55,7 @@ export default function FinalSection() {
           This data comes from Schnell & McPherson (2011).
           <br />
           <br />
-          Here is the same information laid out as a table, along with a diagram showing which parts of the petal were measured.
+          Here is a diagram showing which parts of the petal were measured, along with all the data collected for various species.
         </p>
       </section>
 
@@ -75,16 +75,16 @@ export default function FinalSection() {
 
       <section className="intro-text">
         <p>
-          Clearly, <i>S. flava</i>, <i>S. alata</i>, and <i>S. rosea</i> are your best bets if you’re interested in larger flowers!
+          Clearly, <i>S. flava</i>, <i>S. alata</i>, and <i>S. rosea</i> are your best bets if you’re interested in larger flowers.
           Notice the inverted curve of <i>S. leucophylla</i> and <i>S. oreophila</i> - on average, the base of the petal is wider than the tip. Neat!
-          We can also see a slight trend in the color of <i>Sarracenia</i> flowers: larger flowers tend to display a greater diversity of colors.
-          But I’m not a biologist - I’m just a guy trapped in a pitfall of mostly useless plant knowledge.
+          We can also see a slight trend in the color of <i>Sarracenia</i> flowers - larger flowers tend to display a greater diversity of colors.
+          But I’m not a botanist, I’m just a guy trapped in a pitfall of mostly useless plant knowledge.
           <br />
           <br />
           What’s really interesting is the variation in flower types you can get from outcrossing different species of <i>Sarracenia</i>.
           This is the main reason gardeners obsess over these plants. It’s fun and easy to cross plants and see which traits appear.
           In every tiny seed lies a new and never-before-seen mix of characteristics.
-          Most horticulturists focus on breeding for pitchers, but here are some interesting flowers that result from hybridization!
+          Most focus on breeding for pitchers, but here are some interesting flowers that result from hybridization!
         </p>
       </section>
 
@@ -95,12 +95,12 @@ export default function FinalSection() {
       <section className="intro-text">
         <p>
           I’m drawn to carnivorous plants because they’re just dang cool. A plant that eats!? Ludicrous. You might not have even heard of <i>Sarracenia</i> before reading this -
-          let alone heard about their flowers. Eating bugs is cool and all, but their flowers make them strange, inconsistent, and wholly unique.
-          They reward curiosity with more than the dramatic snap of a fly trap around a stray finger (again, unless you really really want to) - there is a slow burn and reveal of form while a gardner breeds and grows these plants.
+          let alone learned about their flowers. Eating bugs is cool and all, but their flowers make them strange, inconsistent, and wholly unique.
+          They reward curiosity with more than the dramatic snap of a fly trap around a stray finger (again, unless you really really want to) - there is a slow reveal of form while a gardner breeds and grows these plants.
           And that’s all thanks to their remarkable flowers!
           <br />
           <br />
-          If you want to continue your journey down the pitfall trap - I’ve put together an interactive map you can use to explore the distribution of <i>Sarracenia</i> species across North America.
+          If you want to continue your journey down the pitfall trap, I’ve put together an interactive map you can use to explore the distribution of <i>Sarracenia</i> species across North America.
         </p>
       </section>
 

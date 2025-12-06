@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { GlobalCanvas, SmoothScrollbar } from '@14islands/r3f-scroll-rig'
+import { Analytics } from '@vercel/analytics/react'
 
 import Logo from './Logo'
 import HeroSection from './components/HeroSection'
@@ -33,6 +34,7 @@ export default function App() {
           </article>
         )}
       </SmoothScrollbar>
+      <Analytics />
     </>
   )
 }
