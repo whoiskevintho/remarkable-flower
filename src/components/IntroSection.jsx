@@ -175,7 +175,7 @@ export default function IntroSection({ isTouch }) {
         So let’s reuse our new metaphor, and fall deeper down the pitfall trap! To learn what makes these flowers remarkable. 
         Is it worth growing for the blooms alone? Can flowers hold their own against the more famous carnivorous leaves? 
         And are some species more desirable than others? 
-        After spending a fair amount of time at the Mertz Botanical Library, of course I was not able to findconcrete answers to these vague and subjective questions I just posed! 
+        After spending a fair amount of time at the Mertz Botanical Library, of course I was not able to find concrete answers to these vague and subjective questions I just posed! 
         But I’ll provide as much information as I can to let you decide for yourself.
         </p>
       </section >
