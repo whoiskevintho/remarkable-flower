@@ -126,7 +126,7 @@ export default function IntroSection({ isTouch }) {
         <p>
           I'll bet you're familiar with the Venus flytrap. It's the poster child of the carnivorous plant world, with it's gaping maws lined in red 'teeth' waiting for unsuspecting insects
           to wander in. All it takes is to touch one and watch it snap shut around your finger to spark your curiosity (but for the record, triggering the traps with your
-          finger wastes the plant's energy and should be avoided unless you really really want to). Most people are surprised to learn these iconic plants aren't from some alien world.
+          finger wastes the plant's energy and should be avoided). Most people are surprised to learn these iconic plants aren't from some alien world.
           They're endemic to a tiny region of the coastal Carolinas, not Mars.
         </p>
       </section>
@@ -175,7 +175,7 @@ export default function IntroSection({ isTouch }) {
         So let’s reuse our new metaphor, and fall deeper down the pitfall trap! To learn what makes these flowers remarkable. 
         Is it worth growing for the blooms alone? Can flowers hold their own against the more famous carnivorous leaves? 
         And are some species more desirable than others? 
-        After spending a fair amount of time at the Mertz Botanical Library, of course I was not able to find concrete answers to these vague and subjective questions I just posed! 
+        After spending a fair amount of time at the Mertz Botanical Library, of course I was not able to find concrete answers to these vague and subjective questions! 
         But I’ll provide as much information as I can to let you decide for yourself.
         </p>
       </section >

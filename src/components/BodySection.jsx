@@ -23,7 +23,7 @@ export default function BodySection() {
       <section className="intro-text">
         <p>
           This complex design also means that the humble bumble bee is the primary pollinator of Sarracenia, and one of the few insects that knows how to enter and exit its complex flower.
-          In this way, <i>Sarracenia</i> bound to the bumble bee by fate. If the bumble bee were to go away, the <i>Sarracenia</i> would have a hard time finding other insects to pick up the slack.
+          In this way, <i>Sarracenia</i> is bound to the bumble bee by fate. If the bumble bee were to go away, the <i>Sarracenia</i> would have a hard time finding other insects to pick up the slack.
           So what draws a bumblebee to a <i>Sarracenia</i> flower? Like most blooms, it comes down to sight and scent.
         </p>
       </section>

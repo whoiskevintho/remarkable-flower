@@ -96,7 +96,7 @@ export default function FinalSection() {
         <p>
           I’m drawn to carnivorous plants because they’re just dang cool. A plant that eats!? Ludicrous. You might not have even heard of <i>Sarracenia</i> before reading this -
           let alone learned about their flowers. Eating bugs is cool and all, but their flowers make them strange, inconsistent, and wholly unique.
-          They reward curiosity with more than the dramatic snap of a fly trap around a stray finger (again, unless you really really want to) - there is a slow reveal of form while a gardner breeds and grows these plants.
+          They reward curiosity with more than the dramatic snap of a fly trap around a stray finger - there is a slow reveal of form while a gardner breeds and grows these plants.
           And that’s all thanks to their remarkable flowers!
           <br />
           <br />
