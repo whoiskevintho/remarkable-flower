@@ -14,6 +14,7 @@ export default function HeroSection() {
         <span className="hero-word hero-word-remarkable">Remarkable</span>
         <span className="hero-word hero-word-flower">Flower</span>
       </h1>
+      <p className="hero-subtitle">By <a href="https://whoiskevintho.com/" target="_blank" rel="noopener noreferrer">Kevin Young</a></p>
     </section>
   )
 }

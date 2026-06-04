@@ -26,7 +26,7 @@ export default function MethodsSection() {
                 <h2>Photos</h2>
                 <p>Big thanks to the photographers who's photos were used in this project - Alan Cressler, Barry Rice, Bogman Plantenstein, Bruce Sorrie, hungry-sarracenia (iNaturalist), jyd (Sarracenia Forum), Kyle Filicky, Matt Miller, Scott Ward, tysmith (iNaturalist), triiothyrocide (iNaturalist)</p>
                 <br />
-                <p> AI was used for coding tasks <a href="https://github.com/whoiskevintho/remarkable-flower" target="_blank" rel="noopener noreferrer">GITHUB</a></p>
+                <p> <a href="https://github.com/whoiskevintho/remarkable-flower" target="_blank" rel="noopener noreferrer">GITHUB</a></p>
             </div>
         </section>
     )
